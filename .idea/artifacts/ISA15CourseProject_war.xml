@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="ISA15CourseProject:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="restaurant.war">
+    <root id="archive" name="restaurant_management.war">
       <element id="artifact" artifact-name="ISA15CourseProject:war exploded" />
     </root>
   </artifact>

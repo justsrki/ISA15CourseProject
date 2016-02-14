@@ -46,7 +46,6 @@
             <artifactId>resteasy-validator-provider-11</artifactId>
             <version>3.0.14.Final</version>
         </dependency>
-
         <!-- JAX RS end -->
 
         <!-- Hibernate begin -->
@@ -84,7 +83,7 @@
     </dependencies>
 
     <build>
-        <finalName>restaurant</finalName>
+        <finalName>restaurant_management</finalName>
     </build>
 
     <properties>
