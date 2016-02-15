@@ -14,27 +14,31 @@
                 <input name="password" id="password_input" type="password" class="form-control" ng-model="password"
                        placeholder="password" aria-describedby="passowrd_lbl">
             </div>
-            <button id="LoginButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="login()">Login</button>
+            <button id="LoginButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="login()">Login
+            </button>
         </div>
 
         <div class="tm-20 ta-mid">
             <h3>If you don't have an account, you can log in with social network account</h3>
-            <img ng-init="gpimg='/images/login/btn_google+_signin_dark_normal_web.png'" ng-src="{{gpimg}}"
-                 ng-mouseover="gpimg='/images/login/btn_google+_signin_dark_focus_web.png'"
-                 ng-mouseleave="gpimg='/images/login/btn_google+_signin_dark_normal_web.png'"
-                 ng-mousedown="gpimg='/images/login/btn_google+_signin_dark_pressed_web.png'"
-                 ng-mouseup="gpimg='/images/login/btn_google+_signin_dark_normal_web.png'"/>
 
-            <img ng-init="fbimg='/images/login/btn_facebook_signin_normal_web.png'" ng-src="{{fbimg}}"
-                 ng-mouseover="fbimg='/images/login/btn_facebook_signin_focus_web.png'"
-                 ng-mouseleave="fbimg='/images/login/btn_facebook_signin_normal_web.png'"
-                 ng-mousedown="fbimg='/images/login/btn_facebook_signin_pressed_web.png'"
-                 ng-mouseup="fbimg='/images/login/btn_facebook_signin_normal_web.png'"/>
+            <!-- Old google plus image
+            <img ng-init="gpimg='normal'"
+                 ng-src="{{'/images/login/btn_google+_signin_dark_'+gpimg+'_web.png'}}"
+                 ng-mouseover="gpimg='focus'" ng-mouseleave="gpimg='normal'"
+                 ng-mousedown="gpimg='pressed'" ng-mouseup="gpimg='normal'"/>
+            -->
+            <span id="GoogleSignInButton" style="display: inline-flex"></span>
+            <img ng-click="facebookLogin()" ng-init="fbimg='normal'"
+                 ng-src="{{'/images/login/btn_facebook_signin_'+fbimg+'_web.png'}}"
+                 ng-mouseover="fbimg='focus'" ng-mouseleave="fbimg='normal'"
+                 ng-mousedown="fbimg='pressed'" ng-mouseup="fbimg='normal'"/>
+
         </div>
 
         <div class="bm-20 ta-mid">
             <h3>or you can create a new account.</h3>
-            <button id="SignInButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="signup()">Sign up</button>
+            <button id="SignInButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="signup()">Sign up
+            </button>
         </div>
 
     </div>

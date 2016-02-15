@@ -3,24 +3,24 @@ package util;
 /**
  * @author - Srđan Milaković
  */
-public class SessionTokenGenerator {
+public class PasswordGenerator {
     public static final int DEFAULT_LENGTH = 128;
 
     private RandomStringGenerator generator;
 
-    public String nextSessionId() {
+    public String generatePassword() {
         return generator.nextString();
     }
 
-    public SessionTokenGenerator() {
+    public PasswordGenerator() {
         this(DEFAULT_LENGTH);
     }
 
-    public SessionTokenGenerator(int tokenLength) {
-        generator = new RandomStringGenerator(tokenLength);
+    public PasswordGenerator(int passwordLength) {
+        generator = new RandomStringGenerator(passwordLength);
     }
 
-    public int getTokenLength() {
+    public int getPasswordLength() {
         return generator.getLength();
     }
 }
