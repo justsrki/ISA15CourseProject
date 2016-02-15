@@ -21,7 +21,8 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="IsaDb" />
+          <factory-entry name="IsaDb" value="3497d1dc-ebfb-4cd3-ab44-be7a2a4c062c" />
+          <factory-entry name="RestaurantManagementDataSource" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
@@ -96,5 +97,10 @@
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="angular" level="application" />
     <orderEntry type="library" name="angular-route" level="application" />
+    <orderEntry type="library" name="jquery-2.2.0" level="application" />
+    <orderEntry type="library" name="angular-animate" level="application" />
+    <orderEntry type="library" name="ui-bootstrap-tpls" level="application" />
+    <orderEntry type="library" name="ngStorage" level="application" />
+    <orderEntry type="library" name="platform" level="application" />
   </component>
 </module>

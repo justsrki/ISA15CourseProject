@@ -8,7 +8,7 @@ appLoginModule.factory('Login', function ($http) {
         login: function (email, password) {
             return $http({
                 method: 'POST',
-                url: 'api/user/login',
+                url: 'api/login',
                 data: {
                     email: email,
                     password: password

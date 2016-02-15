@@ -21,7 +21,12 @@ app.config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 });
 
-app.run(function ($rootScope) {
+app.run(function ($rootScope, $window) {
     "use strict";
+    $rootScope.displayRole = 'login';
+    console.log($window.sessionStorage.token);
+    if (!$window.sessionStorage.token) {
+        $window.sessionStorage.token = "dasdas";
+    }
 });
 

@@ -1,11 +1,15 @@
 /*global angular*/
 var appMainCtrlModule = angular.module('app.MainCtrl', []);
 
-appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location, Token) {
+appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location, $route, Token) {
     "use strict";
 
     $scope.redirectToLogin = function () {
-        $location.path('/');
+        if ('/login' == $location.path()) {
+            $route.reload();
+        } else {
+            $location.path('/login');
+        }
     };
 
     if ($rootScope.token) {

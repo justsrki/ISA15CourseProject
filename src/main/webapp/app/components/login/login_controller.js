@@ -4,20 +4,22 @@ var appLoginCtrlModule = angular.module('app.LoginCtrl', []);
 appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, Login) {
     "use strict";
 
-    $scope.alertMessage = '';
+    $scope.alertMessage = null;
 
     $scope.login = function () {
-        if (!$scope.username) {
-            $scope.alertMessage = 'Username cannot be empty!';
+        if (!$scope.email) {
+            $scope.alertMessage = 'Email cannot be empty!';
         } else if (!$scope.password) {
             $scope.alertMessage = 'Password cannot be empty';
+        } else {
+            $scope.alertMessage = null;
         }
 
         if ($scope.alertMessage) {
             return;
         }
 
-        Login.login($scope.username, $scope.password)
+        Login.login($scope.email, $scope.password)
             .success(function (data, status) {
                 $rootScope.displayRole = data.role;
                 $location.path('/');

@@ -1,19 +1,42 @@
 <div id="Login">
-    <div class="panel-heading">
-        <h3>Login</h3>
-    </div>
 
     <div class="panel-body">
-        <alert type="danger" ng-if="alertMessage">{{alertMessage}}</alert>
-        <div class="input-group input-group-lg tm-10">
-            <span class="input-group-addon glyphicon glyphicon-user" id="email_lbl" style="top: 0;"></span>
-            <input name="email" id="email_input" type="text" class="form-control" ng-model="email" placeholder="email" aria-describedby="email_lbl">
+        <div class="ta-mid plr-50">
+            <h3>Log in with an existing account</h3>
+            <uib-alert type="danger" ng-if="alertMessage">{{alertMessage}}</uib-alert>
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon glyphicon glyphicon-user" id="email_lbl" style="top: 0;"></span>
+                <input name="email" id="email_input" type="text" class="form-control" ng-model="email"
+                       placeholder="email" aria-describedby="email_lbl">
+            </div>
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon glyphicon glyphicon-lock" id="passowrd_lbl" style="top: 0;"></span>
+                <input name="password" id="password_input" type="password" class="form-control" ng-model="password"
+                       placeholder="password" aria-describedby="passowrd_lbl">
+            </div>
+            <button id="LoginButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="login()">Login</button>
         </div>
-        <div class="input-group input-group-lg tm-10">
-            <span class="input-group-addon glyphicon glyphicon-lock" id="passowrd_lbl" style="top: 0;"></span>
-            <input name="password" id="password_input" type="password" class="form-control" ng-model="password" placeholder="password" aria-describedby="passowrd_lbl">
+
+        <div class="tm-20 ta-mid">
+            <h3>If you don't have an account, you can log in with social network account</h3>
+            <img ng-init="gpimg='/images/login/btn_google+_signin_dark_normal_web.png'" ng-src="{{gpimg}}"
+                 ng-mouseover="gpimg='/images/login/btn_google+_signin_dark_focus_web.png'"
+                 ng-mouseleave="gpimg='/images/login/btn_google+_signin_dark_normal_web.png'"
+                 ng-mousedown="gpimg='/images/login/btn_google+_signin_dark_pressed_web.png'"
+                 ng-mouseup="gpimg='/images/login/btn_google+_signin_dark_normal_web.png'"/>
+
+            <img ng-init="fbimg='/images/login/btn_facebook_signin_normal_web.png'" ng-src="{{fbimg}}"
+                 ng-mouseover="fbimg='/images/login/btn_facebook_signin_focus_web.png'"
+                 ng-mouseleave="fbimg='/images/login/btn_facebook_signin_normal_web.png'"
+                 ng-mousedown="fbimg='/images/login/btn_facebook_signin_pressed_web.png'"
+                 ng-mouseup="fbimg='/images/login/btn_facebook_signin_normal_web.png'"/>
         </div>
-        <button type="button" class="btn btn-default pull-right btn-lg tm-10" ng-click="login()">Login</button>
-        <button type="button" class="btn btn-default pull-right btn-lg tm-10" ng-click="signup()">Sign up</button>
+
+        <div class="bm-20 ta-mid">
+            <h3>or you can create a new account.</h3>
+            <button id="SignInButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="signup()">Sign up</button>
+        </div>
+
     </div>
 </div>
+

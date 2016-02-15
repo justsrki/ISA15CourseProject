@@ -2,17 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,13 +13,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Srđan
  */
 @Entity
-@Table(name = "session_token")
+@Table(name = "session_token", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"value"})})
 @NamedQueries({
-    @NamedQuery(name = "SessionToken.findAll", query = "SELECT s FROM SessionToken s"),
-    @NamedQuery(name = "SessionToken.findById", query = "SELECT s FROM SessionToken s WHERE s.id = :id"),
-    @NamedQuery(name = "SessionToken.findByValue", query = "SELECT s FROM SessionToken s WHERE s.value = :value"),
-    @NamedQuery(name = "SessionToken.findByExpirationDate", query = "SELECT s FROM SessionToken s WHERE s.expirationDate = :expirationDate")})
-@XmlRootElement
+        @NamedQuery(name = "SessionToken.findAll", query = "SELECT s FROM SessionToken s"),
+        @NamedQuery(name = "SessionToken.findById", query = "SELECT s FROM SessionToken s WHERE s.id = :id"),
+        @NamedQuery(name = "SessionToken.findByValue", query = "SELECT s FROM SessionToken s WHERE s.value = :value"),
+        @NamedQuery(name = "SessionToken.findByExpirationDate", query = "SELECT s FROM SessionToken s WHERE s.expirationDate = :expirationDate")})
 public class SessionToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
