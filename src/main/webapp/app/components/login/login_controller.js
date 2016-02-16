@@ -8,7 +8,7 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
 
     $scope.successfulLogin = function (data) {
         Token.storeToken(data.accessToken);
-
+        $rootScope.userId = data.userId;
         $rootScope.displayRole = data.role;
         $scope.alertMessage = null;
         $location.path('/');
@@ -32,7 +32,7 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
                 $scope.successfulLogin(data);
             })
             .error(function (data, status) {
-                $scope.alertMessage = "Status code: " + status;
+                $scope.alertMessage = "Status code: " + status + (data.message  || "");
             });
     };
 

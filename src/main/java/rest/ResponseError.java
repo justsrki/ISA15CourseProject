@@ -16,6 +16,10 @@ public class ResponseError {
         return Response.status(Response.Status.BAD_REQUEST).entity(new ResponseError(message)).build();
     }
 
+    public static Response createUnauthorized(String message) {
+        return Response.status(Response.Status.UNAUTHORIZED).entity(new ResponseError(message)).build();
+    }
+
     public String getMessage() {
         return message;
     }
