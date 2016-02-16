@@ -14,7 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import beans.AbstractFacade;
+import beans.data_access.AbstractFacade;
 import model.Customer;
 
 /**
@@ -24,9 +24,6 @@ import model.Customer;
 @Stateless
 @Path("model.customer")
 public class CustomerREST extends AbstractFacade<Customer> {
-
-    @PersistenceContext(unitName = "GeneratorPU")
-    private EntityManager em;
 
     public CustomerREST() {
         super(Customer.class);
@@ -80,9 +77,5 @@ public class CustomerREST extends AbstractFacade<Customer> {
         return String.valueOf(super.count());
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
+
 }

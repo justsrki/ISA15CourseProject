@@ -1,6 +1,7 @@
 package rest.user;
 
-import beans.interfaces.UserFacadeLocal;
+import beans.data_access.interfaces.UserLocal;
+import beans.util.PasswordGeneratorLocal;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
@@ -19,11 +20,15 @@ import javax.ws.rs.core.MediaType;
 public class AuthenticationREST {
 
     @EJB
-    private UserFacadeLocal user;
+    private UserLocal user;
+
+    @EJB
+    private PasswordGeneratorLocal passwordGenerator;
 
     @POST
     @Path("/login")
-    public void createToken(@Valid LoginRequest data) {
+    public void createToken(@Valid AuthenticationRequest data) {
+        System.out.println(passwordGenerator.generatePassword());
         System.out.println(data);
         System.out.println(user.find(data.getEmail()));
 

@@ -1,16 +1,24 @@
 /*global angular*/
 var appLoginCtrlModule = angular.module('app.LoginCtrl', []);
 
-appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, Login, GOOGLE_LOGIN_DATA) {
+appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, Login, Oauth2, Token) {
     "use strict";
 
     $scope.alertMessage = null;
 
+    $scope.successfulLogin = function (data) {
+        Token.storeToken(data.accessToken);
+
+        $rootScope.displayRole = data.role;
+        $scope.alertMessage = null;
+        $location.path('/');
+    }
+
     $scope.login = function () {
         if (!$scope.email) {
-            $scope.alertMessage = 'Email cannot be empty!';
+            $scope.alertMessage = 'Email cannot be empty.';
         } else if (!$scope.password) {
-            $scope.alertMessage = 'Password cannot be empty';
+            $scope.alertMessage = 'Password cannot be empty.';
         } else {
             $scope.alertMessage = null;
         }
@@ -20,10 +28,8 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
         }
 
         Login.login($scope.email, $scope.password)
-            .success(function (data, status) {
-                $rootScope.displayRole = data.role;
-                $location.path('/');
-                $scope.alertMessage = null;
+            .success(function (data) {
+                $scope.successfulLogin(data);
             })
             .error(function (data, status) {
                 $scope.alertMessage = "Status code: " + status;
@@ -34,6 +40,15 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
         $location.path('/signup');
     };
 
+    $scope.loginOAuth2 = function (accessToken, provider) {
+        Oauth2.login(accessToken, provider)
+            .success(function (data) {
+                $scope.successfulLogin(data);
+            })
+            .error(function (data, status) {
+                $scope.alertMessage = "Status code: " + status + " " + data.message;
+            })
+    }
 
     // Create Google plus login
     $scope.renderGoogleSignInButton = function() {
@@ -44,23 +59,26 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
                 height: 40,
                 longtitle: true,
                 theme: 'dark',
-                onsuccess: function (googleUser) {
-                    console.log(googleUser);
+                onsuccess: function (response) {
+                    $scope.loginOAuth2(response.getAuthResponse().access_token, 'google_plus')
                 },
                 onfailure: function (error) {
-                    console.log(error);
+                    $scope.alertMessage = "Cannot login with Google Plus account."
                 }
             }
         );
     };
 
-
-
+    // Facebook login
     $scope.facebookLogin = function () {
         FB.login(function(response){
-            console.log(response);
-            // Handle the response object, like in statusChangeCallback() in our demo
-            // code.
+            if (response.authResponse) {
+                $scope.loginOAuth2(response.authResponse.accessToken, 'facebook');
+            } else {
+                $scope.alertMessage = "Cannot login with Facebook account."
+            }
+        }, {
+            scope: 'public_profile,email'
         });
     };
 

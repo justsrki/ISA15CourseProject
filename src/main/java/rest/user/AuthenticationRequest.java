@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @SuppressWarnings("unused")
 @XmlRootElement
-public class LoginRequest {
+public class AuthenticationRequest {
 
     @NotBlank(message = "Email cannot be empty")
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
@@ -19,10 +19,10 @@ public class LoginRequest {
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
-    public LoginRequest() {
+    public AuthenticationRequest() {
     }
 
-    public LoginRequest(String email, String password) {
+    public AuthenticationRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -45,7 +45,7 @@ public class LoginRequest {
 
     @Override
     public String toString() {
-        return "LoginRequest{" +
+        return "AuthenticationRequest{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';

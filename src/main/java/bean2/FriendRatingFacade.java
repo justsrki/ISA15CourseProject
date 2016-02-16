@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import beans.AbstractFacade;
+import beans.data_access.AbstractFacade;
 import model.FriendRating;
 
 /**
@@ -14,13 +14,6 @@ import model.FriendRating;
 @Stateless
 public class FriendRatingFacade extends AbstractFacade<FriendRating> implements FriendRatingFacadeLocal {
 
-    @PersistenceContext(unitName = "GeneratorPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
 
     public FriendRatingFacade() {
         super(FriendRating.class);

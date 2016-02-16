@@ -1,10 +1,10 @@
-package beans;
+package beans.data_access;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import beans.interfaces.UserFacadeLocal;
+import beans.data_access.interfaces.UserLocal;
 import model.User;
 
 /**
@@ -12,14 +12,14 @@ import model.User;
  * @author Srđan
  */
 @Stateless
-public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal {
+public class UserBean extends AbstractFacade<User> implements UserLocal {
 
-    public UserFacade() {
+    public UserBean() {
         super(User.class);
     }
 
     @Override
-    public User find(String email) {
+    public User findByEmail(String email) {
         TypedQuery<User> query = getEntityManager().createNamedQuery("User.findByEmail", User.class);
         try {
             return query.setParameter("email", email).getSingleResult();

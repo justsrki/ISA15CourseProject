@@ -1,11 +1,14 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -14,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,13 +32,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Restaurant.findByRatingCount", query = "SELECT r FROM Restaurant r WHERE r.ratingCount = :ratingCount"),
     @NamedQuery(name = "Restaurant.findByLatitude", query = "SELECT r FROM Restaurant r WHERE r.latitude = :latitude"),
     @NamedQuery(name = "Restaurant.findByLongitude", query = "SELECT r FROM Restaurant r WHERE r.longitude = :longitude")})
-@XmlRootElement
 public class Restaurant implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
@@ -46,8 +46,8 @@ public class Restaurant implements Serializable {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
     @Lob
-    @Size(max = 2147483647)
-    @Column(name = "description", length = 2147483647)
+    @Size(max = 65535)
+    @Column(name = "description", length = 65535)
     private String description;
     @Basic(optional = false)
     @NotNull
@@ -57,21 +57,20 @@ public class Restaurant implements Serializable {
     @NotNull
     @Column(name = "rating_count", nullable = false)
     private int ratingCount;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "latitude", precision = 22)
-    private Double latitude;
-    @Column(name = "longitude", precision = 22)
-    private Double longitude;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId")
-    private Collection<Meal> mealCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
-    private Collection<FriendRating> friendRatingCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId")
-    private Collection<Reservation> reservationCollection;
-    @OneToMany(mappedBy = "restaurantId")
-    private Collection<User> userCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId")
-    private Collection<model.Table> tableCollection;
+    @Column(name = "latitude")
+    private Long latitude;
+    @Column(name = "longitude")
+    private Long longitude;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
+    private Set<Meal> mealSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
+    private Set<FriendRating> friendRatingSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
+    private Set<Reservation> reservationSet;
+    @OneToMany(mappedBy = "restaurantId", fetch = FetchType.LAZY)
+    private Set<User> userSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
+    private Set<model.Table> tableSet;
 
     public Restaurant() {
     }
@@ -127,65 +126,60 @@ public class Restaurant implements Serializable {
         this.ratingCount = ratingCount;
     }
 
-    public Double getLatitude() {
+    public Long getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(Long latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public Long getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(Long longitude) {
         this.longitude = longitude;
     }
 
-    @XmlTransient
-    public Collection<Meal> getMealCollection() {
-        return mealCollection;
+    public Set<Meal> getMealSet() {
+        return mealSet;
     }
 
-    public void setMealCollection(Collection<Meal> mealCollection) {
-        this.mealCollection = mealCollection;
+    public void setMealSet(Set<Meal> mealSet) {
+        this.mealSet = mealSet;
     }
 
-    @XmlTransient
-    public Collection<FriendRating> getFriendRatingCollection() {
-        return friendRatingCollection;
+    public Set<FriendRating> getFriendRatingSet() {
+        return friendRatingSet;
     }
 
-    public void setFriendRatingCollection(Collection<FriendRating> friendRatingCollection) {
-        this.friendRatingCollection = friendRatingCollection;
+    public void setFriendRatingSet(Set<FriendRating> friendRatingSet) {
+        this.friendRatingSet = friendRatingSet;
     }
 
-    @XmlTransient
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public Set<Reservation> getReservationSet() {
+        return reservationSet;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setReservationSet(Set<Reservation> reservationSet) {
+        this.reservationSet = reservationSet;
     }
 
-    @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
+    public Set<User> getUserSet() {
+        return userSet;
     }
 
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
-    @XmlTransient
-    public Collection<model.Table> getTableCollection() {
-        return tableCollection;
+    public Set<model.Table> getTableSet() {
+        return tableSet;
     }
 
-    public void setTableCollection(Collection<model.Table> tableCollection) {
-        this.tableCollection = tableCollection;
+    public void setTableSet(Set<model.Table> tableSet) {
+        this.tableSet = tableSet;
     }
 
     @Override

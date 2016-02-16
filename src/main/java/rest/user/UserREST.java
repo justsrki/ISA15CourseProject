@@ -1,6 +1,6 @@
 package rest.user;
 
-import beans.AbstractFacade;
+import beans.data_access.AbstractFacade;
 import model.User;
 
 import javax.ejb.Stateless;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Srđan
  */
 @Stateless
-@Path("model.user")
+@Path("/user")
 public class UserREST extends AbstractFacade<User> {
 
     @PersistenceContext(unitName = "GeneratorPU")
@@ -73,9 +73,6 @@ public class UserREST extends AbstractFacade<User> {
         return String.valueOf(super.count());
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+
     
 }

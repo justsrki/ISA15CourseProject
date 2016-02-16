@@ -1,12 +1,15 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -18,8 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,13 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
     @NamedQuery(name = "Reservation.findByDate", query = "SELECT r FROM Reservation r WHERE r.date = :date"),
     @NamedQuery(name = "Reservation.findByLength", query = "SELECT r FROM Reservation r WHERE r.length = :length")})
-@XmlRootElement
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
@@ -50,15 +50,15 @@ public class Reservation implements Serializable {
     @NotNull
     @Column(name = "length", nullable = false)
     private short length;
-    @ManyToMany(mappedBy = "reservationCollection")
-    private Collection<model.Table> tableCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "reservationId")
-    private Collection<Invitation> invitationCollection;
-    @JoinColumn(name = "customer_user_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Customer customerUserId;
+    @ManyToMany(mappedBy = "reservationSet", fetch = FetchType.LAZY)
+    private Set<model.Table> tableSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "reservationId", fetch = FetchType.LAZY)
+    private Set<Invitation> invitationSet;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Customer customerId;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Restaurant restaurantId;
 
     public Reservation() {
@@ -98,30 +98,28 @@ public class Reservation implements Serializable {
         this.length = length;
     }
 
-    @XmlTransient
-    public Collection<model.Table> getTableCollection() {
-        return tableCollection;
+    public Set<model.Table> getTableSet() {
+        return tableSet;
     }
 
-    public void setTableCollection(Collection<model.Table> tableCollection) {
-        this.tableCollection = tableCollection;
+    public void setTableSet(Set<model.Table> tableSet) {
+        this.tableSet = tableSet;
     }
 
-    @XmlTransient
-    public Collection<Invitation> getInvitationCollection() {
-        return invitationCollection;
+    public Set<Invitation> getInvitationSet() {
+        return invitationSet;
     }
 
-    public void setInvitationCollection(Collection<Invitation> invitationCollection) {
-        this.invitationCollection = invitationCollection;
+    public void setInvitationSet(Set<Invitation> invitationSet) {
+        this.invitationSet = invitationSet;
     }
 
-    public Customer getCustomerUserId() {
-        return customerUserId;
+    public Customer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerUserId(Customer customerUserId) {
-        this.customerUserId = customerUserId;
+    public void setCustomerId(Customer customerId) {
+        this.customerId = customerId;
     }
 
     public Restaurant getRestaurantId() {

@@ -1,10 +1,13 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -15,8 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,13 +32,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Table.findByLabel", query = "SELECT t FROM Table t WHERE t.label = :label"),
     @NamedQuery(name = "Table.findByRow", query = "SELECT t FROM Table t WHERE t.row = :row"),
     @NamedQuery(name = "Table.findByColumn", query = "SELECT t FROM Table t WHERE t.column = :column")})
-@XmlRootElement
 public class Table implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 5)
@@ -54,10 +54,10 @@ public class Table implements Serializable {
     @JoinTable(name = "resevated_table", joinColumns = {
         @JoinColumn(name = "table_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)})
-    @ManyToMany
-    private Collection<Reservation> reservationCollection;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Reservation> reservationSet;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Restaurant restaurantId;
 
     public Table() {
@@ -105,13 +105,12 @@ public class Table implements Serializable {
         this.column = column;
     }
 
-    @XmlTransient
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public Set<Reservation> getReservationSet() {
+        return reservationSet;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setReservationSet(Set<Reservation> reservationSet) {
+        this.reservationSet = reservationSet;
     }
 
     public Restaurant getRestaurantId() {

@@ -1,32 +1,30 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Srđan
  */
 @Entity
-@Table(name = "user", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"email"})})
+@Table(name = "user")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -34,12 +32,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
     @NamedQuery(name = "User.findByActivated", query = "SELECT u FROM User u WHERE u.activated = :activated")})
-@XmlRootElement
 public class User implements Serializable {
-
+    public static final String CUSTOMER = "customer";
+    public static final String MANAGER = "manager";
+    public static final String ADMINISTRATOR = "administrator";
+    
     private static final long serialVersionUID = 1L;
     @Id
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
@@ -61,14 +62,14 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "activated", nullable = false)
-    private short activated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<SessionToken> sessionTokenCollection;
+    private boolean activated;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
+    private Set<SessionToken> sessionTokenSet;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurantId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Customer customer;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
+    private Set<Customer> customerSet;
 
     public User() {
     }
@@ -77,7 +78,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String email, String password, String role, short activated) {
+    public User(Integer id, String email, String password, String role, boolean activated) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -117,21 +118,20 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public short getActivated() {
+    public boolean getActivated() {
         return activated;
     }
 
-    public void setActivated(short activated) {
+    public void setActivated(boolean activated) {
         this.activated = activated;
     }
 
-    @XmlTransient
-    public Collection<SessionToken> getSessionTokenCollection() {
-        return sessionTokenCollection;
+    public Set<SessionToken> getSessionTokenSet() {
+        return sessionTokenSet;
     }
 
-    public void setSessionTokenCollection(Collection<SessionToken> sessionTokenCollection) {
-        this.sessionTokenCollection = sessionTokenCollection;
+    public void setSessionTokenSet(Set<SessionToken> sessionTokenSet) {
+        this.sessionTokenSet = sessionTokenSet;
     }
 
     public Restaurant getRestaurantId() {
@@ -142,12 +142,12 @@ public class User implements Serializable {
         this.restaurantId = restaurantId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Set<Customer> getCustomerSet() {
+        return customerSet;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerSet(Set<Customer> customerSet) {
+        this.customerSet = customerSet;
     }
 
     @Override

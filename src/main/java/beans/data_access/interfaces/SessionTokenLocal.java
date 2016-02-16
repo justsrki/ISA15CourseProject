@@ -1,17 +1,20 @@
-package bean2;
+package beans.data_access.interfaces;
 
 import java.util.List;
 import javax.ejb.Local;
 import model.SessionToken;
+import model.User;
 
 /**
  *
  * @author Srđan
  */
 @Local
-public interface SessionTokenFacadeLocal {
+public interface SessionTokenLocal {
 
     void create(SessionToken sessionToken);
+
+    SessionToken create(User user, String type);
 
     void edit(SessionToken sessionToken);
 

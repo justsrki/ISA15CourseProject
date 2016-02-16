@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import beans.AbstractFacade;
+import beans.data_access.AbstractFacade;
 import model.Reservation;
 
 /**
@@ -14,13 +14,7 @@ import model.Reservation;
 @Stateless
 public class ReservationFacade extends AbstractFacade<Reservation> implements ReservationFacadeLocal {
 
-    @PersistenceContext(unitName = "GeneratorPU")
-    private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
 
     public ReservationFacade() {
         super(Reservation.class);

@@ -1,4 +1,4 @@
-package beans.interfaces;
+package beans.data_access.interfaces;
 
 import model.User;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * @author Srđan
  */
 @Local
-public interface UserFacadeLocal {
+public interface UserLocal {
 
     void create(User user);
 
@@ -19,7 +19,7 @@ public interface UserFacadeLocal {
 
     User find(Object id);
 
-    User find(String email);
+    User findByEmail(String email);
 
     List<User> findAll();
 

@@ -1,4 +1,4 @@
-package bean2;
+package beans.data_access.interfaces;
 
 import java.util.List;
 import javax.ejb.Local;
@@ -9,7 +9,7 @@ import model.Customer;
  * @author Srđan
  */
 @Local
-public interface CustomerFacadeLocal {
+public interface CustomerLocal {
 
     void create(Customer customer);
 

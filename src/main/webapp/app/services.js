@@ -4,6 +4,7 @@ angular.module('app.services', [
 	'app.SignUp',
 	'app.Users',
 	'app.Profile',
-	'app.Token'
+	'app.Token',
+	'app.Oauth2'
 ]);
 

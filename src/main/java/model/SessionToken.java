@@ -2,30 +2,46 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Srđan
  */
 @Entity
-@Table(name = "session_token", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"value"})})
+@Table(name = "session_token")
 @NamedQueries({
-        @NamedQuery(name = "SessionToken.findAll", query = "SELECT s FROM SessionToken s"),
-        @NamedQuery(name = "SessionToken.findById", query = "SELECT s FROM SessionToken s WHERE s.id = :id"),
-        @NamedQuery(name = "SessionToken.findByValue", query = "SELECT s FROM SessionToken s WHERE s.value = :value"),
-        @NamedQuery(name = "SessionToken.findByExpirationDate", query = "SELECT s FROM SessionToken s WHERE s.expirationDate = :expirationDate")})
+    @NamedQuery(name = "SessionToken.findAll", query = "SELECT s FROM SessionToken s"),
+    @NamedQuery(name = "SessionToken.findById", query = "SELECT s FROM SessionToken s WHERE s.id = :id"),
+    @NamedQuery(name = "SessionToken.findByValue", query = "SELECT s FROM SessionToken s WHERE s.value = :value"),
+    @NamedQuery(name = "SessionToken.findByExpirationDate", query = "SELECT s FROM SessionToken s WHERE s.expirationDate = :expirationDate"),
+    @NamedQuery(name = "SessionToken.findByType", query = "SELECT s FROM SessionToken s WHERE s.type = :type")})
 public class SessionToken implements Serializable {
-
+    public static final String CUSTOMER = "customer";
+    public static final String MANAGER = "manager";
+    public static final String ADMINISTRATOR = "administrator";
+    public static final String CONFIRM_REGISTRATION = "confirm_registration";
+    public static final String CONFIRM_VISIT = "confirm_visit";
+    
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
@@ -33,13 +49,16 @@ public class SessionToken implements Serializable {
     @Size(min = 1, max = 128)
     @Column(name = "value", nullable = false, length = 128)
     private String value;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "expiration_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "type", nullable = false, length = 20)
+    private String type;
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User userId;
 
     public SessionToken() {
@@ -49,10 +68,10 @@ public class SessionToken implements Serializable {
         this.id = id;
     }
 
-    public SessionToken(Integer id, String value, Date expirationDate) {
+    public SessionToken(Integer id, String value, String type) {
         this.id = id;
         this.value = value;
-        this.expirationDate = expirationDate;
+        this.type = type;
     }
 
     public Integer getId() {
@@ -77,6 +96,14 @@ public class SessionToken implements Serializable {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public User getUserId() {

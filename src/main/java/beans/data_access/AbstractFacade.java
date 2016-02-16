@@ -1,4 +1,4 @@
-package beans;
+package beans.data_access;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,7 +19,7 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
-    protected EntityManager getEntityManager() {
+    protected final EntityManager getEntityManager() {
         return entityManager;
     }
 

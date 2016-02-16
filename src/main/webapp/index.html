@@ -24,6 +24,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- <Facebook API> begin -->
     <script>
         window.fbAsyncInit = function() {
             FB.init({
@@ -41,6 +43,7 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+    <!-- <Facebook API> end -->
 
     <!-- <angular> -->
     <script src="app/app.js"></script>
@@ -49,7 +52,8 @@
     <script src="app/directives.js"></script>
     <script src="app/constants.js"></script>
 
-    <!-- <modules> -->
+    	<!-- <modules> -->
+	<script src="app/components/oauth2/oauth2_service.js"></script>
 	<script src="app/components/token/token_service.js"></script>
 	<script src="app/components/profile/profile_service.js"></script>
 	<script src="app/components/profile/profile_controller.js"></script>

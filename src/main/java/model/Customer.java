@@ -1,19 +1,22 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,8 +37,8 @@ public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
@@ -53,21 +56,21 @@ public class Customer implements Serializable {
     @JoinTable(name = "friend", joinColumns = {
         @JoinColumn(name = "following_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "followed_id", referencedColumnName = "id", nullable = false)})
-    @ManyToMany
-    private Collection<Customer> customerCollection;
-    @ManyToMany(mappedBy = "customerCollection")
-    private Collection<Customer> customerCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<Oauth2Account> oauth2AccountCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<FriendRating> friendRatingCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerUserId")
-    private Collection<Invitation> invitationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerUserId")
-    private Collection<Reservation> reservationCollection;
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private User user;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Customer> customerSet;
+    @ManyToMany(mappedBy = "customerSet", fetch = FetchType.LAZY)
+    private Set<Customer> customerSet1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
+    private Set<Oauth2Account> oauth2AccountSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
+    private Set<FriendRating> friendRatingSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
+    private Set<Invitation> invitationSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
+    private Set<Reservation> reservationSet;
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private User userId;
 
     public Customer() {
     }
@@ -114,60 +117,60 @@ public class Customer implements Serializable {
         this.visits = visits;
     }
 
-    public Collection<Customer> getCustomerCollection() {
-        return customerCollection;
+    public Set<Customer> getCustomerSet() {
+        return customerSet;
     }
 
-    public void setCustomerCollection(Collection<Customer> customerCollection) {
-        this.customerCollection = customerCollection;
+    public void setCustomerSet(Set<Customer> customerSet) {
+        this.customerSet = customerSet;
     }
 
-    public Collection<Customer> getCustomerCollection1() {
-        return customerCollection1;
+    public Set<Customer> getCustomerSet1() {
+        return customerSet1;
     }
 
-    public void setCustomerCollection1(Collection<Customer> customerCollection1) {
-        this.customerCollection1 = customerCollection1;
+    public void setCustomerSet1(Set<Customer> customerSet1) {
+        this.customerSet1 = customerSet1;
     }
 
-    public Collection<Oauth2Account> getOauth2AccountCollection() {
-        return oauth2AccountCollection;
+    public Set<Oauth2Account> getOauth2AccountSet() {
+        return oauth2AccountSet;
     }
 
-    public void setOauth2AccountCollection(Collection<Oauth2Account> oauth2AccountCollection) {
-        this.oauth2AccountCollection = oauth2AccountCollection;
+    public void setOauth2AccountSet(Set<Oauth2Account> oauth2AccountSet) {
+        this.oauth2AccountSet = oauth2AccountSet;
     }
 
-    public Collection<FriendRating> getFriendRatingCollection() {
-        return friendRatingCollection;
+    public Set<FriendRating> getFriendRatingSet() {
+        return friendRatingSet;
     }
 
-    public void setFriendRatingCollection(Collection<FriendRating> friendRatingCollection) {
-        this.friendRatingCollection = friendRatingCollection;
+    public void setFriendRatingSet(Set<FriendRating> friendRatingSet) {
+        this.friendRatingSet = friendRatingSet;
     }
 
-    public Collection<Invitation> getInvitationCollection() {
-        return invitationCollection;
+    public Set<Invitation> getInvitationSet() {
+        return invitationSet;
     }
 
-    public void setInvitationCollection(Collection<Invitation> invitationCollection) {
-        this.invitationCollection = invitationCollection;
+    public void setInvitationSet(Set<Invitation> invitationSet) {
+        this.invitationSet = invitationSet;
     }
 
-    public Collection<Reservation> getReservationCollection() {
-        return reservationCollection;
+    public Set<Reservation> getReservationSet() {
+        return reservationSet;
     }
 
-    public void setReservationCollection(Collection<Reservation> reservationCollection) {
-        this.reservationCollection = reservationCollection;
+    public void setReservationSet(Set<Reservation> reservationSet) {
+        this.reservationSet = reservationSet;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

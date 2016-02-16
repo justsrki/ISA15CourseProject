@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import beans.AbstractFacade;
+import beans.data_access.AbstractFacade;
 import model.Invitation;
 
 /**
@@ -14,13 +14,7 @@ import model.Invitation;
 @Stateless
 public class InvitationFacade extends AbstractFacade<Invitation> implements InvitationFacadeLocal {
 
-    @PersistenceContext(unitName = "GeneratorPU")
-    private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
 
     public InvitationFacade() {
         super(Invitation.class);

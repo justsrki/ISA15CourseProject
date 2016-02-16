@@ -3,34 +3,39 @@ package model;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Srđan
  */
 @Entity
-@Table(name = "friend_rating")
+@Table(name = "friend_rating", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"restaurant_id", "customer_id"})})
 @NamedQueries({
     @NamedQuery(name = "FriendRating.findAll", query = "SELECT f FROM FriendRating f"),
-    @NamedQuery(name = "FriendRating.findByCustomerUserId", query = "SELECT f FROM FriendRating f WHERE f.friendRatingPK.customerUserId = :customerUserId"),
-    @NamedQuery(name = "FriendRating.findByRestaurantId", query = "SELECT f FROM FriendRating f WHERE f.friendRatingPK.restaurantId = :restaurantId"),
+    @NamedQuery(name = "FriendRating.findById", query = "SELECT f FROM FriendRating f WHERE f.id = :id"),
     @NamedQuery(name = "FriendRating.findBySum", query = "SELECT f FROM FriendRating f WHERE f.sum = :sum"),
     @NamedQuery(name = "FriendRating.findByCount", query = "SELECT f FROM FriendRating f WHERE f.count = :count")})
-@XmlRootElement
 public class FriendRating implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected FriendRatingPK friendRatingPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "sum", nullable = false)
@@ -39,36 +44,32 @@ public class FriendRating implements Serializable {
     @NotNull
     @Column(name = "count", nullable = false)
     private int count;
-    @JoinColumn(name = "customer_user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Customer customer;
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Restaurant restaurant;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Customer customerId;
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Restaurant restaurantId;
 
     public FriendRating() {
     }
 
-    public FriendRating(FriendRatingPK friendRatingPK) {
-        this.friendRatingPK = friendRatingPK;
+    public FriendRating(Integer id) {
+        this.id = id;
     }
 
-    public FriendRating(FriendRatingPK friendRatingPK, int sum, int count) {
-        this.friendRatingPK = friendRatingPK;
+    public FriendRating(Integer id, int sum, int count) {
+        this.id = id;
         this.sum = sum;
         this.count = count;
     }
 
-    public FriendRating(int customerUserId, int restaurantId) {
-        this.friendRatingPK = new FriendRatingPK(customerUserId, restaurantId);
+    public Integer getId() {
+        return id;
     }
 
-    public FriendRatingPK getFriendRatingPK() {
-        return friendRatingPK;
-    }
-
-    public void setFriendRatingPK(FriendRatingPK friendRatingPK) {
-        this.friendRatingPK = friendRatingPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getSum() {
@@ -87,26 +88,26 @@ public class FriendRating implements Serializable {
         this.count = count;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Customer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(Customer customerId) {
+        this.customerId = customerId;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Restaurant getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurantId(Restaurant restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (friendRatingPK != null ? friendRatingPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -117,7 +118,7 @@ public class FriendRating implements Serializable {
             return false;
         }
         FriendRating other = (FriendRating) object;
-        if ((this.friendRatingPK == null && other.friendRatingPK != null) || (this.friendRatingPK != null && !this.friendRatingPK.equals(other.friendRatingPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -125,7 +126,7 @@ public class FriendRating implements Serializable {
 
     @Override
     public String toString() {
-        return "model.FriendRating[ friendRatingPK=" + friendRatingPK + " ]";
+        return "model.FriendRating[ id=" + id + " ]";
     }
     
 }

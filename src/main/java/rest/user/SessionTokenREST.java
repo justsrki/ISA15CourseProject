@@ -2,8 +2,6 @@ package rest.user;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,7 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import beans.AbstractFacade;
+import beans.data_access.AbstractFacade;
 import model.SessionToken;
 
 /**
@@ -25,8 +23,6 @@ import model.SessionToken;
 @Path("model.sessiontoken")
 public class SessionTokenREST extends AbstractFacade<SessionToken> {
 
-    @PersistenceContext(unitName = "GeneratorPU")
-    private EntityManager em;
 
     public SessionTokenREST() {
         super(SessionToken.class);
@@ -78,11 +74,6 @@ public class SessionTokenREST extends AbstractFacade<SessionToken> {
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
         return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
     }
     
 }
