@@ -1,6 +1,5 @@
 package rest.user;
 
-import beans.dao.UserBean;
 import beans.dao.interfaces.CustomerLocal;
 import beans.dao.interfaces.Oauth2AccountLocal;
 import beans.dao.interfaces.SessionTokenLocal;
@@ -27,7 +26,7 @@ import java.net.URISyntaxException;
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class AuthenticationREST {
+public class AuthenticationRest {
 
     @EJB
     private UserLocal userBean;
@@ -45,11 +44,28 @@ public class AuthenticationREST {
     public Object login(@Valid AuthenticationRequest request) {
         User user = userBean.findByEmail(request.getEmail());
         if (user != null && user.getPassword().equals(request.getPassword()) && user.getActivated()) {
-            String sessionToken = sessionTokenBean.create(user, roleToType(user.getRole())).getValue();
+            String sessionToken = sessionTokenBean.create(user, SessionToken.API_ACCESS).getValue();
             return new AuthenticationResponse(user.getRole(), user.getId(), sessionToken);
         } else {
             return BasicResponse.createUnauthorized("Wrong email or password.");
         }
+    }
+
+    @GET
+    @Path("/accessToken")
+    public Object token(@QueryParam("userId") String userId, @QueryParam("accessToken") String accessToken) {
+        if (userId == null || accessToken == null) {
+            return BasicResponse.createBadRequest("Incomplete request.");
+        }
+
+        SessionToken sessionToken = sessionTokenBean.findByValue(accessToken);
+        if (sessionToken == null || !SessionToken.API_ACCESS.equals(sessionToken.getType())
+                || !userId.equals(sessionToken.getUserId().getId().toString())) {
+            return BasicResponse.createUnauthorized("Token is not valid.");
+        }
+
+        User user = sessionToken.getUserId();
+        return new AuthenticationResponse(user.getRole(), user.getId(), accessToken);
     }
 
     @POST
@@ -84,12 +100,12 @@ public class AuthenticationREST {
 
         user.setActivated(true);
         userBean.edit(user);
-        return Response.seeOther(new URI(ApplicationConfig.baseUrl + "/login/" + user.getEmail())).build();
+        return Response.seeOther(new URI(ApplicationConfig.baseUrl + "/login?email=" + user.getEmail())).build();
     }
 
     @POST
     @Path("/oauth2")
-    public Object oAuthLogin(@Valid  OAuth2AccountRequest request) {
+    public Object oAuthLogin(@Valid OAuth2AccountRequest request) {
         /**
          * Get user info from OAuth2 provider
          */
@@ -117,7 +133,7 @@ public class AuthenticationREST {
         Oauth2Account oauth2Account = oauth2AccountBean.findByUserId(userInfo.getId());
         SessionToken sessionToken;
         if (oauth2Account != null) {
-            sessionToken = sessionTokenBean.create(oauth2Account.getCustomerId().getUserId(), SessionToken.CUSTOMER);
+            sessionToken = sessionTokenBean.create(oauth2Account.getCustomerId().getUserId(), SessionToken.API_ACCESS);
         } else if (userBean.findByEmail(userInfo.getEmail()) != null) {
             return BasicResponse.createBadRequest("User with email: " + userInfo.getEmail() + " already exist.");
         } else {
@@ -127,16 +143,4 @@ public class AuthenticationREST {
         return new AuthenticationResponse(User.CUSTOMER, sessionToken.getUserId().getId(), sessionToken.getValue());
     }
 
-    private String roleToType(String role) {
-        switch (role) {
-            case User.CUSTOMER:
-                return SessionToken.CUSTOMER;
-            case User.MANAGER:
-                return SessionToken.MANAGER;
-            case User.ADMINISTRATOR:
-                return SessionToken.ADMINISTRATOR;
-            default:
-                return null;
-        }
-    }
 }

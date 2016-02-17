@@ -5,5 +5,8 @@ angular.module('app.controllers', [
 	'app.UsersCtrl',
 	'app.MainCtrl',
 	'app.ProfileCtrl',
-	'app.HomeCtrl'
+	'app.HomeCtrl',
+	'app.RestaurantCtrl',
+	'app.LogoutCtrl',
+	'app.NewRestaurantCtrl'
 ]);

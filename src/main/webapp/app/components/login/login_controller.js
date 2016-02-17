@@ -1,18 +1,17 @@
 /*global angular*/
 var appLoginCtrlModule = angular.module('app.LoginCtrl', []);
 
-appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, $routeParams, Login, Oauth2, Token, EMAIL_REGEX) {
+appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, Login, Oauth2, AccessToken, EMAIL_REGEX) {
     "use strict";
 
-    if ($routeParams.email) {
-        $scope.email = $routeParams.email;
+    if ($location.search().email) {
+        $scope.email = $location.search().email;
     }
 
     $scope.alertMessage = null;
 
     $scope.successfulLogin = function (data) {
-        Token.storeToken(data.accessToken);
-        $rootScope.userId = data.userId;
+        AccessToken.setCredentials(data.userId, data.accessToken);
         $rootScope.display = data.role;
         $scope.alertMessage = null;
         $location.path('/');
@@ -38,7 +37,7 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
                 $scope.successfulLogin(data);
             })
             .error(function (data, status) {
-                $scope.alertMessage = "Status code: " + status + ((data && data.message)  || "");
+                $scope.alertMessage = "Status code: " + status + " " + ((data && data.message)  || "");
             });
     };
 
@@ -52,9 +51,9 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
                 $scope.successfulLogin(data);
             })
             .error(function (data, status) {
-                $scope.alertMessage = "Status code: " + status + " " + data.message;
+                $scope.alertMessage = "Status code: " + status + " " + ((data && data.message)  || "");
             })
-    }
+    };
 
     // Create Google plus login
     $scope.renderGoogleSignInButton = function() {

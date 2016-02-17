@@ -32,12 +32,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "SessionToken.findByExpirationDate", query = "SELECT s FROM SessionToken s WHERE s.expirationDate = :expirationDate"),
     @NamedQuery(name = "SessionToken.findByType", query = "SELECT s FROM SessionToken s WHERE s.type = :type")})
 public class SessionToken implements Serializable {
-    public static final String CUSTOMER = "customer";
-    public static final String MANAGER = "manager";
-    public static final String ADMINISTRATOR = "administrator";
+    public static final String API_ACCESS = "api_access";
     public static final String CONFIRM_REGISTRATION = "confirm_registration";
-    public static final String CONFIRM_VISIT = "confirm_visit";
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

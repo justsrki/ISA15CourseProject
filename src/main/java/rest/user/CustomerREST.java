@@ -21,9 +21,9 @@ import model.dao.Customer;
  */
 @Stateless
 @Path("model.customer")
-public class CustomerREST extends AbstractBean<Customer> {
+public class CustomerRest extends AbstractBean<Customer> {
 
-    public CustomerREST() {
+    public CustomerRest() {
         super(Customer.class);
     }
 

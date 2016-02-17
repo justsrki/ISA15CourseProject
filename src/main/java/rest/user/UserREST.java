@@ -16,12 +16,12 @@ import java.util.List;
  */
 @Stateless
 @Path("/user")
-public class UserREST extends AbstractBean<User> {
+public class UserRest extends AbstractBean<User> {
 
     @PersistenceContext(unitName = "GeneratorPU")
     private EntityManager em;
 
-    public UserREST() {
+    public UserRest() {
         super(User.class);
     }
 

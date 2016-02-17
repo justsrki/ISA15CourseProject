@@ -36,6 +36,7 @@ public class Meal implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    @NotNull
     @Size(max = 50)
     @Column(name = "name", length = 50)
     private String name;
@@ -46,7 +47,7 @@ public class Meal implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "price", nullable = false)
-    private long price;
+    private double price;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Restaurant restaurantId;
@@ -87,11 +88,11 @@ public class Meal implements Serializable {
         this.description = description;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

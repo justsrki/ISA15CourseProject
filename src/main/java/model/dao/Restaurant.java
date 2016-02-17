@@ -57,10 +57,12 @@ public class Restaurant implements Serializable {
     @NotNull
     @Column(name = "rating_count", nullable = false)
     private int ratingCount;
+    @NotNull
     @Column(name = "latitude")
-    private Long latitude;
+    private double latitude;
+    @NotNull
     @Column(name = "longitude")
-    private Long longitude;
+    private double longitude;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
     private Set<Meal> mealSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
@@ -73,17 +75,18 @@ public class Restaurant implements Serializable {
     private Set<model.dao.Table> tableSet;
 
     public Restaurant() {
+        this.ratingSum = 0;
+        this.ratingCount = 0;
     }
 
     public Restaurant(Integer id) {
+        this();
         this.id = id;
     }
 
-    public Restaurant(Integer id, String name, int ratingSum, int ratingCount) {
-        this.id = id;
+    public Restaurant(Integer id, String name) {
+        this(id);
         this.name = name;
-        this.ratingSum = ratingSum;
-        this.ratingCount = ratingCount;
     }
 
     public Integer getId() {
@@ -126,19 +129,19 @@ public class Restaurant implements Serializable {
         this.ratingCount = ratingCount;
     }
 
-    public Long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

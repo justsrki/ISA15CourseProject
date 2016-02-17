@@ -1,7 +1,7 @@
 /*global angular*/
 var appMainCtrlModule = angular.module('app.MainCtrl', []);
 
-appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location, $route, $window, Token) {
+appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location, $route, $window, AccessToken) {
     "use strict";
 
     $scope.redirectToLogin = function () {
@@ -12,10 +12,12 @@ appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location
         }
     };
 
-    if ($rootScope.token) {
-        Token.info($rootScope.token)
-            .success(function () {
-
+    if (AccessToken.hasCredentials()) {
+        AccessToken.info($rootScope.accessToken)
+            .success(function (data) {
+                AccessToken.setCredentials(data.userId, data.accessToken);
+                $rootScope.display = data.role;
+                $location.path('/');
             })
             .error(function() {
                 $scope.redirectToLogin();

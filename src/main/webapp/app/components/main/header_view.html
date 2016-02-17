@@ -6,31 +6,16 @@
         </div>
 
         <ul class="nav navbar-nav navbar-left">
-            <!--<li ng-if="display == 'administrator' || display == 'manager' || display == 'customer'"><a href="#/"><span class="glyphicon glyphicon-home rm-5" aria-hidden="true"></span>Home</a></li>-->
-            <li ng-if="display == 'administrator' || display == 'manager' || display == 'customer'"><a href="/furniture">Furniture</a></li>
-            <li ng-if="display == 'administrator' || display == 'manager' || display == 'customer'"><a href="/showrooms">Showrooms</a></li>
-            <li ng-if="display == 'administrator' || display == 'manager' || display == 'customer'"><a href="/categories">Categories</a></li>
-            <li ng-if="display == 'manager'" class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" display="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                    Reports
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/report_showrooms">Showroom</a></li>
-                    <li><a href="/report_categories">Category</a></li>
-                </ul>
-            </li>
-            <li ng-if="display == 'administrator' || display == 'manager'"><a href="/checks"><span class="glyphicon glyphicon-credit-card rm-5" aria-hidden="true"></span>Checks</a></li>
-            <li ng-if="display == 'administrator' || display == 'manager'"><a href="/discounts"><span class="glyphicon rm-5" aria-hidden="true">%</span>Discounts</a></li>
-            <li ng-if="display == 'administrator' || display == 'manager'"><a href="/extra_services"><span class="glyphicon glyphicon-star rm-5" aria-hidden="true"></span>Extra Services</a></li>
+            <li ng-if="display == 'manager'"><a href="/restaurant_manager">My restaurant</a></li>
+            <li ng-if="display == 'administrator' || display == 'manager' || display == 'customer'"><a href="/restaurant">Restaurants</a></li>
+            <li ng-if="display == 'administrator'"><a href="/users">Users</a></li>
+            <li ng-if="display == 'customer'"><a href="/friends">Friends</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-            <li ng-if="display == 'customer'"><a href="/shopping_cart"><span class="glyphicon glyphicon-shopping-cart rm-5" aria-hidden="true"></span>Shopping Cart</a></li>
-            <li ng-if="display == 'admin_login'"><a href="/login"><span class="glyphicon glyphicon-log-in rm-5" aria-hidden="true"></span>Log in</a></li>
-            <li ng-if="display == 'login'"><a href="/admin_login"><span class="glyphicon glyphicon-log-in rm-5" aria-hidden="true"></span>Admin Login</a></li>
+            <li ng-if="display == 'customer'"><a href="/logout"><span class="glyphicon glyphicon-user rm-5" aria-hidden="true"></span>Profile</a></li>
             <li ng-if="display == 'administrator' || display == 'manager' || display == 'customer'"><a href="/logout"><span class="glyphicon glyphicon-log-out rm-5" aria-hidden="true"></span>Log out</a></li>
+            <li ng-if="display == 'login'"><a href="/login"><span class="glyphicon glyphicon-log-in rm-5" aria-hidden="true"></span>Login</a></li>
         </ul>
     </div>
 </nav>

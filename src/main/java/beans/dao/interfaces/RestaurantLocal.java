@@ -1,4 +1,4 @@
-package bean2;
+package beans.dao.interfaces;
 
 import java.util.List;
 import javax.ejb.Local;
@@ -9,7 +9,7 @@ import model.dao.Restaurant;
  * @author Srđan
  */
 @Local
-public interface RestaurantFacadeLocal {
+public interface RestaurantLocal {
 
     void create(Restaurant restaurant);
 

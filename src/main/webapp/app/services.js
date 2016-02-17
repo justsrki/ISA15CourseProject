@@ -4,7 +4,9 @@ angular.module('app.services', [
 	'app.SignUp',
 	'app.Users',
 	'app.Profile',
-	'app.Token',
-	'app.Oauth2'
+	'app.AccessToken',
+	'app.authHttpRequestInterceptor',
+	'app.Oauth2',
+	'app.Restaurant'
 ]);
 
