@@ -2,7 +2,7 @@ package bean2;
 
 import java.util.List;
 import javax.ejb.Local;
-import model.FriendRating;
+import model.dao.FriendRating;
 
 /**
  *

@@ -2,7 +2,7 @@ package bean2;
 
 import java.util.List;
 import javax.ejb.Local;
-import model.Reservation;
+import model.dao.Reservation;
 
 /**
  *

@@ -2,8 +2,6 @@ package rest.user;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,8 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import beans.data_access.AbstractFacade;
-import model.Customer;
+import beans.dao.AbstractBean;
+import model.dao.Customer;
 
 /**
  *
@@ -23,7 +21,7 @@ import model.Customer;
  */
 @Stateless
 @Path("model.customer")
-public class CustomerREST extends AbstractFacade<Customer> {
+public class CustomerREST extends AbstractBean<Customer> {
 
     public CustomerREST() {
         super(Customer.class);

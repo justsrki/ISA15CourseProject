@@ -1,7 +1,7 @@
 package rest.user;
 
-import beans.data_access.AbstractFacade;
-import model.User;
+import beans.dao.AbstractBean;
+import model.dao.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Stateless
 @Path("/user")
-public class UserREST extends AbstractFacade<User> {
+public class UserREST extends AbstractBean<User> {
 
     @PersistenceContext(unitName = "GeneratorPU")
     private EntityManager em;

@@ -7,7 +7,7 @@ appOauth2Module.factory('Oauth2', function ($http) {
         login: function (accessToken, provider) {
             return $http({
                 method: 'POST',
-                url: 'api/oauth2/login',
+                url: 'api/oauth2',
                 data: {
                     accessToken: accessToken,
                     provider: provider

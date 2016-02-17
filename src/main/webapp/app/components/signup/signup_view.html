@@ -1,3 +1,46 @@
 <div id="SignUp">
+    <div class="panel-body">
+        <div class="ta-mid plr-50">
+            <h3>Create a new account</h3>
+            <uib-alert type="danger" ng-if="alertMessage">{{alertMessage}}</uib-alert>
 
+            <!-- First name -->
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon glyphicon glyphicon-user" id="first_name_lbl" style="top: 0;"></span>
+                <input name="firstName" id="first_name_input" type="text" class="form-control" ng-model="firstName"
+                       placeholder="first name" aria-describedby="first_name_lbl">
+            </div>
+
+            <!-- Last name -->
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon glyphicon glyphicon-user" id="last_name_lbl" style="top: 0;"></span>
+                <input name="lastName" id="last_name_input" type="text" class="form-control" ng-model="lastName"
+                       placeholder="last name" aria-describedby="last_name_lbl">
+            </div>
+
+            <!-- Email -->
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon" id="email_lbl" style="top: 0;">@</span>
+                <input name="email" id="email_input" type="text" class="form-control" ng-model="email"
+                       placeholder="email" aria-describedby="email_lbl">
+            </div>
+
+            <!-- Password -->
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon glyphicon glyphicon-lock" id="passowrd_lbl" style="top: 0;"></span>
+                <input name="password" id="password_input" type="password" class="form-control" ng-model="password"
+                       placeholder="password" aria-describedby="passowrd_lbl">
+            </div>
+
+            <!-- Re-enter password -->
+            <div class="input-group input-group-lg tm-10">
+                <span class="input-group-addon glyphicon glyphicon-lock" id="reenter_passowrd_lbl" style="top: 0;"></span>
+                <input name="renteredPassword" id="reenter_password_input" type="password" class="form-control" ng-model="renteredPassword"
+                       placeholder="re-enter password" aria-describedby="reenter_passowrd_lbl">
+            </div>
+
+            <button id="SignUpButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="signup()">Sign Up
+            </button>
+        </div>
+    </div>
 </div>

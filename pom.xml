@@ -21,7 +21,7 @@
         <!-- JBoss EE7 Specification begin -->
         <dependency>
             <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-web-7.0</artifactId>
+            <artifactId>jboss-javaee-7.0</artifactId>
             <version>1.0.3.Final</version>
         </dependency>
         <!-- JBoss EE7 Specification end -->

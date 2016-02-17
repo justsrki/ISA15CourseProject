@@ -1,22 +1,28 @@
 /*global angular*/
 var appLoginCtrlModule = angular.module('app.LoginCtrl', []);
 
-appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, Login, Oauth2, Token) {
+appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $location, $routeParams, Login, Oauth2, Token, EMAIL_REGEX) {
     "use strict";
+
+    if ($routeParams.email) {
+        $scope.email = $routeParams.email;
+    }
 
     $scope.alertMessage = null;
 
     $scope.successfulLogin = function (data) {
         Token.storeToken(data.accessToken);
         $rootScope.userId = data.userId;
-        $rootScope.displayRole = data.role;
+        $rootScope.display = data.role;
         $scope.alertMessage = null;
         $location.path('/');
-    }
+    };
 
     $scope.login = function () {
         if (!$scope.email) {
             $scope.alertMessage = 'Email cannot be empty.';
+        } else if (!EMAIL_REGEX.test($scope.email)) {
+            $scope.alertMessage = 'Email is not valid.'
         } else if (!$scope.password) {
             $scope.alertMessage = 'Password cannot be empty.';
         } else {
@@ -32,7 +38,7 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
                 $scope.successfulLogin(data);
             })
             .error(function (data, status) {
-                $scope.alertMessage = "Status code: " + status + (data.message  || "");
+                $scope.alertMessage = "Status code: " + status + ((data && data.message)  || "");
             });
     };
 
@@ -82,9 +88,5 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
         });
     };
 
-    $scope.start = function() {
-        $scope.renderGoogleSignInButton();
-    };
-
-    $scope.start();
+    $scope.renderGoogleSignInButton();
 });

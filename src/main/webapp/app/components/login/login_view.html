@@ -5,7 +5,7 @@
             <h3>Log in with an existing account</h3>
             <uib-alert type="danger" ng-if="alertMessage">{{alertMessage}}</uib-alert>
             <div class="input-group input-group-lg tm-10">
-                <span class="input-group-addon glyphicon glyphicon-user" id="email_lbl" style="top: 0;"></span>
+                <span class="input-group-addon " id="email_lbl" style="top: 0;">@</span>
                 <input name="email" id="email_input" type="text" class="form-control" ng-model="email"
                        placeholder="email" aria-describedby="email_lbl">
             </div>
@@ -21,23 +21,16 @@
         <div class="tm-20 ta-mid">
             <h3>If you don't have an account, you can log in with social network account</h3>
 
-            <!-- Old google plus image
-            <img ng-init="gpimg='normal'"
-                 ng-src="{{'/images/login/btn_google+_signin_dark_'+gpimg+'_web.png'}}"
-                 ng-mouseover="gpimg='focus'" ng-mouseleave="gpimg='normal'"
-                 ng-mousedown="gpimg='pressed'" ng-mouseup="gpimg='normal'"/>
-            -->
             <span id="GoogleSignInButton" style="display: inline-flex"></span>
             <img ng-click="facebookLogin()" ng-init="fbimg='normal'"
                  ng-src="{{'/images/login/btn_facebook_signin_'+fbimg+'_web.png'}}"
                  ng-mouseover="fbimg='focus'" ng-mouseleave="fbimg='normal'"
                  ng-mousedown="fbimg='pressed'" ng-mouseup="fbimg='normal'"/>
-
         </div>
 
         <div class="bm-20 ta-mid">
             <h3>or you can create a new account.</h3>
-            <button id="SignInButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="signup()">Sign up
+            <button id="SignUpButton" type="button" class="btn btn-success btn-lg tm-10" ng-click="signup()">Sign up
             </button>
         </div>
 

@@ -7,7 +7,7 @@ body {
     min-height: 100%;
 }
 
-#Login {
+#SignUp, #Login {
     width: 500px;
     margin: 50px auto 75px auto;
     background-color: #F7F7F7;
@@ -15,7 +15,7 @@ body {
     box-shadow: 0px 0px 10px 5px #AFAFAF;
 }
 
-#SignInButton {
+#SignUpButton {
     width: 370px;
 }
 

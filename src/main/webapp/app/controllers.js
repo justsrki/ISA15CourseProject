@@ -4,5 +4,6 @@ angular.module('app.controllers', [
 	'app.SignUpCtrl',
 	'app.UsersCtrl',
 	'app.MainCtrl',
-	'app.ProfileCtrl'
+	'app.ProfileCtrl',
+	'app.HomeCtrl'
 ]);

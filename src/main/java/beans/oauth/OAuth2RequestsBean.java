@@ -1,8 +1,8 @@
 package beans.oauth;
 
-import beans.oauth.model.FacebookUserInfo;
-import beans.oauth.model.GoogleTokenInfo;
-import beans.oauth.model.GoogleUserInfo;
+import model.oauth.FacebookUserInfo;
+import model.oauth.GoogleTokenInfo;
+import model.oauth.GoogleUserInfo;
 import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
