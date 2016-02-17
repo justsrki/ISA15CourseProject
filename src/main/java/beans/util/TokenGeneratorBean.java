@@ -9,17 +9,17 @@ import javax.ejb.Stateless;
  */
 @SuppressWarnings("unused")
 @Stateless
-public class SessionTokenGeneratorBean implements SessionTokenGeneratorLocal{
+public class TokenGeneratorBean implements TokenGeneratorLocal {
 
     public static final int DEFAULT_LENGTH = 128;
 
     private RandomStringGenerator stringGenerator;
 
-    public SessionTokenGeneratorBean() {
+    public TokenGeneratorBean() {
         this(DEFAULT_LENGTH);
     }
 
-    public SessionTokenGeneratorBean(int length) {
+    public TokenGeneratorBean(int length) {
         stringGenerator = new RandomStringGenerator(length);
     }
 

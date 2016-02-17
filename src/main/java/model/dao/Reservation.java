@@ -54,9 +54,9 @@ public class Reservation implements Serializable {
     private Set<model.dao.Table> tableSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "reservationId", fetch = FetchType.LAZY)
     private Set<Invitation> invitationSet;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Customer customerId;
+    private User userId;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Restaurant restaurantId;
@@ -114,12 +114,12 @@ public class Reservation implements Serializable {
         this.invitationSet = invitationSet;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     public Restaurant getRestaurantId() {
@@ -152,7 +152,7 @@ public class Reservation implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Reservation[ id=" + id + " ]";
+        return "model.dao.Reservation[ id=" + id + " ]";
     }
     
 }

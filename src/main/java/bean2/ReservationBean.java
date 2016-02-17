@@ -10,9 +10,8 @@ import model.dao.Reservation;
  * @author Srđan
  */
 @Stateless
-public class ReservationBean extends AbstractBean<Reservation> implements ReservationFacadeLocal {
-
-
+@SuppressWarnings("unused")
+public class ReservationBean extends AbstractBean<Reservation> implements ReservationLocal {
 
     public ReservationBean() {
         super(Reservation.class);

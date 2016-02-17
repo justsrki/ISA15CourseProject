@@ -1,15 +1,16 @@
 package bean2;
 
+import model.dao.FriendRating;
+
 import java.util.List;
 import javax.ejb.Local;
-import model.dao.FriendRating;
 
 /**
  *
  * @author Srđan
  */
 @Local
-public interface FriendRatingFacadeLocal {
+public interface FriendRatingLocal {
 
     void create(FriendRating friendRating);
 
@@ -17,7 +18,7 @@ public interface FriendRatingFacadeLocal {
 
     void remove(FriendRating friendRating);
 
-    FriendRating find(Object id);
+    FriendRating find(Integer id);
 
     List<FriendRating> findAll();
 

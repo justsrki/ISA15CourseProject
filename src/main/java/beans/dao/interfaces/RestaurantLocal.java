@@ -1,28 +1,14 @@
 package beans.dao.interfaces;
 
-import java.util.List;
-import javax.ejb.Local;
+import beans.dao.AbstractLocal;
 import model.dao.Restaurant;
 
+import javax.ejb.Local;
+
 /**
- *
  * @author Srđan
  */
 @Local
-public interface RestaurantLocal {
+public interface RestaurantLocal extends AbstractLocal<Restaurant> {
 
-    void create(Restaurant restaurant);
-
-    void edit(Restaurant restaurant);
-
-    void remove(Restaurant restaurant);
-
-    Restaurant find(Object id);
-
-    List<Restaurant> findAll();
-
-    List<Restaurant> findRange(int[] range);
-
-    int count();
-    
 }

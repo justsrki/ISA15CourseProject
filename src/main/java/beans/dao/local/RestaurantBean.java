@@ -1,7 +1,8 @@
-package beans.dao;
+package beans.dao.local;
 
 import javax.ejb.Stateless;
 
+import beans.dao.AbstractBean;
 import beans.dao.interfaces.RestaurantLocal;
 import model.dao.Restaurant;
 

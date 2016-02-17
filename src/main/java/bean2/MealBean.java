@@ -10,7 +10,8 @@ import model.dao.Meal;
  * @author Srđan
  */
 @Stateless
-public class MealBean extends AbstractBean<Meal> implements MealFacadeLocal {
+@SuppressWarnings("unused")
+public class MealBean extends AbstractBean<Meal> implements MealLocal {
 
 
     public MealBean() {

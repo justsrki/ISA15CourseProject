@@ -6,6 +6,9 @@ app.constant('GOOGLE_LOGIN_DATA', {
 });
 
 app.constant('MAP_OPTIONS', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © ' +
+    '<a href="http://mapbox.com">Mapbox</a>',
     center: [45.255, 19.844722],
     zoom: 16,
     maxZoom: 18,
@@ -16,4 +19,4 @@ app.constant('MAP_OPTIONS', {
     ]
 });
 
-app.constant('EMAIL_REGEX', /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)
+app.constant('EMAIL_REGEX', /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);

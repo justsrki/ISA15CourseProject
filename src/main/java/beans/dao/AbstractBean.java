@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Srđan
  */
-public abstract class AbstractBean<T> {
+public abstract class AbstractBean<T> implements AbstractLocal<T> {
 
     @PersistenceContext(unitName = "RestaurantManagementDataSource")
     private EntityManager entityManager;
@@ -35,7 +35,7 @@ public abstract class AbstractBean<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) {
+    public T find(Integer id) {
         return getEntityManager().find(entityClass, id);
     }
 

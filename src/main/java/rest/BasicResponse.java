@@ -37,6 +37,10 @@ public class BasicResponse {
         return createResponse(Response.Status.OK, message);
     }
 
+    public static Response createNotFound(String message) {
+        return createResponse(Response.Status.NOT_FOUND, message);
+    }
+
     public String getMessage() {
         return message;
     }

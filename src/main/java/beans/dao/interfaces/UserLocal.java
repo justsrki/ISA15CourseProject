@@ -1,30 +1,22 @@
 package beans.dao.interfaces;
 
+import beans.dao.AbstractLocal;
 import model.dao.User;
+import rest.user.CreateCustomerRequest;
+import rest.user.CreateManagerRequest;
 
 import javax.ejb.Local;
-import java.util.List;
 
 /**
  * @author Srđan
  */
 @Local
-public interface UserLocal {
+public interface UserLocal extends AbstractLocal<User> {
 
-    void create(User user);
+    User create(CreateCustomerRequest request);
 
-    void edit(User user);
-
-    void remove(User user);
-
-    User find(Object id);
+    User create(CreateManagerRequest request);
 
     User findByEmail(String email);
-
-    List<User> findAll();
-
-    List<User> findRange(int[] range);
-
-    int count();
 
 }

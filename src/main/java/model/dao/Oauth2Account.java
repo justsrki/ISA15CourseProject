@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,16 +22,18 @@ import javax.validation.constraints.Size;
  * @author Srđan
  */
 @Entity
-@Table(name = "oauth2_account")
+@Table(name = "oauth2_account", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"social_network", "client_id"})})
 @NamedQueries({
     @NamedQuery(name = "Oauth2Account.findAll", query = "SELECT o FROM Oauth2Account o"),
     @NamedQuery(name = "Oauth2Account.findById", query = "SELECT o FROM Oauth2Account o WHERE o.id = :id"),
     @NamedQuery(name = "Oauth2Account.findBySocialNetwork", query = "SELECT o FROM Oauth2Account o WHERE o.socialNetwork = :socialNetwork"),
-    @NamedQuery(name = "Oauth2Account.findByUserId", query = "SELECT o FROM Oauth2Account o WHERE o.userId = :userId")})
+    @NamedQuery(name = "Oauth2Account.findByClientId", query = "SELECT o FROM Oauth2Account o WHERE o.clientId = :clientId")})
 public class Oauth2Account implements Serializable {
-    public static final String GOOGLE = "GP";
-    public static final String FACEBOOK = "FA";
-    
+
+    public static final String GOOGLE_PLUS = "GP";
+    public static final String FACEBOOK = "FB";
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +48,11 @@ public class Oauth2Account implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "user_id", nullable = false, length = 50)
-    private String userId;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @Column(name = "client_id", nullable = false, length = 50)
+    private String clientId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Customer customerId;
+    private User userId;
 
     public Oauth2Account() {
     }
@@ -58,10 +61,10 @@ public class Oauth2Account implements Serializable {
         this.id = id;
     }
 
-    public Oauth2Account(Integer id, String socialNetwork, String userId) {
+    public Oauth2Account(Integer id, String socialNetwork, String clientId) {
         this.id = id;
         this.socialNetwork = socialNetwork;
-        this.userId = userId;
+        this.clientId = clientId;
     }
 
     public Integer getId() {
@@ -80,20 +83,20 @@ public class Oauth2Account implements Serializable {
         this.socialNetwork = socialNetwork;
     }
 
-    public String getUserId() {
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
-    }
-
-    public Customer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
     }
 
     @Override
@@ -118,7 +121,7 @@ public class Oauth2Account implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Oauth2Account[ id=" + id + " ]";
+        return "model.dao.Oauth2Account[ id=" + id + " ]";
     }
     
 }

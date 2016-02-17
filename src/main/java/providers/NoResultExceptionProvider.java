@@ -13,9 +13,9 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class NoResultExceptionProvider implements ExceptionMapper<NoResultException> {
 
-
     @Override
     public Response toResponse(NoResultException e) {
         return Response.status(404).entity("Resource does not exist.").build();
     }
+
 }

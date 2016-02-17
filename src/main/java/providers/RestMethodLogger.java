@@ -1,5 +1,12 @@
 package providers;
 
+import beans.dao.interfaces.LogLocal;
+import model.dao.Log;
+import model.dao.User;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
+
+import javax.annotation.Priority;
+import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -8,47 +15,57 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
  * @author - Srđan Milaković
  */
 @Provider
+@Priority(1100)
 public class RestMethodLogger implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
+
+    @EJB
+    LogLocal logBean;
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Class classInvoked = resourceInfo.getResourceClass();
         Method methodInvoked = resourceInfo.getResourceMethod();
 
-        String logString = "";
+        String method;
+        String restUrl = "";
 
         if (methodInvoked.isAnnotationPresent(GET.class)) {
-            logString += "GET ";
+            method = "GET";
         } else if (methodInvoked.isAnnotationPresent(POST.class)) {
-            logString += "POST ";
+            method = "POST";
         } else if (methodInvoked.isAnnotationPresent(PUT.class)) {
-            logString += "PUT ";
+            method = "PUT";
         } else if (methodInvoked.isAnnotationPresent(DELETE.class)) {
-            logString += "DELETE ";
+            method = "DELETE";
         } else {
             return;
         }
 
         if (classInvoked.isAnnotationPresent(Path.class)) {
             Path path = (Path) classInvoked.getAnnotation(Path.class);
-            logString +=  path.value();
+            restUrl +=  path.value();
         }
 
         if (methodInvoked.isAnnotationPresent(Path.class)) {
             Path path = methodInvoked.getAnnotation(Path.class);
-            logString += path.value();
+            restUrl += path.value();
         }
 
-        logString = logString.replace("//", "/");
+        restUrl = restUrl.replace("//", "/");
+        System.out.println(method + " " + restUrl + " " );
 
-        System.out.println(logString);
+
+        Log log = new Log(null, new Date(), method, requestContext.getUriInfo().getAbsolutePath().getPath());
+        log.setUserId(ResteasyProviderFactory.getContextData(User.class));
+        logBean.create(log);
     }
 }

@@ -6,6 +6,6 @@ import javax.ejb.Local;
  * @author - Srđan Milaković
  */
 @Local
-public interface SessionTokenGeneratorLocal {
+public interface TokenGeneratorLocal {
     String generateSessionToken();
 }

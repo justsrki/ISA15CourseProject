@@ -36,9 +36,10 @@ public class Meal implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    @Basic(optional = false)
     @NotNull
-    @Size(max = 50)
-    @Column(name = "name", length = 50)
+    @Size(min = 1, max = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
     @Lob
     @Size(max = 65535)
@@ -59,8 +60,9 @@ public class Meal implements Serializable {
         this.id = id;
     }
 
-    public Meal(Integer id, long price) {
+    public Meal(Integer id, String name, double price) {
         this.id = id;
+        this.name = name;
         this.price = price;
     }
 
@@ -126,7 +128,7 @@ public class Meal implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Meal[ id=" + id + " ]";
+        return "model.dao.Meal[ id=" + id + " ]";
     }
     
 }

@@ -1,15 +1,16 @@
 package bean2;
 
+import model.dao.Reservation;
+
 import java.util.List;
 import javax.ejb.Local;
-import model.dao.Reservation;
 
 /**
  *
  * @author Srđan
  */
 @Local
-public interface ReservationFacadeLocal {
+public interface ReservationLocal {
 
     void create(Reservation reservation);
 
@@ -17,7 +18,7 @@ public interface ReservationFacadeLocal {
 
     void remove(Reservation reservation);
 
-    Reservation find(Object id);
+    Reservation find(Integer id);
 
     List<Reservation> findAll();
 

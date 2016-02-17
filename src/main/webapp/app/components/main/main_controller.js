@@ -12,12 +12,13 @@ appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location
         }
     };
 
+    // TODO: Use promises
     if (AccessToken.hasCredentials()) {
         AccessToken.info($rootScope.accessToken)
             .success(function (data) {
                 AccessToken.setCredentials(data.userId, data.accessToken);
                 $rootScope.display = data.role;
-                $location.path('/');
+                $route.reload();
             })
             .error(function() {
                 $scope.redirectToLogin();

@@ -1,15 +1,16 @@
 package bean2;
 
+import model.dao.Table;
+
 import java.util.List;
 import javax.ejb.Local;
-import model.dao.Table;
 
 /**
  *
  * @author Srđan
  */
 @Local
-public interface TableFacadeLocal {
+public interface TableLocal {
 
     void create(Table table);
 
@@ -17,7 +18,7 @@ public interface TableFacadeLocal {
 
     void remove(Table table);
 
-    Table find(Object id);
+    Table find(Integer id);
 
     List<Table> findAll();
 

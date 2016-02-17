@@ -24,16 +24,17 @@ import javax.validation.constraints.Size;
  * @author Srđan
  */
 @Entity
-@Table(name = "session_token")
+@Table(name = "token")
 @NamedQueries({
-    @NamedQuery(name = "SessionToken.findAll", query = "SELECT s FROM SessionToken s"),
-    @NamedQuery(name = "SessionToken.findById", query = "SELECT s FROM SessionToken s WHERE s.id = :id"),
-    @NamedQuery(name = "SessionToken.findByValue", query = "SELECT s FROM SessionToken s WHERE s.value = :value"),
-    @NamedQuery(name = "SessionToken.findByExpirationDate", query = "SELECT s FROM SessionToken s WHERE s.expirationDate = :expirationDate"),
-    @NamedQuery(name = "SessionToken.findByType", query = "SELECT s FROM SessionToken s WHERE s.type = :type")})
-public class SessionToken implements Serializable {
-    public static final String API_ACCESS = "api_access";
-    public static final String CONFIRM_REGISTRATION = "confirm_registration";
+    @NamedQuery(name = "Token.findAll", query = "SELECT t FROM Token t"),
+    @NamedQuery(name = "Token.findById", query = "SELECT t FROM Token t WHERE t.id = :id"),
+    @NamedQuery(name = "Token.findByValue", query = "SELECT t FROM Token t WHERE t.value = :value"),
+    @NamedQuery(name = "Token.findByExpirationDate", query = "SELECT t FROM Token t WHERE t.expirationDate = :expirationDate"),
+    @NamedQuery(name = "Token.findByType", query = "SELECT t FROM Token t WHERE t.type = :type")})
+public class Token implements Serializable {
+
+    public static final String ACCESS_TOKEN = "AT";
+    public static final String CONFIRM_REGISTRATION = "CR";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,21 +52,21 @@ public class SessionToken implements Serializable {
     private Date expirationDate;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "type", nullable = false, length = 20)
+    @Size(min = 1, max = 2)
+    @Column(name = "type", nullable = false, length = 2)
     private String type;
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User userId;
 
-    public SessionToken() {
+    public Token() {
     }
 
-    public SessionToken(Integer id) {
+    public Token(Integer id) {
         this.id = id;
     }
 
-    public SessionToken(Integer id, String value, String type) {
+    public Token(Integer id, String value, String type) {
         this.id = id;
         this.value = value;
         this.type = type;
@@ -121,10 +122,10 @@ public class SessionToken implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SessionToken)) {
+        if (!(object instanceof Token)) {
             return false;
         }
-        SessionToken other = (SessionToken) object;
+        Token other = (Token) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -133,7 +134,7 @@ public class SessionToken implements Serializable {
 
     @Override
     public String toString() {
-        return "model.SessionToken[ id=" + id + " ]";
+        return "model.dao.Token[ id=" + id + " ]";
     }
     
 }

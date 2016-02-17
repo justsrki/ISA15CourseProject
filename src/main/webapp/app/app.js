@@ -1,5 +1,5 @@
 /*global angular*/
-var app = angular.module('app', ['app.controllers', 'app.services', 'app.directives', 'ngRoute', 'ui.bootstrap']);
+var app = angular.module('app', ['app.controllers', 'app.services', 'app.directives', 'ngRoute', 'ui.bootstrap', 'angularUtils.directives.dirPagination']);
 
 app.config(function ($routeProvider, $locationProvider, $httpProvider) {
     "use strict";
@@ -12,7 +12,7 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
             controller: 'HomeCtrl'
         })
         .when('/login', {
-            templateUrl: 'app/components/login/login_view.html',
+            templateUrl: 'app/components/auth/login_view.html',
             controller: 'LoginCtrl'
         })
         .when('/signup', {
@@ -20,12 +20,16 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
             controller: 'SignUpCtrl'
         })
         .when('/logout', {
-            templateUrl: 'app/components/login/login_view.html',
+            templateUrl: 'app/components/auth/login_view.html',
             controller: 'LogoutCtrl'
         })
         .when('/restaurant', {
             templateUrl: 'app/components/restaurant/restaurant_view.html',
             controller: 'RestaurantCtrl'
+        })
+        .when('/users', {
+            templateUrl: 'app/components/users/users_view.html',
+            controller: 'UsersCtrl'
         })
         .when('/profile', {
             templateUrl: 'app/components/profile/profile_view.html',

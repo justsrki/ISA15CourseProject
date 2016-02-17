@@ -21,7 +21,7 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
         if (!$scope.email) {
             $scope.alertMessage = 'Email cannot be empty.';
         } else if (!EMAIL_REGEX.test($scope.email)) {
-            $scope.alertMessage = 'Email is not valid.'
+            $scope.alertMessage = 'Email is not valid.';
         } else if (!$scope.password) {
             $scope.alertMessage = 'Password cannot be empty.';
         } else {
@@ -32,13 +32,15 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
             return;
         }
 
-        Login.login($scope.email, $scope.password)
-            .success(function (data) {
-                $scope.successfulLogin(data);
-            })
-            .error(function (data, status) {
-                $scope.alertMessage = "Status code: " + status + " " + ((data && data.message)  || "");
-            });
+        Login.login($scope.email, $scope.password).then(
+            function (response) {
+                $scope.successfulLogin(response.data);
+            },
+            function (response) {
+                var message = (response.data && response.data.message) ? response.data.message : "";
+                $scope.alertMessage = "Status code: " + response.status + " " + message;
+            }
+        );
     };
 
     $scope.signup = function () {
@@ -46,17 +48,18 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
     };
 
     $scope.loginOAuth2 = function (accessToken, provider) {
-        Oauth2.login(accessToken, provider)
-            .success(function (data) {
-                $scope.successfulLogin(data);
-            })
-            .error(function (data, status) {
-                $scope.alertMessage = "Status code: " + status + " " + ((data && data.message)  || "");
-            })
+        Oauth2.login(accessToken, provider).then(
+            function (response) {
+                $scope.successfulLogin(response.data);
+            },
+            function (response) {
+                var message = (response.data && response.data.message) ? response.data.message : "";
+                $scope.alertMessage = "Status code: " + response.status + " " + message;
+            });
     };
 
     // Create Google plus login
-    $scope.renderGoogleSignInButton = function() {
+    $scope.renderGoogleSignInButton = function () {
         gapi.signin2.render('GoogleSignInButton',
             {
                 scope: 'https://www.googleapis.com/auth/plus.login',
@@ -76,7 +79,7 @@ appLoginCtrlModule.controller('LoginCtrl', function ($rootScope, $scope, $locati
 
     // Facebook login
     $scope.facebookLogin = function () {
-        FB.login(function(response){
+        FB.login(function (response) {
             if (response.authResponse) {
                 $scope.loginOAuth2(response.authResponse.accessToken, 'facebook');
             } else {

@@ -1,16 +1,21 @@
 package rest.restaurant;
 
 import beans.dao.interfaces.RestaurantLocal;
+import beans.dao.interfaces.UserLocal;
 import model.dao.Restaurant;
 import model.dao.User;
 import rest.BasicResponse;
+import rest.user.CreateManagerRequest;
+import rest.user.UserResponse;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.jms.ObjectMessage;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author - Srđan Milaković
@@ -22,18 +27,74 @@ public class RestaurantRest {
 
     @EJB
     private RestaurantLocal restaurantBean;
+    @EJB
+    private UserLocal userBean;
+
 
     @GET
     @RolesAllowed({User.CUSTOMER, User.ADMINISTRATOR, User.MANAGER})
-    public Object getAll() {
-        return null;
+    public Object getAll(@Context User user) {
+
+        return getAllAdmin();
     }
 
     @GET
     @Path("{id}")
     @RolesAllowed({User.CUSTOMER, User.ADMINISTRATOR, User.MANAGER})
     public Object get(@PathParam("id") Integer id) {
-        return null;
+        if (id == null) {
+            return BasicResponse.createBadRequest("Id missing.");
+        }
+
+        Restaurant restaurant = restaurantBean.find(id);
+        if (restaurant == null) {
+            return BasicResponse.createNotFound("Restaurant not found.");
+        }
+
+        return new RestaurantResponse(restaurant);
+    }
+
+
+    @GET
+    @Path("/{id}/manager")
+    @RolesAllowed(User.ADMINISTRATOR)
+    public Object getManagers(@PathParam("id") Integer id) {
+        if (id == null) {
+            return BasicResponse.createBadRequest("Id missing.");
+        }
+
+        Restaurant restaurant = restaurantBean.find(id);
+        if (restaurant == null) {
+            return BasicResponse.createNotFound("Restaurant not found.");
+        }
+
+        List<UserResponse> response = new ArrayList<>();
+        restaurant.getUserSet().forEach(user -> response.add(new UserResponse(user)));
+
+        return response;
+    }
+
+    @POST
+    @Path("/{id}/manager")
+    @RolesAllowed(User.ADMINISTRATOR)
+    public Object createManager(@PathParam("id") Integer id, @Valid CreateManagerRequest managerRequest) {
+        if (id == null) {
+            return BasicResponse.createBadRequest("Id missing.");
+        }
+        managerRequest.setRestaurantId(id);
+
+        Restaurant restaurant = restaurantBean.find(id);
+        if (restaurant == null) {
+            return BasicResponse.createNotFound("Restaurant not found.");
+        }
+
+        if (userBean.findByEmail(managerRequest.getEmail()) != null) {
+            return BasicResponse.createBadRequest("Email is already used.");
+        }
+
+        userBean.create(managerRequest);
+
+        return BasicResponse.createCreated("Manager created,");
     }
 
     @POST
@@ -56,5 +117,17 @@ public class RestaurantRest {
         return null;
     }
 
+    private Object getAllCustomer(int userId) {
+        return getAllAdmin();
+    }
 
+    private Object getAllManager(int managerId) {
+        return getAllAdmin();
+    }
+
+    private Object getAllAdmin() {
+        List<RestaurantResponse> response = new ArrayList<>();
+        restaurantBean.findAll().forEach(restaurant -> response.add(new RestaurantResponse(restaurant, 3.5)));
+        return response;
+    }
 }

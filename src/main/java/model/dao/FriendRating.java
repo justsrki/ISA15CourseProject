@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "friend_rating", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"restaurant_id", "customer_id"})})
+    @UniqueConstraint(columnNames = {"restaurant_id", "user_id"})})
 @NamedQueries({
     @NamedQuery(name = "FriendRating.findAll", query = "SELECT f FROM FriendRating f"),
     @NamedQuery(name = "FriendRating.findById", query = "SELECT f FROM FriendRating f WHERE f.id = :id"),
@@ -44,9 +44,9 @@ public class FriendRating implements Serializable {
     @NotNull
     @Column(name = "count", nullable = false)
     private int count;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Customer customerId;
+    private User userId;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Restaurant restaurantId;
@@ -88,12 +88,12 @@ public class FriendRating implements Serializable {
         this.count = count;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     public Restaurant getRestaurantId() {
@@ -126,7 +126,7 @@ public class FriendRating implements Serializable {
 
     @Override
     public String toString() {
-        return "model.FriendRating[ id=" + id + " ]";
+        return "model.dao.FriendRating[ id=" + id + " ]";
     }
     
 }

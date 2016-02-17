@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous"/>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/map.css">
 
     <!-- <libraries> -->
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -26,6 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="lib/dirPagination.js"></script>
     
     <!-- <Facebook API> begin -->
     <script>
@@ -54,15 +56,16 @@
     <script src="app/directives.js"></script>
     <script src="app/constants.js"></script>
 
-    <!-- <modules> -->
+    	<!-- <modules> -->
+	<script src="app/components/restaurant/edit_restaurant_controller.js"></script>
 	<script src="app/components/restaurant/new_restaurant_controller.js"></script>
-	<script src="app/components/login/logout_controller.js"></script>
+	<script src="app/components/auth/logout_controller.js"></script>
 	<script src="app/components/restaurant/restaurant_service.js"></script>
 	<script src="app/components/restaurant/restaurant_controller.js"></script>
 	<script src="app/components/home/home_controller.js"></script>
-	<script src="app/components/oauth2/oauth2_service.js"></script>
-	<script src="app/components/token/access_token_service.js"></script>
-    <script src="app/components/token/authHttpRequestInterceptor.js"></script>
+	<script src="app/components/auth/oauth2_service.js"></script>
+	<script src="app/components/auth/access_token_service.js"></script>
+    <script src="app/components/auth/authHttpRequestInterceptor.js"></script>
 	<script src="app/components/profile/profile_service.js"></script>
 	<script src="app/components/profile/profile_controller.js"></script>
 	<script src="app/components/main/main_controller.js"></script>
@@ -70,8 +73,8 @@
 	<script src="app/components/users/users_controller.js"></script>
 	<script src="app/components/signup/signup_service.js"></script>
 	<script src="app/components/signup/signup_controller.js"></script>
-    <script src="app/components/login/login_service.js"></script>
-    <script src="app/components/login/login_controller.js"></script>
+    <script src="app/components/auth/login_service.js"></script>
+    <script src="app/components/auth/login_controller.js"></script>
 </head>
 <body>
     <div ng-include="'app/components/main/main_view.html'"></div>

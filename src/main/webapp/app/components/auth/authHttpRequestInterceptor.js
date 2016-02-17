@@ -8,7 +8,8 @@ authHttpRequestInterceptorModule.factory('authHttpRequestInterceptor', function 
             var tokenService = $injector.get('AccessToken');
             if (tokenService.hasCredentials()) {
                 $request.headers['auth-token'] = tokenService.getAccessToken();
-                $request.headers['user-id'] = tokenService.getUserId();
+                $request.headers['auth-id'] = tokenService.getUserId();
+                $request.headers['Accept'] = 'application/json';
             }
 
             return $request;

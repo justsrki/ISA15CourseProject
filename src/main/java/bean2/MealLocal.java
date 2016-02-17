@@ -1,15 +1,16 @@
 package bean2;
 
+import model.dao.Meal;
+
 import java.util.List;
 import javax.ejb.Local;
-import model.dao.Meal;
 
 /**
  *
  * @author Srđan
  */
 @Local
-public interface MealFacadeLocal {
+public interface MealLocal {
 
     void create(Meal meal);
 
@@ -17,7 +18,7 @@ public interface MealFacadeLocal {
 
     void remove(Meal meal);
 
-    Meal find(Object id);
+    Meal find(Integer id);
 
     List<Meal> findAll();
 

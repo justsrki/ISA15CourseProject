@@ -10,9 +10,8 @@ import model.dao.Invitation;
  * @author Srđan
  */
 @Stateless
-public class InvitationBean extends AbstractBean<Invitation> implements InvitationFacadeLocal {
-
-
+@SuppressWarnings("unused")
+public class InvitationBean extends AbstractBean<Invitation> implements InvitationLocal {
 
     public InvitationBean() {
         super(Invitation.class);

@@ -10,8 +10,8 @@ import model.dao.FriendRating;
  * @author Srđan
  */
 @Stateless
-public class FriendRatingBean extends AbstractBean<FriendRating> implements FriendRatingFacadeLocal {
-
+@SuppressWarnings("unused")
+public class FriendRatingBean extends AbstractBean<FriendRating> implements FriendRatingLocal {
 
     public FriendRatingBean() {
         super(FriendRating.class);

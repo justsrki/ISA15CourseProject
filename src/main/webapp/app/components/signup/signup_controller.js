@@ -1,7 +1,7 @@
 /*global angular*/
 var appSignUpCtrlModule = angular.module('app.SignUpCtrl', []);
 
-appSignUpCtrlModule.controller('SignUpCtrl', function ($scope, $location, SignUp) {
+appSignUpCtrlModule.controller('SignUpCtrl', function ($scope, $location, SignUp, EMAIL_REGEX) {
     "use strict";
 
     $scope.alertMessage = null;
@@ -18,9 +18,11 @@ appSignUpCtrlModule.controller('SignUpCtrl', function ($scope, $location, SignUp
             $scope.alertMessage = 'Last name cannot be empty.';
         } else if (!$scope.email) {
             $scope.alertMessage = 'Email cannot be empty.';
-        } else if (!$scope.password) {
+        } else if (!EMAIL_REGEX.test($scope.email)) {
+            $scope.alertMessage = 'Email is not valid.';
+        }  else if (!$scope.password) {
             $scope.alertMessage = 'Password cannot be empty.';
-        } else if ($scope.password != $scope.renteredPassword) {
+        } else if ($scope.password !== $scope.renteredPassword) {
             $scope.alertMessage = 'Passwords do not match.';
         } else {
             $scope.alertMessage = null;

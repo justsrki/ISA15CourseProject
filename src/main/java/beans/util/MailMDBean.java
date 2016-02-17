@@ -52,6 +52,11 @@ public class MailMDBean implements MessageListener {
         if (object instanceof MailModel) {
             MailModel mailModel = (MailModel) object;
 
+            // TODO: remove
+            if (mailModel.getToAddress().endsWith(".isa")) {
+                return;
+            }
+
             // Create mime message
             MimeMessage message = new MimeMessage(session);
             message.setFrom(FROM_ADDRESS);

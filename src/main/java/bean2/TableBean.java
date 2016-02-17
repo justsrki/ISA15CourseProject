@@ -10,7 +10,7 @@ import model.dao.Table;
  * @author Srđan
  */
 @Stateless
-public class TableBean extends AbstractBean<Table> implements TableFacadeLocal {
+public class TableBean extends AbstractBean<Table> implements TableLocal {
 
     public TableBean() {
         super(Table.class);

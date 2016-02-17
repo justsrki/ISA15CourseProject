@@ -1,7 +1,7 @@
 package model.util;
 
 import model.oauth.UserInfo;
-import rest.user.SignUpRequest;
+import rest.user.CreateCustomerRequest;
 
 import java.io.Serializable;
 
@@ -20,19 +20,19 @@ public class MailModel implements Serializable {
         this.content = content;
     }
 
-    private static final String OAuth2_MAIL_CONTENT = "Hi %s,<br /></br>" +
+    private static final String REGISTRATION_MAIL_CONTENT = "Hi %s,<br /></br>" +
             "welcome to Restaurant Management System. Your password is: %s.";
 
-    public static MailModel createOAuth2RegistrationMail(UserInfo userInfo, String password) {
+    public static MailModel createRegistrationMail(String email, String name, String password) {
         String subject = "Restaurant Management System - Welcome!";
-        String content = String.format(OAuth2_MAIL_CONTENT, userInfo.getFirstName(), password);
-        return new MailModel(userInfo.getEmail(), subject, content);
+        String content = String.format(REGISTRATION_MAIL_CONTENT, name, password);
+        return new MailModel(email, subject, content);
     }
 
     private static final String ACTIVATION_MAIL_CONTENT = "Hi %1$s,<br /></br>" +
             "welcome to Restaurant Management System. To active account click on this link <a href=\"%2$s\">%2$s</a>.";
 
-    public static MailModel createActivationMail(SignUpRequest userInfo, String activationLink) {
+    public static MailModel createActivationMail(CreateCustomerRequest userInfo, String activationLink) {
         String subject = "Restaurant Management System - Welcome!";
         String content = String.format(ACTIVATION_MAIL_CONTENT, userInfo.getFirstName(), activationLink);
         return new MailModel(userInfo.getEmail(), subject, content);

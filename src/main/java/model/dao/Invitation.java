@@ -39,13 +39,13 @@ public class Invitation implements Serializable {
     @Column(name = "accepted", nullable = false)
     private boolean accepted;
     @Column(name = "rating")
-    private Boolean rating;
+    private Short rating;
     @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Reservation reservationId;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Customer customerId;
+    private User userId;
 
     public Invitation() {
     }
@@ -75,11 +75,11 @@ public class Invitation implements Serializable {
         this.accepted = accepted;
     }
 
-    public Boolean getRating() {
+    public Short getRating() {
         return rating;
     }
 
-    public void setRating(Boolean rating) {
+    public void setRating(Short rating) {
         this.rating = rating;
     }
 
@@ -91,12 +91,12 @@ public class Invitation implements Serializable {
         this.reservationId = reservationId;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class Invitation implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Invitation[ id=" + id + " ]";
+        return "model.dao.Invitation[ id=" + id + " ]";
     }
     
 }

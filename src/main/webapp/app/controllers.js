@@ -8,5 +8,6 @@ angular.module('app.controllers', [
 	'app.HomeCtrl',
 	'app.RestaurantCtrl',
 	'app.LogoutCtrl',
-	'app.NewRestaurantCtrl'
+	'app.NewRestaurantCtrl',
+	'app.EditRestaurantCtrl'
 ]);

@@ -1,10 +1,14 @@
 package providers;
 
-import beans.dao.interfaces.SessionTokenLocal;
-import model.dao.SessionToken;
+import beans.dao.interfaces.LogLocal;
+import beans.dao.interfaces.TokenLocal;
+import model.dao.Log;
+import model.dao.Token;
 import model.dao.User;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import rest.BasicResponse;
 
+import javax.annotation.Priority;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +20,7 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,13 +28,17 @@ import java.util.Set;
  * @author - Srđan Milaković
  */
 @Provider
+@Priority(1000)
 public class AuthorizationInterceptor implements ContainerRequestFilter {
 
     private static final String PARAM_AUTH_TOKEN = "auth-token";
     private static final String PARAM_AUTH_ID = "auth-id";
 
     @EJB
-    SessionTokenLocal sessionTokenBean;
+    private TokenLocal tokenBean;
+
+    @EJB
+    private LogLocal logBean;
 
     @Context
     private HttpServletRequest request;
@@ -47,24 +56,30 @@ public class AuthorizationInterceptor implements ContainerRequestFilter {
             RolesAllowed rolesAllowedAnnotation = methodInvoked.getAnnotation(RolesAllowed.class);
             Set<String> rolesAllowed = new HashSet<>(Arrays.asList(rolesAllowedAnnotation.value()));
 
-            SessionToken sessionToken = sessionTokenBean.findByValue(authToken);
-            if (sessionToken == null) {
-                requestContext.abortWith(BasicResponse.createUnauthorized("Not authorized."));
+            Token token = tokenBean.findByValue(authToken);
+            if (token == null) {
+                abort(requestContext);
                 return;
             }
 
-            User user = sessionToken.getUserId();
+            User user = token.getUserId();
             if (userId == null || !userId.equals(user.getId().toString())) {
-                requestContext.abortWith(BasicResponse.createUnauthorized("Not authorized."));
+                abort(requestContext);
                 return;
             }
 
             if (!rolesAllowed.contains(user.getRole())) {
-                requestContext.abortWith(BasicResponse.createUnauthorized("Not authorized."));
+                abort(requestContext);
             } else {
-                requestContext.setProperty("user", user);
+                ResteasyProviderFactory.pushContext(User.class, user);
             }
         }
+    }
+
+    private void abort(ContainerRequestContext requestContext) {
+        requestContext.abortWith(BasicResponse.createUnauthorized("Not authorized."));
+        Log log = new Log(null, new Date(), requestContext.getMethod(), requestContext.getUriInfo().getPath());
+        logBean.create(log);
     }
 
 }

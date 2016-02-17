@@ -8,24 +8,20 @@ import javax.validation.constraints.Pattern;
  * @author - Srđan Milaković
  */
 @SuppressWarnings("unused")
-public class SignUpRequest {
-
+public class CreateUserRequest {
     @NotBlank(message = "Email cannot be empty")
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
     private String email;
-    @NotBlank(message = "Password cannot be empty")
-    private String password;
     @NotBlank(message = "First name cannot be empty")
     private String firstName;
     @NotBlank(message = "Last name cannot be empty")
     private String lastName;
 
-    public SignUpRequest() {
+    public CreateUserRequest() {
     }
 
-    public SignUpRequest(String email, String password, String firstName, String lastName) {
+    public CreateUserRequest(String email, String firstName, String lastName) {
         this.email = email;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -36,14 +32,6 @@ public class SignUpRequest {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {

@@ -31,7 +31,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Restaurant.findByRatingSum", query = "SELECT r FROM Restaurant r WHERE r.ratingSum = :ratingSum"),
     @NamedQuery(name = "Restaurant.findByRatingCount", query = "SELECT r FROM Restaurant r WHERE r.ratingCount = :ratingCount"),
     @NamedQuery(name = "Restaurant.findByLatitude", query = "SELECT r FROM Restaurant r WHERE r.latitude = :latitude"),
-    @NamedQuery(name = "Restaurant.findByLongitude", query = "SELECT r FROM Restaurant r WHERE r.longitude = :longitude")})
+    @NamedQuery(name = "Restaurant.findByLongitude", query = "SELECT r FROM Restaurant r WHERE r.longitude = :longitude"),
+    @NamedQuery(name = "Restaurant.findByRows", query = "SELECT r FROM Restaurant r WHERE r.rows = :rows"),
+    @NamedQuery(name = "Restaurant.findByColumns", query = "SELECT r FROM Restaurant r WHERE r.columns = :columns")})
 public class Restaurant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,12 +59,18 @@ public class Restaurant implements Serializable {
     @NotNull
     @Column(name = "rating_count", nullable = false)
     private int ratingCount;
+    @Basic(optional = false)
     @NotNull
-    @Column(name = "latitude")
+    @Column(name = "latitude", nullable = false)
     private double latitude;
+    @Basic(optional = false)
     @NotNull
-    @Column(name = "longitude")
+    @Column(name = "longitude", nullable = false)
     private double longitude;
+    @Column(name = "rows")
+    private Short rows;
+    @Column(name = "columns")
+    private Short columns;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
     private Set<Meal> mealSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
@@ -75,18 +83,19 @@ public class Restaurant implements Serializable {
     private Set<model.dao.Table> tableSet;
 
     public Restaurant() {
-        this.ratingSum = 0;
-        this.ratingCount = 0;
     }
 
     public Restaurant(Integer id) {
-        this();
         this.id = id;
     }
 
-    public Restaurant(Integer id, String name) {
-        this(id);
+    public Restaurant(Integer id, String name, int ratingSum, int ratingCount, double latitude, double longitude) {
+        this.id = id;
         this.name = name;
+        this.ratingSum = ratingSum;
+        this.ratingCount = ratingCount;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Integer getId() {
@@ -145,6 +154,22 @@ public class Restaurant implements Serializable {
         this.longitude = longitude;
     }
 
+    public Short getRows() {
+        return rows;
+    }
+
+    public void setRows(Short rows) {
+        this.rows = rows;
+    }
+
+    public Short getColumns() {
+        return columns;
+    }
+
+    public void setColumns(Short columns) {
+        this.columns = columns;
+    }
+
     public Set<Meal> getMealSet() {
         return mealSet;
     }
@@ -185,6 +210,10 @@ public class Restaurant implements Serializable {
         this.tableSet = tableSet;
     }
 
+    public double getRating() {
+        return getRatingCount() > 0 ? 1.0 * getRatingSum() / getRatingCount() : 0;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -207,7 +236,7 @@ public class Restaurant implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Restaurant[ id=" + id + " ]";
+        return "model.dao.Restaurant[ id=" + id + " ]";
     }
     
 }

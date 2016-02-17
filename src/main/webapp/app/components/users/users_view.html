@@ -1,3 +1,39 @@
-<div id="Users">
+<div id="categories" class="table-container">
+    <div>
+        <h2>Users&nbsp;</h2>
+    </div>
 
+    <uib-alert type="danger" ng-if="alertMessage" class="tm-20">{{alertMessage}}</uib-alert>
+
+    <table class="table table-striped table-hover table-bordered">
+        <tr>
+            <th class="table-cell-align">Email</th>
+            <th class="table-cell-align">First name</th>
+            <th class="table-cell-align">Last name</th>
+            <th ng-if="display == 'administrator'" class="table-cell-align options-header">Role</th>
+            <th ng-if="display == 'administrator'" class="table-cell-align options-header">Visits</th>
+            <th ng-if="display == 'administrator'" class="table-cell-align options-header">Activated</th>
+        </tr>
+
+        <tr dir-paginate="user in users | itemsPerPage: 7">
+            <td>{{user.email}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td ng-if="display == 'administrator'">{{user.role}}</td>
+            <td ng-if="display == 'administrator'">{{user.visits}}</td>
+            <td ng-if="display == 'administrator'">{{user.activated}}</td>
+        </tr>
+
+        <tr ng-if="display == 'administrator' && !users.length">
+            <td colspan="{{display == 'administrator' ? 6 : 3}}">
+                <uib-alert type="warning" class="tm-20 rm-20 lm-20"><span
+                        class="glyphicon glyphicon-warning-sign"></span>&nbsp;Sorry, no results were found.
+                </uib-alert>
+            </td>
+        </tr>
+    </table>
+
+    <div style="text-align: center">
+        <dir-pagination-controls template-url="partials/lib/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
 </div>

@@ -1,78 +1,53 @@
 package rest.user;
 
-import beans.dao.AbstractBean;
+import beans.dao.interfaces.UserLocal;
 import model.dao.User;
+import rest.BasicResponse;
 
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Srđan
  */
-@Stateless
 @Path("/user")
-public class UserRest extends AbstractBean<User> {
+public class UserRest {
 
-    @PersistenceContext(unitName = "GeneratorPU")
-    private EntityManager em;
-
-    public UserRest() {
-        super(User.class);
-    }
-
-    @POST
-    @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(User entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, User entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
-    }
+    @EJB
+    private UserLocal userBean;
 
     @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public User find(@PathParam("id") Integer id) {
-        return super.find(id);
+    @RolesAllowed({User.ADMINISTRATOR, User.CUSTOMER})
+    public Object get(@Context User user) {
+        List<User> users = userBean.findAll();
+
+        switch (user.getRole()) {
+            case User.ADMINISTRATOR:
+                return getAdministrator(users);
+            case User.CUSTOMER:
+                return getCustomer(users);
+            default:
+                return BasicResponse.createNotFound("Role not found.");
+        }
     }
 
-    @GET
-    @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<User> findAll() {
-        return super.findAll();
+    private Object getAdministrator(List<User> users) {
+        List<UserResponse> response = new ArrayList<>();
+        users.forEach(user -> response.add(new UserResponse(user)));
+        return response;
     }
 
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<User> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
+    private Object getCustomer(List<User> users) {
+        List<UserResponse> response = new ArrayList<>();
+        users.forEach(user -> {
+            if (User.CUSTOMER.equals(user.getRole()) && user.getActivated()) response.add(new UserResponse(user));
+        });
+        return response;
     }
-
-    @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-
-    
 }

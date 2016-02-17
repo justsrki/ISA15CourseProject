@@ -1,15 +1,16 @@
 package bean2;
 
+import model.dao.Invitation;
+
 import java.util.List;
 import javax.ejb.Local;
-import model.dao.Invitation;
 
 /**
  *
  * @author Srđan
  */
 @Local
-public interface InvitationFacadeLocal {
+public interface InvitationLocal {
 
     void create(Invitation invitation);
 
@@ -17,7 +18,7 @@ public interface InvitationFacadeLocal {
 
     void remove(Invitation invitation);
 
-    Invitation find(Object id);
+    Invitation find(Integer id);
 
     List<Invitation> findAll();
 

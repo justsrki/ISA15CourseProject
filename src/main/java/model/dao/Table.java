@@ -143,7 +143,7 @@ public class Table implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Table[ id=" + id + " ]";
+        return "model.dao.Table[ id=" + id + " ]";
     }
     
 }
