@@ -5,22 +5,47 @@
 
 @media (min-width: 768px) {
     .map {
-        width: 375px;
-        height: 375px;
+        width: 360px;
+        height: 360px;
     }
 }
 
 @media (min-width: 992px) {
     .map {
-        width: 485px;
-        height: 485px;
+        width: 470px;
+        height: 470px;
     }
 }
 
 @media (min-width: 1200px) {
     .map {
-        width: 585px;
-        height: 585px;
+        width: 550px;
+        height: 570px;
     }
 }
 
+.logs {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+    .logs {
+        width: 350px;
+        height: 500px;
+    }
+}
+
+@media (min-width: 992px) {
+    .logs {
+        width: 450px;
+        height: 500px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .logs {
+        width: 570px;
+        height: 500px;
+    }
+}

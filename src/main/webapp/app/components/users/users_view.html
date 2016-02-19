@@ -15,12 +15,12 @@
             <th ng-if="display == 'administrator'" class="table-cell-align options-header">Activated</th>
         </tr>
 
-        <tr dir-paginate="user in users | itemsPerPage: 7">
+        <tr dir-paginate="user in users | itemsPerPage: 15">
             <td>{{user.email}}</td>
             <td>{{user.firstName}}</td>
             <td>{{user.lastName}}</td>
             <td ng-if="display == 'administrator'">{{user.role}}</td>
-            <td ng-if="display == 'administrator'">{{user.visits}}</td>
+            <td ng-if="display == 'administrator'">{{user.role == 'customer' ? user.visits : 'N/A'}}</td>
             <td ng-if="display == 'administrator'">{{user.activated}}</td>
         </tr>
 
@@ -34,6 +34,6 @@
     </table>
 
     <div style="text-align: center">
-        <dir-pagination-controls template-url="partials/lib/dirPagination.tpl.html"></dir-pagination-controls>
+        <dir-pagination-controls template-url="lib/dirPagination.tpl.html"></dir-pagination-controls>
     </div>
 </div>

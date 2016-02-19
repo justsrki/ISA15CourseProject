@@ -7,17 +7,7 @@
 
         <properties>
             <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-        </properties>
-    </persistence-unit>
-
-    <persistence-unit name="GeneratorPU" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-        <jta-data-source>java:jboss/restaurant_management</jta-data-source>
-
-        <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
         </properties>
     </persistence-unit>
 </persistence>

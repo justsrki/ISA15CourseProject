@@ -45,6 +45,13 @@ public abstract class AbstractBean<T> implements AbstractLocal<T> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @Override
+    public List<T> findWithLimit(int limit) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(limit).getResultList();
+    }
+
     public List<T> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));

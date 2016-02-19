@@ -20,6 +20,8 @@ public interface AbstractLocal<T> {
 
     List<T> findAll();
 
+    List<T> findWithLimit(int limit);
+
     List<T> findRange(int[] range);
 
     int count();

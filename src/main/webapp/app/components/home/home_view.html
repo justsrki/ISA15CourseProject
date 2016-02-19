@@ -1,5 +1,8 @@
 <div id="Home">
-    <div id="Map" class="map pull-right"></div>
+    <div ng-if="display=='administrator'" ng-controller="LogsCtrl" class="map pull-left">
+        <ng-include src="'app/components/logs/logs_view.html'"></ng-include>
+    </div>
 
+    <div id="Map" class="map pull-right"></div>
 
 </div>

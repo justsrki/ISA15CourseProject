@@ -14,7 +14,7 @@ appHomeCtrlModule.controller('HomeCtrl', function ($scope, Restaurant, MAP_OPTIO
 
     $scope.restaurants = [];
 
-    $scope.init = function () {
+    $scope.getRestaurants = function () {
         Restaurant.getAll().then(
             function (response) {
                 $scope.restaurants = response.data;
@@ -33,6 +33,10 @@ appHomeCtrlModule.controller('HomeCtrl', function ($scope, Restaurant, MAP_OPTIO
                 marker.addTo($scope.map);
             }
         }
+    };
+
+    $scope.init = function () {
+        $scope.getRestaurants();
     };
 
     $scope.init();
