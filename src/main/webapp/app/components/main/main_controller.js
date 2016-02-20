@@ -12,15 +12,14 @@ appMainCtrlModule.controller('MainCtrl', function ($rootScope, $scope, $location
         }
     };
 
-    // TODO: Use promises
     if (AccessToken.hasCredentials()) {
-        AccessToken.info($rootScope.accessToken)
-            .success(function (data) {
-                AccessToken.setCredentials(data.userId, data.accessToken);
-                $rootScope.display = data.role;
-                $route.reload();
-            })
-            .error(function() {
+        AccessToken.info($rootScope.accessToken).then(function (response) {
+            var data = response.data;
+            AccessToken.setCredentials(data.userId, data.accessToken);
+            $rootScope.display = data.role;
+            $route.reload();
+        },
+            function () {
                 $scope.redirectToLogin();
             });
     } else {

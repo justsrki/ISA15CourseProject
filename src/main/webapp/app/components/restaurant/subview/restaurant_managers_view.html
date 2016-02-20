@@ -1,0 +1,63 @@
+<div class="input-group input-container tm-5" ng-controller="RestaurantManagersCtrl">
+    <span class="input-group-addon input-description-135" id="managers-edit">
+        <button type="button" class="btn btn-default pull-right" ng-click="showManagers(false)"
+                ng-hide="managersHidden">
+            Managers<span class="glyphicon glyphicon-expand lm-5"></span>
+        </button>
+        <button type="button" class="btn btn-default pull-right" ng-click="showManagers(true)"
+                ng-show="managersHidden">
+            Managers<span class="glyphicon glyphicon-collapse-down lm-5"></span>
+        </button>
+    </span>
+    <div class="form-control" aria-describedby="managers-edit" ng-style="{height: managersHeight}">
+        <div ng-hide="managersHidden">
+            <table class="table table-striped table-hover table-bordered">
+                <tr>
+                    <th class="table-cell-align">First name</th>
+                    <th class="table-cell-align">Last name</th>
+                    <th class="table-cell-align">Email</th>
+                </tr>
+                <tr ng-repeat="manager in managers">
+                    <td>{{manager.firstName}}</td>
+                    <td>{{manager.lastName}}</td>
+                    <td>{{manager.email}}</td>
+                </tr>
+                <tr ng-if="managers.length == 0">
+                    <td colspan="3">There are no managers assigned to this restaurant.</td>
+                </tr>
+            </table>
+
+            <!-- Create a manager -->
+            <div>
+                <div class="input-group input-container tm-5">
+                    <span class="input-group-addon input-description-135" id="email-edit">Email</span>
+                    <input type="text" class="form-control" placeholder="email" aria-describedby="email-edit"
+                           ng-model="email"/>
+                </div>
+                <div class="input-group input-container tm-5">
+                    <span class="input-group-addon input-description-135" id="first-name-edit">First name</span>
+                    <input type="text" class="form-control" placeholder="first name"
+                           aria-describedby="first-name-edit"
+                           ng-model="firstName"/>
+                </div>
+                <div class="input-group input-container tm-5">
+                    <span class="input-group-addon input-description-135" id="last-name-edit">Last name</span>
+                    <input type="text" class="form-control" placeholder="last name" aria-describedby="name-edit"
+                           ng-model="lastName"/>
+                </div>
+
+                <uib-alert type="danger" ng-if="alertMessage" class="tm-5">{{alertMessage}}</uib-alert>
+
+                <button type="button" class="btn btn-default pull-right tm-10" ng-click="createManager()">
+                    <span class="glyphicon glyphicon-plus"></span>Create manager
+                </button>
+            </div>
+        </div>
+
+        <!-- shrink -->
+        <div ng-show="managersHidden">
+            <span ng-repeat="manager in managers | limitTo: 3">{{manager.email}}&nbsp;&nbsp;</span>
+            <span ng-show="managers.length == 0">There are no managers assigned to this restaurant.</span>
+        </div>
+    </div>
+</div>

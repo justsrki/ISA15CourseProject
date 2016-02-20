@@ -24,7 +24,7 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
             controller: 'LogoutCtrl'
         })
         .when('/restaurant', {
-            templateUrl: 'app/components/restaurant/restaurant_view.html',
+            templateUrl: 'app/components/restaurant/restaurants_view.html',
             controller: 'RestaurantCtrl'
         })
         .when('/users', {

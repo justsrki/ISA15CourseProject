@@ -1,24 +1,24 @@
 package model.dao;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.*;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
- *
  * @author Srđan
  */
 @Entity
 @Table(name = "log")
 @NamedQueries({
-    @NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l"),
-    @NamedQuery(name = "Log.findById", query = "SELECT l FROM Log l WHERE l.id = :id"),
-    @NamedQuery(name = "Log.findByDate", query = "SELECT l FROM Log l WHERE l.date = :date"),
-    @NamedQuery(name = "Log.findByMethod", query = "SELECT l FROM Log l WHERE l.method = :method"),
-    @NamedQuery(name = "Log.findByUrl", query = "SELECT l FROM Log l WHERE l.url = :url")})
+        @NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l"),
+        @NamedQuery(name = "Log.findById", query = "SELECT l FROM Log l WHERE l.id = :id"),
+        @NamedQuery(name = "Log.findByDate", query = "SELECT l FROM Log l WHERE l.date = :date"),
+        @NamedQuery(name = "Log.findByMethod", query = "SELECT l FROM Log l WHERE l.method = :method"),
+        @NamedQuery(name = "Log.findByUrl", query = "SELECT l FROM Log l WHERE l.url = :url"),
+        @NamedQuery(name = "Log.findAllOrderByDate", query = "SELECT l FROM Log l order by l.date desc")})
 public class Log implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -124,5 +124,5 @@ public class Log implements Serializable {
     public String toString() {
         return "model.dao.Log[ id=" + id + " ]";
     }
-    
+
 }

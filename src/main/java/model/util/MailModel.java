@@ -1,7 +1,6 @@
 package model.util;
 
-import model.oauth.UserInfo;
-import rest.user.CreateCustomerRequest;
+import rest.model.user.CreateCustomerRequest;
 
 import java.io.Serializable;
 
@@ -60,5 +59,14 @@ public class MailModel implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "MailModel{" +
+                "toAddress='" + toAddress + '\'' +
+                ", subject='" + subject + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

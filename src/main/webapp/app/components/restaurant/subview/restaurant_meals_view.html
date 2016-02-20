@@ -1,0 +1,78 @@
+<div class="input-group input-container tm-5" ng-controller="RestaurantMealsCtrl">
+    <span class="input-group-addon input-description-135" id="managers-edit">
+        <button type="button" class="btn btn-default pull-right" ng-click="showMeals(false)"
+                ng-hide="mealsHidden">
+            Meals<span class="glyphicon glyphicon-expand lm-5"></span>
+        </button>
+        <button type="button" class="btn btn-default pull-right" ng-click="showMeals(true)"
+                ng-show="mealsHidden">
+            Meals<span class="glyphicon glyphicon-collapse-down lm-5"></span>
+        </button>
+    </span>
+    <div class="form-control" aria-describedby="managers-edit" ng-style="{height: mealsHeight}">
+        <div ng-hide="mealsHidden">
+            <table class="table table-striped table-hover table-bordered">
+                <tr>
+                    <th class="table-cell-align">Name</th>
+                    <th class="table-cell-align">Description</th>
+                    <th class="table-cell-align">Price</th>
+                    <th class="table-cell-align options-header" colspan="2">Options</th>
+                </tr>
+                <tr ng-repeat="meal in meals">
+                    <td>{{meal.name}}</td>
+                    <td>{{meal.description}}</td>
+                    <td>{{meal.price}}</td>
+                    <td class="table-cell-align option-button">
+                        <button type="button" class="btn btn-default" ng-click="initEditMeal(meal)">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </button>
+                    </td>
+                    <td class="table-cell-align option-button">
+                        <button type="button" class="btn btn-default" ng-click="deleteMeal(meal.id)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr ng-if="meals.length == 0">
+                    <td colspan="5">There are no meals defined for this restaurant.</td>
+                </tr>
+            </table>
+
+            <!-- Create a meal -->
+            <div style="height: 200px;">
+                <div class="input-group input-container tm-5">
+                    <span class="input-group-addon input-description-135" id="name-edit">Name</span>
+                    <input type="text" class="form-control" placeholder="name" aria-describedby="name-edit"
+                           ng-model="name"/>
+                </div>
+                <div class="input-group input-container tm-5">
+                    <span class="input-group-addon input-description-135" id="description-edit">Description</span>
+                    <input type="text" class="form-control" placeholder="description"
+                           aria-describedby="description-edit"
+                           ng-model="description"/>
+                </div>
+                <div class="input-group input-container tm-5">
+                    <span class="input-group-addon input-description-135" id="price-edit">Price</span>
+                    <input type="text" class="form-control" placeholder="price" aria-describedby="price-edit"
+                           ng-model="price"/>
+                    <span class="input-group-addon" id="price-currency">RSD</span>
+                </div>
+
+                <uib-alert type="danger" ng-if="alertMessage" class="tm-5">{{alertMessage}}</uib-alert>
+
+                <button ng-hide="editMealId" type="button" class="btn btn-default pull-right tm-10" ng-click="createMeal()">
+                    <span class="glyphicon glyphicon-plus"></span>Create meal
+                </button>
+                <button ng-show="editMealId" type="button" class="btn btn-default pull-right tm-10" ng-click="editMeal()">
+                    <span class="glyphicon glyphicon-plus"></span>Edit meal
+                </button>
+            </div>
+        </div>
+
+        <!-- shrink -->
+        <div ng-show="mealsHidden">
+            <span ng-repeat="meal in meals | limitTo: 5">{{meal.name}}&nbsp;&nbsp;</span>
+            <span ng-show="meals.length == 0">There are no meals defined for this restaurant.</span>
+        </div>
+    </div>
+</div>

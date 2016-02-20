@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -67,8 +68,10 @@ public class Restaurant implements Serializable {
     @NotNull
     @Column(name = "longitude", nullable = false)
     private double longitude;
+    @NotNull
     @Column(name = "rows")
     private Short rows;
+    @NotNull
     @Column(name = "columns")
     private Short columns;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
@@ -80,13 +83,17 @@ public class Restaurant implements Serializable {
     @OneToMany(mappedBy = "restaurantId", fetch = FetchType.LAZY)
     private Set<User> userSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
-    private Set<model.dao.Table> tableSet;
+    private List<model.dao.Table> tableList;
 
     public Restaurant() {
+        this.rows = 0;
+        this.columns = 0;
     }
 
     public Restaurant(Integer id) {
         this.id = id;
+        this.rows = 0;
+        this.columns = 0;
     }
 
     public Restaurant(Integer id, String name, int ratingSum, int ratingCount, double latitude, double longitude) {
@@ -96,6 +103,8 @@ public class Restaurant implements Serializable {
         this.ratingCount = ratingCount;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.rows = 0;
+        this.columns = 0;
     }
 
     public Integer getId() {
@@ -202,12 +211,12 @@ public class Restaurant implements Serializable {
         this.userSet = userSet;
     }
 
-    public Set<model.dao.Table> getTableSet() {
-        return tableSet;
+    public List<model.dao.Table> getTableList() {
+        return tableList;
     }
 
-    public void setTableSet(Set<model.dao.Table> tableSet) {
-        this.tableSet = tableSet;
+    public void setTableList(List<model.dao.Table> tableList) {
+        this.tableList = tableList;
     }
 
     public double getRating() {

@@ -73,6 +73,14 @@ public class Table implements Serializable {
         this.column = column;
     }
 
+    public Table(Integer id, int row, int column, String label) {
+        this.id = id;
+        this.row = row;
+        this.column = column;
+        this.label = label;
+    }
+
+
     public Integer getId() {
         return id;
     }

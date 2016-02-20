@@ -2,8 +2,8 @@ package beans.dao.interfaces;
 
 import beans.dao.AbstractLocal;
 import model.dao.User;
-import rest.user.CreateCustomerRequest;
-import rest.user.CreateManagerRequest;
+import rest.model.user.CreateCustomerRequest;
+import rest.model.user.CreateManagerRequest;
 
 import javax.ejb.Local;
 

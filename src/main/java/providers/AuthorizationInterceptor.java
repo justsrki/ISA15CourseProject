@@ -6,7 +6,7 @@ import model.dao.Log;
 import model.dao.Token;
 import model.dao.User;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import rest.BasicResponse;
+import rest.util.BasicResponse;
 
 import javax.annotation.Priority;
 import javax.annotation.security.RolesAllowed;

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -38,6 +40,8 @@ public class Invitation implements Serializable {
     @NotNull
     @Column(name = "accepted", nullable = false)
     private boolean accepted;
+    @Min(0)
+    @Max(5)
     @Column(name = "rating")
     private Short rating;
     @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)

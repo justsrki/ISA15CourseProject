@@ -28,7 +28,7 @@ public class RestMethodLogger implements ContainerRequestFilter {
     private ResourceInfo resourceInfo;
 
     @EJB
-    LogLocal logBean;
+    private LogLocal logBean;
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -62,7 +62,6 @@ public class RestMethodLogger implements ContainerRequestFilter {
 
         restUrl = restUrl.replace("//", "/");
         System.out.println(method + " " + restUrl + " " );
-
 
         Log log = new Log(null, new Date(), method, requestContext.getUriInfo().getAbsolutePath().getPath());
         log.setUserId(ResteasyProviderFactory.getContextData(User.class));

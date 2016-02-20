@@ -46,16 +46,74 @@ appRestaurantModule.factory('Restaurant', function ($http) {
                 url: 'api/restaurant/' + id + '/manager'
             });
         },
-        createManager: function (id, email, firstName, lastName) {
+        createManager: function (restaurantId, email, firstName, lastName) {
             return $http({
                 method: 'POST',
-                url: 'api/restaurant/' + id + '/manager',
+                url: 'api/restaurant/' + restaurantId + '/manager',
                 data: {
                     email: email,
                     firstName: firstName,
                     lastName: lastName
                 }
             });
+        },
+        getAllMeals: function (id) {
+            return $http({
+                method: 'GET',
+                url: 'api/restaurant/' + id + '/meal'
+            });
+        },
+        getMeal: function (id) {
+            return $http({
+                method: 'GET',
+                url: 'api/restaurant/meal/' + id
+            });
+        },
+        createMeal: function (restaurantId, name, description, price) {
+            return $http({
+                method: 'POST',
+                url: 'api/restaurant/' + restaurantId + '/meal',
+                data: {
+                    name: name,
+                    description: description,
+                    price: price
+                }
+            });
+        },
+        editMeal: function (id, name, description, price) {
+            return $http({
+                method: 'PUT',
+                url: 'api/restaurant/meal/' + id,
+                data: {
+                    name: name,
+                    description: description,
+                    price: price
+                }
+            });
+        },
+        deleteMeal: function (id) {
+            return $http({
+                method: 'DELETE',
+                url: 'api/restaurant/meal/' + id
+            });
+        },
+        getAllTables: function (restaurantId) {
+            return $http({
+                method: 'GET',
+                url: 'api/restaurant/' + restaurantId + '/table'
+            });
+        },
+        createTables: function (restaurantId, rows, columns, tables) {
+            return $http({
+                method: 'POST',
+                url: 'api/restaurant/' + restaurantId + '/table',
+                data: {
+                    rows: rows,
+                    columns: columns,
+                    tables: tables
+                }
+            });
         }
+
     };
 });

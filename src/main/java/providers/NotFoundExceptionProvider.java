@@ -1,7 +1,5 @@
 package providers;
 
-import rest.BasicResponse;
-
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

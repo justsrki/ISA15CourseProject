@@ -10,5 +10,9 @@ angular.module('app.controllers', [
 	'app.LogoutCtrl',
 	'app.NewRestaurantCtrl',
 	'app.EditRestaurantCtrl',
-	'app.LogsCtrl'
+	'app.LogsCtrl',
+	'app.RestaurantManagersCtrl',
+	'app.RestaurantMealsCtrl',
+	'app.RestaurantTablesCtrl',
+	'app.RestaurantMapCtrl'
 ]);
