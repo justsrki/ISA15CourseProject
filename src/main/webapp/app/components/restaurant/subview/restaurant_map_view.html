@@ -1,3 +1,19 @@
-<div id="RestaurantMap">
+<div id="RestaurantMap" class="input-group input-container tm-5" ng-controller="RestaurantMapCtrl">
+    <span class="input-group-addon input-description-135" id="location-edit">
+        <button type="button" class="btn btn-default pull-right" ng-click="showMap(false)" ng-hide="mapHidden">
+            Location<span class="glyphicon glyphicon-expand lm-5"></span>
+        </button>
+        <button type="button" class="btn btn-default pull-right" ng-click="showMap(true)" ng-show="mapHidden">
+            Location<span class="glyphicon glyphicon-collapse-down lm-5"></span>
+        </button>
+    </span>
 
+    <div ng-style="{height: mapHeight}" class="form-control p-0" aria-describedby="location-edit" ng-init="initMap()">
+        <div id="MapModal" ng-hide="mapHidden" ng-style="{height: mapHeight}"></div>
+        <div ng-show="mapHidden" ng-style="{height: mapHeight}">
+            <span style="margin: 10px">
+                {{'Latitude: ' + marker.getLatLng().lat + ', Longitude: ' + marker.getLatLng().lng}}
+            </span>
+        </div>
+    </div>
 </div>

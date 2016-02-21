@@ -39,9 +39,17 @@
             </td>
 
             <!-- Administrator -->
-            <td ng-if="display == 'administrator' || display == 'manager'" class="table-cell-align ta-mid">
-                <button type="button" class="btn btn-default" ng-click="edit(restaurant.id)">
+            <td ng-if="display == 'administrator' || (display == 'manager' && restaurant.manager)"
+                class="table-cell-align ta-mid">
+                <button type="button" class="btn btn-default" ng-click="open(restaurant.id, true)">
                     <span class="glyphicon glyphicon-edit"></span>
+                </button>
+            </td>
+
+            <td ng-if="!(display == 'administrator' || (display == 'manager' && restaurant.manager))"
+                class="table-cell-align ta-mid">
+                <button type="button" class="btn btn-default" ng-click="open(restaurant.id, false)">
+                    <span class="glyphicon glyphicon-new-window"></span>
                 </button>
             </td>
         </tr>

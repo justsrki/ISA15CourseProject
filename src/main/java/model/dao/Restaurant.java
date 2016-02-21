@@ -3,18 +3,7 @@ package model.dao;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -74,6 +63,10 @@ public class Restaurant implements Serializable {
     @NotNull
     @Column(name = "columns")
     private Short columns;
+    @Version
+    @Column(name = "_version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private int version;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
     private Set<Meal> mealSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurantId", fetch = FetchType.LAZY)
@@ -219,6 +212,13 @@ public class Restaurant implements Serializable {
         this.tableList = tableList;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
     public double getRating() {
         return getRatingCount() > 0 ? 1.0 * getRatingSum() / getRatingCount() : 0;
     }
@@ -247,5 +247,5 @@ public class Restaurant implements Serializable {
     public String toString() {
         return "model.dao.Restaurant[ id=" + id + " ]";
     }
-    
+
 }

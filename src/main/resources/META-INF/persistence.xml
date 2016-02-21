@@ -7,7 +7,8 @@
 
         <properties>
             <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/> -->
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

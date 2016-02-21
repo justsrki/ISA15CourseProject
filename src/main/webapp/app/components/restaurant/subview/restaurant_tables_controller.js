@@ -36,7 +36,9 @@ appRestaurantTablesCtrlModule.controller('RestaurantTablesCtrl', function ($scop
     });
 
     $scope.changeState = function (i, j) {
-        $scope.tables[i][j].type = $scope.tables[i][j].type === 'table' ? 'no_table' : 'table';
+        if ($scope.editable && $scope.canEdit) {
+            $scope.tables[i][j].type = $scope.tables[i][j].type === 'table' ? 'no_table' : 'table';
+        }
     };
 
     $scope.showTables = function (value) {
@@ -50,8 +52,11 @@ appRestaurantTablesCtrlModule.controller('RestaurantTablesCtrl', function ($scop
                 $scope.tables = response.data.tables;
                 if ($scope.tables.length === 0) {
                     $scope.editable = true;
-                    $scope.rows = 5;
-                    $scope.columns = 5;
+                    $scope.rows = 0;
+                    $scope.columns = 0;
+                } else {
+                    $scope.rows = response.data.rows;
+                    $scope.columns = response.data.columns;
                 }
             },
             function (response) {
@@ -80,7 +85,6 @@ appRestaurantTablesCtrlModule.controller('RestaurantTablesCtrl', function ($scop
             return;
         }
 
-
         Restaurant.createTables($scope.restaurantId, $scope.rows, $scope.columns, $scope.tables).then(
             function () {
                 $scope.editable = false;
@@ -98,7 +102,8 @@ appRestaurantTablesCtrlModule.controller('RestaurantTablesCtrl', function ($scop
         if ($scope.tablesHidden) {
             $scope.tablesHeight = 48;
         } else {
-            $scope.tablesHeight = 110 + Math.max($scope.tables.length + 1, 2) * 37 + ($scope.alertMessage ? 55 : 0);
+            $scope.tablesHeight = ($scope.editable && $scope.canEdit ? 110 : 0) +
+                Math.max($scope.tables.length + 1, 2) * 37 + ($scope.alertMessage ? 55 : 0);
         }
     };
 

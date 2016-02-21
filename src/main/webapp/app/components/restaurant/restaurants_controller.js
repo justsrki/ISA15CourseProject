@@ -22,7 +22,7 @@ appRestaurantCtrlModule.controller('RestaurantCtrl', function ($rootScope, $scop
 
     };
 
-    $scope.edit = function (id) {
+    $scope.open = function (id, canEdit) {
         var restaurant, modal, i, scope;
 
         for (i in $scope.restaurants) {
@@ -40,6 +40,7 @@ appRestaurantCtrlModule.controller('RestaurantCtrl', function ($rootScope, $scop
         scope.description = restaurant.description;
         scope.latlng = [restaurant.latitude, restaurant.longitude];
         scope.display = $rootScope.display;
+        scope.canEdit = canEdit;
 
         modal = $uibModal.open({
             animation: true,
@@ -70,7 +71,6 @@ appRestaurantCtrlModule.controller('RestaurantCtrl', function ($rootScope, $scop
             }
         });
     };
-
 
     $scope.init();
 

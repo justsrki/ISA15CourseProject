@@ -16,30 +16,30 @@
                     <th class="table-cell-align">Name</th>
                     <th class="table-cell-align">Description</th>
                     <th class="table-cell-align">Price</th>
-                    <th class="table-cell-align options-header" colspan="2">Options</th>
+                    <th class="table-cell-align options-header" ng-show="canEdit" colspan="2">Options</th>
                 </tr>
                 <tr ng-repeat="meal in meals">
                     <td>{{meal.name}}</td>
                     <td>{{meal.description}}</td>
                     <td>{{meal.price}}</td>
-                    <td class="table-cell-align option-button">
+                    <td ng-show="canEdit" class="table-cell-align option-button">
                         <button type="button" class="btn btn-default" ng-click="initEditMeal(meal)">
                             <span class="glyphicon glyphicon-edit"></span>
                         </button>
                     </td>
-                    <td class="table-cell-align option-button">
+                    <td ng-show="canEdit" class="table-cell-align option-button">
                         <button type="button" class="btn btn-default" ng-click="deleteMeal(meal.id)">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </td>
                 </tr>
                 <tr ng-if="meals.length == 0">
-                    <td colspan="5">There are no meals defined for this restaurant.</td>
+                    <td colspan="{{canEdit ? 5 : 3}}">There are no meals defined for this restaurant.</td>
                 </tr>
             </table>
 
             <!-- Create a meal -->
-            <div style="height: 200px;">
+            <div ng-show="canEdit" style="height: 200px;">
                 <div class="input-group input-container tm-5">
                     <span class="input-group-addon input-description-135" id="name-edit">Name</span>
                     <input type="text" class="form-control" placeholder="name" aria-describedby="name-edit"

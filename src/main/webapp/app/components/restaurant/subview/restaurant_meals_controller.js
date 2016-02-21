@@ -119,7 +119,8 @@ appRestaurantMealsCtrlModule.controller('RestaurantMealsCtrl', function ($scope,
         if ($scope.mealsHidden) {
             $scope.mealsHeight = 48;
         } else {
-            $scope.mealsHeight = 200 + Math.max($scope.meals.length + 1, 2) * 51 + ($scope.alertMessage ? 55 : 0);
+            $scope.mealsHeight = ($scope.canEdit ? 200 : 0) +
+                Math.max($scope.meals.length + 1, 2) * 51 + ($scope.alertMessage ? 55 : 0);
         }
     };
 

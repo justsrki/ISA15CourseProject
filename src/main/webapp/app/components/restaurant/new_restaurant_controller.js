@@ -20,9 +20,11 @@ appNewRestaurantCtrlModule.controller('NewRestaurantCtrl', function ($scope, $ti
             }).addTo(map);
 
             // Add marker to map
-            $scope.marker = L.marker(map.getCenter(), {draggable: true}).addTo(map);
+            $scope.marker = L.marker(map.getCenter()).addTo(map);
+            $scope.setLatLng($scope.marker.getLatLng());
             map.on('click', function (e) {
                 $scope.marker.setLatLng(e.latlng);
+                $scope.setLatLng($scope.marker.getLatLng());
             });
         });
     };

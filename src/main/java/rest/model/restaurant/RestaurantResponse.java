@@ -26,8 +26,11 @@ public class RestaurantResponse {
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.rows = rows;
+        this.columns = columns;
         this.rating = rating;
         this.friendRating = friendRating;
+        this.manager = manager;
     }
 
     public RestaurantResponse(Restaurant restaurant, double friendRating) {
@@ -41,7 +44,7 @@ public class RestaurantResponse {
     public RestaurantResponse(Restaurant restaurant, boolean manager) {
         this(restaurant.getId(), restaurant.getName(), restaurant.getDescription(),
                 restaurant.getLatitude(), restaurant.getLongitude(), restaurant.getRows(), restaurant.getColumns(),
-                restaurant.getRating(), 0, true);
+                restaurant.getRating(), 0, manager);
     }
 
     public RestaurantResponse(Restaurant restaurant) {

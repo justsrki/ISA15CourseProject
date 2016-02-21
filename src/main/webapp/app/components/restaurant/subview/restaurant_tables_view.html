@@ -13,12 +13,12 @@
     <div class="form-control" aria-describedby="managers-edit" ng-style="{height: tablesHeight}">
         <!-- expanded -->
         <div ng-hide="tablesHidden">
-            <div ng-show="editable" class="input-group input-container tm-5">
+            <div ng-show="canEdit && editable" class="input-group input-container tm-5">
                 <span class="input-group-addon input-description-135" id="rows-edit">Rows</span>
                 <input type="text" class="form-control" placeholder="number of rows" aria-describedby="rows-edit"
                        ng-model="rows"/>
             </div>
-            <div ng-show="editable" class="input-group input-container tm-5">
+            <div ng-show="canEdit && editable" class="input-group input-container tm-5">
                 <span class="input-group-addon input-description-135" id="columns-edit">Columns</span>
                 <input type="text" class="form-control" placeholder="number of columns"
                        aria-describedby="columns-edit" ng-model="columns"/>
@@ -38,7 +38,7 @@
 
             <uib-alert type="danger" ng-if="alertMessage" class="tm-5">{{alertMessage}}</uib-alert>
 
-            <button ng-show="editable" type="button" class="btn btn-default pull-right"
+            <button ng-show="canEdit && editable" type="button" class="btn btn-default pull-right"
                     ng-click="createConfiguration()">
                 <span class="glyphicon glyphicon-plus"></span>Create configuration
             </button>

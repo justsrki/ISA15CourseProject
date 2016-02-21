@@ -49,7 +49,7 @@ public class RestaurantRest {
             case User.CUSTOMER:
                 return getAllRestaurantsCustomer(user.getId());
             case User.MANAGER:
-                return getAllRestaurantsManager(user.getId());
+                return getAllRestaurantsManager(user.getRestaurantId().getId());
             case User.ADMINISTRATOR:
                 return getAllRestaurantsAdmin();
         }
@@ -107,9 +107,17 @@ public class RestaurantRest {
         return getAllRestaurantsAdmin();
     }
 
-    private Object getAllRestaurantsManager(int managerId) {
-        // TODO: Implement
-        return getAllRestaurantsAdmin();
+    private Object getAllRestaurantsManager(int restaurantId) {
+        List<RestaurantResponse> response = new ArrayList<>();
+        restaurantBean.findAll().forEach(restaurant -> {
+            if (restaurant.getId().equals(restaurantId)) {
+                response.add(new RestaurantResponse(restaurant, true));
+            } else {
+                response.add(new RestaurantResponse(restaurant, false));
+            }
+
+        });
+        return response;
     }
 
     private Object getAllRestaurantsAdmin() {
@@ -247,7 +255,7 @@ public class RestaurantRest {
             tablesDto.setTable(table.getId(), table.getRow(), table.getColumn(), table.getLabel(), TablesDto.TABLE);
         }
 
-        return tables;
+        return tablesDto;
     }
 
     @POST
@@ -280,6 +288,6 @@ public class RestaurantRest {
 
         restaurantBean.setTableConfiguration(restaurant, dto.getRows(), dto.getColumns(), tables);
 
-        return 0;
+        return BasicResponse.createChanged();
     }
 }
