@@ -89,4 +89,26 @@ public class UserBean extends AbstractBean<User> implements UserLocal {
 
         return user;
     }
+
+    @Override
+    public void follow(User following, User followed) {
+        followed.getFollowedBySet().add(following);
+        following.getFollowingSet().add(followed);
+
+        // TODO: Rating
+
+        this.edit(followed);
+        this.edit(following);
+    }
+
+    @Override
+    public void unfollow(User following, User followed) {
+        followed.getFollowedBySet().remove(following);
+        following.getFollowingSet().remove(followed);
+
+        // TODO: Rating
+
+        this.edit(followed);
+        this.edit(following);
+    }
 }

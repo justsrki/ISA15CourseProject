@@ -8,6 +8,7 @@ angular.module('app.services', [
 	'app.authHttpRequestInterceptor',
 	'app.Oauth2',
 	'app.Restaurant',
-	'app.Logs'
+	'app.Logs',
+	'app.Reservation'
 ]);
 

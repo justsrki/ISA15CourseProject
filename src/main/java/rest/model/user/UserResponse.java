@@ -12,9 +12,15 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String role;
-    private int restaurantId;
+    private Integer restaurantId;
     private int visits;
     private boolean activated;
+    private boolean following;
+
+    public UserResponse(User user, boolean following) {
+        this(user);
+        this.following = following;
+    }
 
     public UserResponse(User user) {
         this.id = user.getId();
@@ -24,18 +30,7 @@ public class UserResponse {
         this.lastName = user.getLastName();
         this.activated = user.getActivated();
         this.visits = user.getVisits();
-
-        switch (user.getRole()) {
-            case User.CUSTOMER:
-                break;
-            case User.MANAGER:
-                this.restaurantId = user.getRestaurantId().getId();
-                break;
-            case User.ADMINISTRATOR:
-                break;
-            default:
-                break;
-        }
+        this.restaurantId = user.getRestaurantId() != null ? user.getRestaurantId().getId() : null;
     }
 
     public int getId() {
@@ -78,11 +73,11 @@ public class UserResponse {
         this.role = role;
     }
 
-    public int getRestaurantId() {
+    public Integer getRestaurantId() {
         return restaurantId;
     }
 
-    public void setRestaurantId(int restaurantId) {
+    public void setRestaurantId(Integer restaurantId) {
         this.restaurantId = restaurantId;
     }
 
@@ -100,5 +95,13 @@ public class UserResponse {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public boolean isFollowing() {
+        return following;
+    }
+
+    public void setFollowing(boolean following) {
+        this.following = following;
     }
 }

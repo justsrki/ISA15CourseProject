@@ -1,6 +1,6 @@
 <div id="logs" class="table-container">
     <div>
-        <h2>Logs&nbsp;</h2>
+        <h2>Logs</h2>
     </div>
 
     <uib-alert type="danger" ng-if="alertMessage" class="tm-20">{{alertMessage}}</uib-alert>
@@ -13,7 +13,7 @@
             <th class="table-cell-align">User ID</th>
         </tr>
 
-        <tr dir-paginate="log in logs | itemsPerPage: 10">
+        <tr dir-paginate="log in logs | itemsPerPage: 15">
             <td>{{log.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td>{{log.method}}</td>
             <td>{{log.url}}</td>

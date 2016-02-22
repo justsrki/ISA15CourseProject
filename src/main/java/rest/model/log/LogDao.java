@@ -8,16 +8,16 @@ import java.util.Date;
  */
 @Path("/log")
 @SuppressWarnings("unused")
-public class LogResponse {
+public class LogDao {
     private Date date;
     private String method;
     private String url;
     private Integer userId;
 
-    public LogResponse() {
+    public LogDao() {
     }
 
-    public LogResponse(Date date, String method, String url, Integer userId) {
+    public LogDao(Date date, String method, String url, Integer userId) {
         this.date = date;
         this.method = method;
         this.url = url;

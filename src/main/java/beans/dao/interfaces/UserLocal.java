@@ -6,6 +6,7 @@ import rest.model.user.CreateCustomerRequest;
 import rest.model.user.CreateManagerRequest;
 
 import javax.ejb.Local;
+import javax.jws.soap.SOAPBinding;
 
 /**
  * @author Srđan
@@ -19,4 +20,7 @@ public interface UserLocal extends AbstractLocal<User> {
 
     User findByEmail(String email);
 
+    void follow(User following, User followed);
+
+    void unfollow(User following, User followed);
 }

@@ -1,8 +1,10 @@
-<div id="Home">
-    <div ng-if="display=='administrator'" ng-controller="LogsCtrl" class="map pull-left">
-        <ng-include src="'app/components/logs/logs_view.html'"></ng-include>
+<div id="Home" class="row">
+    <div class="col-md-6">
+        <h2>Map</h2>
+        <div id="Map" style="height: 640px;"></div>
     </div>
 
-    <div id="Map" class="map pull-right"></div>
-
+    <div ng-if="display=='administrator'" ng-controller="LogsCtrl" class="col-md-6">
+        <ng-include src="'app/components/logs/logs_view.html'"></ng-include>
+    </div>
 </div>

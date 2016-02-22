@@ -1,12 +1,15 @@
 package rest.util;
 
+import com.google.gson.Gson;
+
 import javax.ws.rs.core.Response;
+import java.io.Serializable;
 
 /**
  * @author - Srđan Milaković
  */
 @SuppressWarnings("unused")
-public class BasicResponse {
+public class BasicResponse implements Serializable {
     private String message;
 
     public BasicResponse(String message) {
@@ -21,8 +24,12 @@ public class BasicResponse {
         this.message = message;
     }
 
+    public String toJSON() {
+        return new Gson().toJson(this);
+    }
+
     public static Response createResponse(Response.Status statusCode, String message) {
-        return Response.status(statusCode).entity(new BasicResponse(message)).build();
+        return Response.status(statusCode).entity(new BasicResponse(message).toJSON()).build();
     }
 
     //<editor-fold desc="200 OK">

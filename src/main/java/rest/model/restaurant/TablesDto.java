@@ -95,7 +95,7 @@ public class TablesDto {
     private int columns;
 
     public TablesDto() {
-
+        this(0, 0);
     }
 
     public TablesDto(int rows, int columns) {

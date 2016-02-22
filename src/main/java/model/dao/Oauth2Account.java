@@ -102,7 +102,7 @@ public class Oauth2Account implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -113,10 +113,8 @@ public class Oauth2Account implements Serializable {
             return false;
         }
         Oauth2Account other = (Oauth2Account) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.getId() == null && other.getId() != null) ||
+                (this.getId() != null && !this.getId().equals(other.getId())));
     }
 
     @Override

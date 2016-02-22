@@ -1,22 +1,27 @@
 package rest.model.restaurant;
 
 import model.dao.Meal;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author - Srđan Milaković
  */
 @SuppressWarnings("unused")
-public class MealResponse {
+public class MealDto {
     private Integer id;
+    @NotBlank(message = "Name cannot be blank.")
     private String name;
     private String description;
-    private double price;
+    @NotNull
+    private Double price;
     private int restaurantId;
 
-    public MealResponse() {
+    public MealDto() {
     }
 
-    public MealResponse(Integer id, String name, String description, double price, int restaurantId) {
+    public MealDto(Integer id, String name, String description, Double price, int restaurantId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -24,7 +29,7 @@ public class MealResponse {
         this.restaurantId = restaurantId;
     }
 
-    public MealResponse(Meal meal) {
+    public MealDto(Meal meal) {
         this.id = meal.getId();
         this.name = meal.getName();
         this.description = meal.getDescription();
@@ -56,11 +61,11 @@ public class MealResponse {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

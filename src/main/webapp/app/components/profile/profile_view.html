@@ -1,3 +1,119 @@
-<div id="Profile">
+<div id="Profile" style="padding: 20px 100px 20px 100px">
 
+    <uib-alert type="danger" ng-if="alertMessage" class="tm-20">{{alertMessage}}</uib-alert>
+
+    <div ng-init="getProfile()">
+        <h1 class="pull-left">Your profile</h1>
+        <button type="button" class="btn btn-default pull-right tm-10" ng-click="saveChanges()">
+            <span class="glyphicon glyphicon-plus"></span>Save profile
+        </button>
+
+        <!-- Input -->
+        <div>
+            <div class="input-group input-container tm-5">
+                <span class="input-group-addon input-description-135" id="first-name-edit">First name</span>
+                <input type="text" class="form-control" placeholder="first name"
+                       aria-describedby="first-name-edit" ng-model="firstName"/>
+            </div>
+
+            <div class="input-group input-container tm-5">
+                <span class="input-group-addon input-description-135" id="last-name-edit">Last name</span>
+                <input type="text" class="form-control" placeholder="last name" aria-describedby="name-edit"
+                       ng-model="lastName"/>
+            </div>
+
+            <div class="input-group input-container tm-5">
+                <span class="input-group-addon input-description-135" id="email-edit">Email</span>
+                <input type="text" class="form-control" placeholder="email" aria-describedby="email-edit"
+                       ng-model="email" disabled/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users view -->
+    <div ng-if="display == 'customer'" ng-init="getUsers()">
+        <div>
+            <div class="pull-right">
+                <button class="btn btn-default" ng-show="isCollapsed" ng-click="isCollapsed = false">
+                    Filters
+                    <b class="glyphicon glyphicon-menu-right" aria-hidden="true"></b>
+                </button>
+                <button class="btn btn-default" ng-hide="isCollapsed" ng-click="isCollapsed = true">
+                    Filters
+                    <b class="glyphicon glyphicon-menu-down" aria-hidden="true"></b>
+                </button>
+            </div>
+            <h2>Users &nbsp;</h2>
+        </div>
+
+        <!-- Filters -->
+        <div uib-collapse="isCollapsed" class="bm-10">
+            <div class="row">
+                <div class="col-md-4 tm-10">
+                    <div class="input-group input-group input-container">
+                        <span class="input-group-addon input-description-100" style="top: 0;">First Name</span>
+                        <input type="text" class="form-control" ng-model="firstNameFilter" placeholder="First name filter" />
+                    </div>
+                </div>
+
+                <div class="col-md-4 tm-10">
+                    <div class="input-group input-group input-container">
+                        <span class="input-group-addon input-description-100" style="top: 0;">Last Name</span>
+                        <input type="text" class="form-control" ng-model="lastNameFilter" placeholder="Last name filter" />
+                    </div>
+                </div>
+
+                <div class="col-md-4 tm-10">
+                    <div class="input-group input-group input-container">
+                        <span class="input-group-addon input-description-100" style="top: 0;">Email</span>
+                        <input type="text" class="form-control" ng-model="emailFilter" placeholder="Email filter" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users table -->
+        <table class="table table-striped table-hover table-bordered">
+            <tr>
+                <th class="table-cell-align">Email</th>
+                <th class="table-cell-align">First name</th>
+                <th class="table-cell-align">Last name</th>
+                <th class="table-cell-align options-header-sm">Follow</th>
+            </tr>
+
+            <tr dir-paginate="user in filteredData = (users | filter: {firstName: firstNameFilter}
+                                                            | filter: {lastName: lastNameFilter}
+                                                            | filter: {email: emailFilter}
+                                                            | itemsPerPage: 8)">
+                <td>{{user.email}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+
+                <td ng-show="user.following" class="ta-mid">
+                    <button type="button" class="btn btn-default" ng-click="unfollow(user.id)">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                    </button>
+                </td>
+
+                <td ng-hide="user.following" class="ta-mid">
+                    <button type="button" class="btn btn-default" ng-click="follow(user.id)">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </button>
+                </td>
+            </tr>
+
+            <tr ng-if="!filteredData.length">
+                <td colspan="4">
+                    <uib-alert type="warning" class="tm-20 rm-20 lm-20">
+                        <span class="glyphicon glyphicon-warning-sign"></span>&nbsp;Sorry, no results were found.
+                    </uib-alert>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align: center">
+            <dir-pagination-controls template-url="lib/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
+
+    </div>
 </div>

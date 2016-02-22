@@ -3,7 +3,7 @@ package rest.service;
 import beans.dao.interfaces.LogLocal;
 import model.dao.Log;
 import model.dao.User;
-import rest.model.log.LogResponse;
+import rest.model.log.LogDao;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -27,11 +27,11 @@ public class LogRest {
     @RolesAllowed(User.ADMINISTRATOR)
     public Object get() {
         List<Log> logs = logBean.findAllOrderByDate(MAX_LOGS);
-        List<LogResponse> response = new ArrayList<>();
+        List<LogDao> response = new ArrayList<>();
 
         logs.forEach(log -> {
             Integer userId = log.getUserId() != null ? log.getUserId().getId() : 0;
-            response.add(new LogResponse(log.getDate(), log.getMethod(), log.getUrl(), userId));
+            response.add(new LogDao(log.getDate(), log.getMethod(), log.getUrl(), userId));
         });
 
         return response;

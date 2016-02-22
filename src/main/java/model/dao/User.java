@@ -35,8 +35,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
     @NamedQuery(name = "User.findByActivated", query = "SELECT u FROM User u WHERE u.activated = :activated"),
-    @NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstName = :firstname"),
-    @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastName = :lastname"),
+    @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
+    @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
     @NamedQuery(name = "User.findByVisits", query = "SELECT u FROM User u WHERE u.visits = :visits")})
 public class User implements Serializable {
 
@@ -84,9 +84,9 @@ public class User implements Serializable {
         @JoinColumn(name = "following", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "followed", referencedColumnName = "id", nullable = false)})
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<User> userSet;
-    @ManyToMany(mappedBy = "userSet", fetch = FetchType.LAZY)
-    private Set<User> userSet1;
+    private Set<User> followingSet;
+    @ManyToMany(mappedBy = "followingSet", fetch = FetchType.LAZY)
+    private Set<User> followedBySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
     private Set<Oauth2Account> oauth2AccountSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
@@ -183,20 +183,20 @@ public class User implements Serializable {
         this.visits = visits;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public Set<User> getFollowingSet() {
+        return followingSet;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setFollowingSet(Set<User> followingSet) {
+        this.followingSet = followingSet;
     }
 
-    public Set<User> getUserSet1() {
-        return userSet1;
+    public Set<User> getFollowedBySet() {
+        return followedBySet;
     }
 
-    public void setUserSet1(Set<User> userSet1) {
-        this.userSet1 = userSet1;
+    public void setFollowedBySet(Set<User> followedSet) {
+        this.followedBySet = followedSet;
     }
 
     public Set<Oauth2Account> getOauth2AccountSet() {
@@ -258,7 +258,7 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -269,10 +269,8 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.getId() == null && other.getId() != null) ||
+                (this.getId() != null && !this.getId().equals(other.getId())));
     }
 
     @Override

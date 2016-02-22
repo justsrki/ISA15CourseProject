@@ -3,7 +3,6 @@ package rest.service;
 import beans.dao.interfaces.MealLocal;
 import beans.dao.interfaces.RestaurantLocal;
 import beans.dao.interfaces.UserLocal;
-import javafx.scene.control.Tab;
 import model.dao.Meal;
 import model.dao.Restaurant;
 import model.dao.Table;
@@ -16,7 +15,6 @@ import rest.util.ResponseExceptions;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -170,8 +168,8 @@ public class RestaurantRest {
     @Path("/{id}/meal")
     @RolesAllowed({User.CUSTOMER, User.MANAGER, User.ADMINISTRATOR})
     public Object getAllMeals(@PathParam("id") Integer id, @Context User user) {
-        List<MealResponse> responses = new ArrayList<>();
-        restaurantBean.find(id).getMealSet().forEach(meal -> responses.add(new MealResponse(meal)));
+        List<MealDto> responses = new ArrayList<>();
+        restaurantBean.find(id).getMealSet().forEach(meal -> responses.add(new MealDto(meal)));
 
         return responses;
     }
@@ -180,16 +178,16 @@ public class RestaurantRest {
     @Path("/meal/{id}")
     @RolesAllowed({User.CUSTOMER, User.MANAGER, User.ADMINISTRATOR})
     public Object getMeal(@PathParam("id") Integer id, @Context User user) {
-        return new MealResponse(getMealValidate(id, user));
+        return new MealDto(getMealValidate(id, user));
     }
 
     @POST
     @Path("/{id}/meal")
     @RolesAllowed(User.MANAGER)
-    public Object createMeal(@PathParam("id") Integer id, @Context User user, @Valid MealRequest mealRequest) {
+    public Object createMeal(@PathParam("id") Integer id, @Context User user, @Valid MealDto mealRequest) {
         Restaurant restaurant = restaurantBean.find(id);
         if (restaurant == null) {
-            return ResponseExceptions.createNotFound();
+            throw ResponseExceptions.createNotFound();
         }
 
         Meal meal = new Meal();
@@ -206,7 +204,7 @@ public class RestaurantRest {
     @PUT
     @Path("/meal/{id}")
     @RolesAllowed(User.MANAGER)
-    public Object editMeal(@PathParam("id") Integer id, @Context User user, @Valid MealRequest mealRequest) {
+    public Object editMeal(@PathParam("id") Integer id, @Context User user, @Valid MealDto mealRequest) {
         Meal meal = getMealValidate(id, user);
         meal.setName(mealRequest.getName());
         meal.setDescription(mealRequest.getDescription());
@@ -246,7 +244,7 @@ public class RestaurantRest {
         }
 
         if (restaurant.getRows() == 0 || restaurant.getColumns() == 0) {
-            return new TablesDto(0, 0);
+            return new TablesDto();
         }
 
         List<Table> tables = restaurant.getTableList();

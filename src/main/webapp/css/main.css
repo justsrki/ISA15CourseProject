@@ -1,3 +1,5 @@
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 body {
     background-color: #E9E9E9;
 }
@@ -47,6 +49,11 @@ body {
     margin-right: 10px;
 }
 
+.rlm-15 {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
 .rm-20 {
     margin-right: 20px;
 }
@@ -66,7 +73,9 @@ body {
 .tm-20 {
     margin-top: 20px;
 }
-
+.bm-10 {
+    margin-bottom: 10px;
+}
 .bm-20 {
     margin-bottom: 20px;
 }
@@ -96,6 +105,11 @@ body {
 .options-header {
     width: 130px;
 }
+
+.options-header-sm {
+    width: 70px;
+}
+
 
 .option-button {
     width: 65px;

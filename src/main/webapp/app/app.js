@@ -27,6 +27,10 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
             templateUrl: 'app/components/restaurant/restaurants_view.html',
             controller: 'RestaurantCtrl'
         })
+        .when('/restaurant/:id', {
+            templateUrl: 'app/components/reservation/reservation_view.html',
+            controller: 'ReservationCtrl'
+        })
         .when('/users', {
             templateUrl: 'app/components/users/users_view.html',
             controller: 'UsersCtrl'
