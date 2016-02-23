@@ -36,10 +36,8 @@ public class Invitation implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "accepted", nullable = false)
-    private boolean accepted;
+    private Boolean accepted;
     @Min(0)
     @Max(5)
     @Column(name = "rating")
@@ -71,11 +69,11 @@ public class Invitation implements Serializable {
         this.id = id;
     }
 
-    public boolean getAccepted() {
+    public Boolean getAccepted() {
         return accepted;
     }
 
-    public void setAccepted(boolean accepted) {
+    public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
     }
 

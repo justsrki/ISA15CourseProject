@@ -1,12 +1,10 @@
 package rest.service;
 
+import beans.dao.interfaces.FriendRatingLocal;
 import beans.dao.interfaces.MealLocal;
 import beans.dao.interfaces.RestaurantLocal;
 import beans.dao.interfaces.UserLocal;
-import model.dao.Meal;
-import model.dao.Restaurant;
-import model.dao.Table;
-import model.dao.User;
+import model.dao.*;
 import model.dto.restaurant.*;
 import model.dto.user.CreateManagerRequest;
 import model.dto.user.UserDto;
@@ -37,6 +35,8 @@ public class RestaurantRest {
     private MealLocal mealBean;
     @EJB
     private RestaurantLocal restaurantBean;
+    @EJB
+    private FriendRatingLocal friendRatingBean;
 
 
     //<editor-fold desc="Restaurant CRU">
@@ -45,7 +45,7 @@ public class RestaurantRest {
     public Object getAll(@Context User user) {
         switch (user.getRole()) {
             case User.CUSTOMER:
-                return getAllRestaurantsCustomer(user.getId());
+                return getAllRestaurantsCustomer(user);
             case User.MANAGER:
                 return getAllRestaurantsManager(user.getRestaurantId().getId());
             case User.ADMINISTRATOR:
@@ -100,9 +100,17 @@ public class RestaurantRest {
     }
 
     //<editor-fold desc="getAllRestaurantsRole">
-    private Object getAllRestaurantsCustomer(int userId) {
-        // TODO: Implement
-        return getAllRestaurantsAdmin();
+    private Object getAllRestaurantsCustomer(User user) {
+        List<RestaurantResponse> response = new ArrayList<>();
+        restaurantBean.findAll().forEach(restaurant -> {
+            FriendRating friendRating = friendRatingBean.findByUserRestaurant(user, restaurant);
+            if (friendRating != null) {
+                response.add(new RestaurantResponse(restaurant, friendRating.getRating()));
+            } else {
+                response.add(new RestaurantResponse(restaurant));
+            }
+        });
+        return response;
     }
 
     private Object getAllRestaurantsManager(int restaurantId) {

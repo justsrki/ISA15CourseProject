@@ -1,0 +1,53 @@
+<div id="Visits">
+    <uib-alert type="danger" ng-if="alertMessage" class="tm-20">{{alertMessage}}</uib-alert>
+
+    <div style="height: 50%" ng-if="future-length != 0">
+        <h3>Reservations</h3>
+
+        <table class="table table-striped table-hover table-bordered">
+            <tr>
+                <th>Name</th>
+                <th class="table-cell-align">Start date & time</th>
+                <th class="table-cell-align">End date & time</th>
+            </tr>
+
+            <tr dir-paginate="visit in future | itemsPerPage:5" pagination-id="idFuture">
+                <td>{{visit.restaurantName}}</td>
+                <td class="ta-mid">{{visit.startDate | date:'medium'}}</td>
+                <td class="ta-mid">{{visit.endDate | date:'medium'}}</td>
+            </tr>
+        </table>
+
+        <div style="text-align: center">
+            <dir-pagination-controls pagination-id="idFuture" template-url="lib/dirPagination.tpl.html">
+            </dir-pagination-controls>
+        </div>
+    </div>
+
+    <div style="height: 50%" ng-if="past.length != 0">
+        <h3>Visits</h3>
+
+        <table class="table table-striped table-hover table-bordered">
+            <tr>
+                <th>Name</th>
+                <th class="table-cell-align">Date</th>
+                <th class="table-cell-align">Rating</th>
+            </tr>
+
+            <tr dir-paginate="visit in past | itemsPerPage:5" pagination-id="idPast">
+                <td>{{visit.restaurantName}}</td>
+                <td class="ta-mid">{{visit.startDate | date:'shortDate'}}</td>
+                <td class="ta-mid">
+                    <uib-rating ng-model="visit.newRating" max="5" readonly="(visit.rating > 0)"
+                                ng-click="createRating(visit)">
+                    </uib-rating>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align: center">
+            <dir-pagination-controls pagination-id="idPast" template-url="lib/dirPagination.tpl.html">
+            </dir-pagination-controls>
+        </div>
+    </div>
+</div>

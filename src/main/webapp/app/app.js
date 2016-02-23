@@ -39,13 +39,13 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
             templateUrl: 'app/components/profile/profile_view.html',
             controller: 'ProfileCtrl'
         })
-        .when('/reservation/:id', {
-            templateUrl: 'app/components/reservation/invitation_view.html',
-            controller: 'InvitationCtrl'
-        })
         .when('/confirm/:id', {
             templateUrl: 'app/components/reservation/confirm_invitation_view.html',
             controller: 'ConfirmInvitationCtrl'
+        })
+        .when('/reservation/:id', {
+            templateUrl: 'app/components/reservation/invitation_view.html',
+            controller: 'InvitationCtrl'
         })
         .otherwise('/');
 

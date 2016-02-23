@@ -6,15 +6,18 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import beans.dao.AbstractBean;
+import beans.dao.interfaces.FriendRatingLocal;
 import beans.dao.interfaces.RestaurantLocal;
 import beans.dao.interfaces.TokenLocal;
 import beans.dao.interfaces.UserLocal;
 import beans.util.MailUtilLocal;
 import beans.util.PasswordGeneratorLocal;
 import beans.util.TokenGeneratorLocal;
+import model.dao.FriendRating;
 import model.dao.Restaurant;
 import model.dao.Token;
 import model.dao.User;
+import model.dto.restaurant.RestaurantResponse;
 import model.util.MailModel;
 import model.dto.user.CreateCustomerRequest;
 import model.dto.user.CreateManagerRequest;
@@ -40,6 +43,8 @@ public class UserBean extends AbstractBean<User> implements UserLocal {
     private PasswordGeneratorLocal passwordGeneratorBean;
     @EJB
     private TokenGeneratorLocal tokenGeneratorBean;
+    @EJB
+    private FriendRatingLocal friendRatingBean;
 
     public UserBean() {
         super(User.class);
@@ -95,7 +100,22 @@ public class UserBean extends AbstractBean<User> implements UserLocal {
         followed.getFollowedBySet().add(following);
         following.getFollowingSet().add(followed);
 
-        // TODO: Rating
+        followed.getInvitationSet().forEach(invitation -> {
+            if (invitation.getRating() != null) {
+                Restaurant restaurant = invitation.getReservationId().getRestaurantId();
+                FriendRating friendRating = friendRatingBean.findByUserRestaurant(following, restaurant);
+                if (friendRating == null) {
+                    friendRating = new FriendRating(null, invitation.getRating(), 1);
+                    friendRating.setRestaurantId(restaurant);
+                    friendRating.setUserId(following);
+                    friendRatingBean.create(friendRating);
+                } else {
+                    friendRating.setCount(friendRating.getCount() + 1);
+                    friendRating.setSum(friendRating.getSum() + invitation.getRating());
+                    friendRatingBean.edit(friendRating);
+                }
+            }
+        });
 
         this.edit(followed);
         this.edit(following);
@@ -106,7 +126,17 @@ public class UserBean extends AbstractBean<User> implements UserLocal {
         followed.getFollowedBySet().remove(following);
         following.getFollowingSet().remove(followed);
 
-        // TODO: Rating
+        followed.getInvitationSet().forEach(invitation -> {
+            if (invitation.getRating() != null) {
+                Restaurant restaurant = invitation.getReservationId().getRestaurantId();
+                FriendRating friendRating = friendRatingBean.findByUserRestaurant(following, restaurant);
+                if (friendRating != null) {
+                    friendRating.setCount(friendRating.getCount() - 1);
+                    friendRating.setSum(friendRating.getSum() - invitation.getRating());
+                    friendRatingBean.edit(friendRating);
+                }
+            }
+        });
 
         this.edit(followed);
         this.edit(following);

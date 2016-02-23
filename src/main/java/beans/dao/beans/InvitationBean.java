@@ -1,14 +1,13 @@
 package beans.dao.beans;
 
 import beans.dao.AbstractBean;
+import beans.dao.interfaces.FriendRatingLocal;
 import beans.dao.interfaces.InvitationLocal;
+import beans.dao.interfaces.RestaurantLocal;
 import beans.dao.interfaces.TokenLocal;
 import beans.util.MailUtilLocal;
 import beans.util.TokenGeneratorLocal;
-import model.dao.Invitation;
-import model.dao.Reservation;
-import model.dao.Token;
-import model.dao.User;
+import model.dao.*;
 import model.util.MailModel;
 import util.ApplicationConfig;
 
@@ -17,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Srđan
@@ -31,6 +31,10 @@ public class InvitationBean extends AbstractBean<Invitation> implements Invitati
     private TokenLocal tokenBean;
     @EJB
     private TokenGeneratorLocal tokenGeneratorBean;
+    @EJB
+    private RestaurantLocal restaurantBean;
+    @EJB
+    private FriendRatingLocal friendRatingBean;
 
     public InvitationBean() {
         super(Invitation.class);
@@ -50,14 +54,45 @@ public class InvitationBean extends AbstractBean<Invitation> implements Invitati
         this.create(invitation);
 
         String tokenString = tokenGeneratorBean.generateSessionToken();
-        Token token = new Token(null, tokenString, Token.CONFIRM_REGISTRATION);
+        Token token = new Token(null, tokenString, Token.ACCESS_TOKEN);
         token.setUserId(user);
         tokenBean.create(token);
 
-        String link = ApplicationConfig.baseUrl + "/invitation/" + invitation.getId() + "?token=" + token.getValue();
+        String redirectUrl = "/confirm/" + invitation.getId();
+        String link = ApplicationConfig.baseUrl + "/login/"
+                                                + "?token=" + token.getValue()
+                                                + "&userId=" + user.getId()
+                                                + "&redirect=" + redirectUrl;
+
         MailModel mailModel = MailModel.createInvitationMail(user.getEmail(), user.getFirstName(),
                 reservation.getRestaurantId().getName(), link);
 
         mailUtilBean.sendEmail(mailModel);
+    }
+
+    @Override
+    public void setRating(Invitation invitation, int value, User user) {
+        Restaurant restaurant = invitation.getReservationId().getRestaurantId();
+        restaurant.setRatingCount(restaurant.getRatingCount() + 1);
+        restaurant.setRatingSum(restaurant.getRatingSum() + value);
+        restaurantBean.edit(restaurant);
+
+        Set<User> followed = user.getFollowedBySet();
+        followed.forEach(u -> {
+            FriendRating friendRating = friendRatingBean.findByUserRestaurant(u, restaurant);
+            if (friendRating == null) {
+                friendRating = new FriendRating(null, value, 1);
+                friendRating.setRestaurantId(restaurant);
+                friendRating.setUserId(u);
+                friendRatingBean.create(friendRating);
+            } else {
+                friendRating.setCount(friendRating.getCount() + 1);
+                friendRating.setSum(friendRating.getSum() + value);
+                friendRatingBean.edit(friendRating);
+            }
+        });
+
+        invitation.setRating((short) value);
+        this.edit(invitation);
     }
 }

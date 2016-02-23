@@ -36,8 +36,14 @@ appReservationModule.factory('Reservation', function ($http) {
         },
         confirmInvitation: function (id, value) {
             return $http({
-                method: 'GET',
+                method: 'PUT',
                 url: 'api/invitation/' + id + '?value=' + value
+            });
+        },
+        getInvitationReservation: function (id) {
+            return $http({
+                method: 'GET',
+                url: 'api/invitation/' + id + '/reservation'
             });
         },
         inviteFriends: function (id, userIds) {

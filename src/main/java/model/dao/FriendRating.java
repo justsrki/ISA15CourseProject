@@ -1,33 +1,23 @@
 package model.dao;
 
-import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
- *
  * @author Srđan
  */
 @Entity
 @Table(name = "friend_rating", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"restaurant_id", "user_id"})})
+        @UniqueConstraint(columnNames = {"restaurant_id", "user_id"})})
 @NamedQueries({
-    @NamedQuery(name = "FriendRating.findAll", query = "SELECT f FROM FriendRating f"),
-    @NamedQuery(name = "FriendRating.findById", query = "SELECT f FROM FriendRating f WHERE f.id = :id"),
-    @NamedQuery(name = "FriendRating.findBySum", query = "SELECT f FROM FriendRating f WHERE f.sum = :sum"),
-    @NamedQuery(name = "FriendRating.findByCount", query = "SELECT f FROM FriendRating f WHERE f.count = :count")})
+        @NamedQuery(name = "FriendRating.findAll", query = "SELECT f FROM FriendRating f"),
+        @NamedQuery(name = "FriendRating.findById", query = "SELECT f FROM FriendRating f WHERE f.id = :id"),
+        @NamedQuery(name = "FriendRating.findBySum", query = "SELECT f FROM FriendRating f WHERE f.sum = :sum"),
+        @NamedQuery(name = "FriendRating.findByCount", query = "SELECT f FROM FriendRating f WHERE f.count = :count"),
+        @NamedQuery(name = "FriendRating.findByUserRestaurant", query = "SELECT f FROM FriendRating f " +
+                "WHERE f.userId = :user AND f.restaurantId = :restaurant")})
 public class FriendRating implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,6 +52,10 @@ public class FriendRating implements Serializable {
         this.id = id;
         this.sum = sum;
         this.count = count;
+    }
+
+    public double getRating() {
+        return ((double) getSum()) / getCount();
     }
 
     public Integer getId() {
@@ -125,5 +119,5 @@ public class FriendRating implements Serializable {
     public String toString() {
         return "model.dao.FriendRating[ id=" + id + " ]";
     }
-    
+
 }

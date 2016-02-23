@@ -7,4 +7,8 @@
     <div ng-if="display=='administrator'" ng-controller="LogsCtrl" class="col-md-6">
         <ng-include src="'app/components/logs/logs_view.html'"></ng-include>
     </div>
+
+    <div ng-if="display=='customer'" ng-controller="VisitsCtrl" class="col-md-6">
+        <ng-include src="'app/components/visits/visits_view.html'"></ng-include>
+    </div>
 </div>

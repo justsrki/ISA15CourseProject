@@ -9,6 +9,7 @@ angular.module('app.services', [
 	'app.Oauth2',
 	'app.Restaurant',
 	'app.Logs',
-	'app.Reservation'
+	'app.Reservation',
+	'app.Visits'
 ]);
 

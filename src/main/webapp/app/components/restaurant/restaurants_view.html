@@ -26,12 +26,17 @@
             <td>{{restaurant.name}}</td>
             <td>{{restaurant.description}}</td>
             <td>
-                <uib-rating ng-model="restaurant.rating" max="5" readonly="true"></uib-rating>
+                <uib-rating ng-model="restaurant.rating" max="5" readonly="true"
+                            uib-popover="{{restaurant.rating | number : 2}}" popover-trigger="mouseenter">
+                </uib-rating>
             </td>
 
             <!-- Customer -->
             <td ng-if="display =='customer'">
-                <uib-rating ng-model="restaurant.friendRating" max="5" readonly="true"></uib-rating>
+                <uib-rating ng-model="restaurant.friendRating" max="5" readonly="true"
+                            uib-popover="{{restaurant.friendRating | number : 2}}" popover-trigger="mouseenter">
+
+                </uib-rating>
             </td>
             <td ng-if="display == 'customer'" class="table-cell-align ta-mid">
                 <button type="button" class="btn btn-default" ng-click="book(restaurant.id)">

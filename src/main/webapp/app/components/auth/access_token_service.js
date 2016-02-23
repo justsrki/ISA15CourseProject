@@ -13,7 +13,8 @@ appAccessTokenModule.factory('AccessToken', function ($http, $window) {
             });
         },
         hasCredentials: function () {
-            return this.getUserId() && this.getAccessToken();
+            return this.getUserId() && this.getAccessToken()
+                && this.getUserId() !== 'null' && this.getAccessToken() !== 'null';
         },
         setCredentials: function (userId, accessToken) {
             this.setUserId(userId);

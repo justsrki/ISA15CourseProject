@@ -18,4 +18,6 @@ public interface InvitationLocal extends AbstractLocal<Invitation> {
     void inviteUsers(Reservation reservation, List<User> users);
 
     void inviteUser(Reservation reservation, User user);
+
+    void setRating(Invitation invitation, int value, User user);
 }

@@ -53,7 +53,7 @@ public class MailMDBean implements MessageListener {
             MailModel mailModel = (MailModel) object;
 
             // TODO: remove
-            if (mailModel.getToAddress().endsWith(".isa")) {
+            if (mailModel.getToAddress().endsWith("@isa.com")) {
                 System.out.println(mailModel);
                 return;
             }
