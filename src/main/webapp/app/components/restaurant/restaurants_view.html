@@ -11,10 +11,47 @@
 
     <table class="table table-striped table-hover table-bordered">
         <tr>
-            <th class="table-cell-align">Name</th>
+            <th class="table-cell-align">
+                Name
+                <span ng-hide="predicate == 'name'" ng-click="order('name')">
+                    <span class="glyphicon glyphicon-sort"></span>
+                </span>
+                <span ng-show="predicate == 'name'" ng-click="order('name')">
+                    <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                    <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                </span>
+            </th>
+            <th class="table-cell-align" style="width: 100px">
+                Distance
+                <span ng-hide="predicate == 'distance'" ng-click="order('distance')">
+                    <span class="glyphicon glyphicon-sort"></span>
+                </span>
+                <span ng-show="predicate == 'distance'" ng-click="order('distance')">
+                    <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                    <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                </span>
+            </th>
             <th class="table-cell-align">Description</th>
-            <th class="table-cell-align rating-header">Rating</th>
-            <th ng-if="display == 'customer'" class="table-cell-align rating-header">Friend rating</th>
+            <th class="table-cell-align rating-header">
+                Rating
+                <span ng-hide="predicate == 'rating'" ng-click="order('rating')">
+                    <span class="glyphicon glyphicon-sort"></span>
+                </span>
+                <span ng-show="predicate == 'rating'" ng-click="order('rating')">
+                    <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                    <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                </span>
+            </th>
+            <th ng-if="display == 'customer'" class="table-cell-align rating-header">
+                Friend rating
+                <span ng-hide="predicate == 'friendRating'" ng-click="order('friendRating')">
+                    <span class="glyphicon glyphicon-sort"></span>
+                </span>
+                <span ng-show="predicate == 'friendRating'" ng-click="order('friendRating')">
+                    <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                    <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                </span>
+            </th>
             <th ng-if="display == 'customer'" class="table-cell-align button-header">Book now</th>
             <th ng-if="display == 'customer'" class="table-cell-align button-header">View</th>
             <th ng-if="display == 'administrator' || display == 'manager'" class="table-cell-align button-header">
@@ -22,17 +59,19 @@
             </th>
         </tr>
 
-        <tr dir-paginate="restaurant in filteredData = (restaurants | itemsPerPage: 7)">
+        <tr dir-paginate="restaurant in filteredData = (restaurants | orderBy: predicate:reverse
+                                                                    | itemsPerPage: 7)">
             <td>{{restaurant.name}}</td>
+            <td class="ta-mid">{{restaurant.distance | number : 2}} m</td>
             <td>{{restaurant.description}}</td>
-            <td>
+            <td class="ta-mid">
                 <uib-rating ng-model="restaurant.rating" max="5" readonly="true"
                             uib-popover="{{restaurant.rating | number : 2}}" popover-trigger="mouseenter">
                 </uib-rating>
             </td>
 
             <!-- Customer -->
-            <td ng-if="display =='customer'">
+            <td ng-if="display =='customer'" class="ta-mid">
                 <uib-rating ng-model="restaurant.friendRating" max="5" readonly="true"
                             uib-popover="{{restaurant.friendRating | number : 2}}" popover-trigger="mouseenter">
 

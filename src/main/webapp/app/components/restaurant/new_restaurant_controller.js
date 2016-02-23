@@ -6,27 +6,11 @@ appNewRestaurantCtrlModule.controller('NewRestaurantCtrl', function ($scope, $ti
 
     $scope.tile = "Add new restaurant";
     $scope.marker = null;
+    $scope.latLng = null;
+    $scope.canEdit = true;
 
-    $scope.initMap = function () {
-        $timeout(function () {
-            var map = L.map('MapModal').setView(MAP_OPTIONS.center, MAP_OPTIONS.zoom);
-
-            // Add open street layer
-            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: MAP_OPTIONS.attribution,
-                minZoom: MAP_OPTIONS.minZoom,
-                maxZoom: MAP_OPTIONS.maxZoom,
-                bounds: MAP_OPTIONS.bounds
-            }).addTo(map);
-
-            // Add marker to map
-            $scope.marker = L.marker(map.getCenter()).addTo(map);
-            $scope.setLatLng($scope.marker.getLatLng());
-            map.on('click', function (e) {
-                $scope.marker.setLatLng(e.latlng);
-                $scope.setLatLng($scope.marker.getLatLng());
-            });
-        });
+    $scope.setLatLng = function (latLng) {
+        $scope.latLng = latLng;
     };
 
     $scope.close = function (refresh) {
@@ -35,7 +19,7 @@ appNewRestaurantCtrlModule.controller('NewRestaurantCtrl', function ($scope, $ti
     };
 
     $scope.save = function () {
-        var latLng = $scope.marker.getLatLng();
+        var latLng = $scope.latLng;
         if (!$scope.name) {
             $scope.alertMessage = "Name cannot be empty.";
         } else if (!latLng) {

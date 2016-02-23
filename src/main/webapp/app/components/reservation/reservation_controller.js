@@ -25,6 +25,8 @@ appReservationCtrlModule.controller('ReservationCtrl', function ($scope, $routeP
         var length, startDate = new Date($scope.startDate);
         startDate.setHours($scope.startTime.getHours());
         startDate.setMinutes($scope.startTime.getMinutes());
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
 
         if ($scope.minDate.getTime() > startDate.getTime()) {
             $scope.alertMessage = "Date cannot be in the past.";

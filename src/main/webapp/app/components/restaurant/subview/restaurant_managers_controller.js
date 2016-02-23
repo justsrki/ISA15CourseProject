@@ -14,6 +14,10 @@ appRestaurantManagersCtrlModule.controller('RestaurantManagersCtrl', function ($
     };
 
     $scope.getManagers = function () {
+        if (!$scope.restaurantId) {
+            return;
+        }
+
         Restaurant.getManagers($scope.restaurantId).then(
             function (response) {
                 $scope.managers = response.data;

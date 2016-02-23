@@ -55,8 +55,9 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
     $httpProvider.interceptors.push('authHttpRequestInterceptor');
 });
 
-app.run(function ($rootScope) {
+app.run(function ($rootScope, MAP_OPTIONS) {
     "use strict";
     $rootScope.display = 'login';
+    $rootScope.position = MAP_OPTIONS.center;
 });
 

@@ -1,7 +1,7 @@
 /*global angular, L*/
 var appHomeCtrlModule = angular.module('app.HomeCtrl', []);
 
-appHomeCtrlModule.controller('HomeCtrl', function ($scope, Restaurant, MAP_OPTIONS) {
+appHomeCtrlModule.controller('HomeCtrl', function ($rootScope, $scope, Restaurant, MAP_OPTIONS) {
     "use strict";
 
     $scope.map = L.map('Map').setView(MAP_OPTIONS.center, MAP_OPTIONS.zoom);
@@ -40,5 +40,18 @@ appHomeCtrlModule.controller('HomeCtrl', function ($scope, Restaurant, MAP_OPTIO
     };
 
     $scope.init();
+
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            $rootScope.position = [position.coords.latitude, position.coords.longitude];
+            var icon = L.icon({
+                iconUrl: 'images/location.png',
+                iconSize:     [32, 32],
+                iconAnchor:   [16, 16]
+            });
+            L.marker($rootScope.position, {icon: icon}).addTo($scope.map);
+        });
+    }
 
 });

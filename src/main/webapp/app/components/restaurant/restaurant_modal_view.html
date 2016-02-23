@@ -14,7 +14,7 @@
 
     <div ng-include="'app/components/restaurant/subview/restaurant_map_view.html'"></div>
 
-    <div ng-if="display == 'administrator'"
+    <div ng-if="display == 'administrator' && restaurantId != null"
          ng-include="'app/components/restaurant/subview/restaurant_managers_view.html'"></div>
 
     <div ng-if="display == 'manager' || display == 'customer'"

@@ -45,7 +45,7 @@ public class ReservationDto {
     }
 
     public Date getEndDate() {
-        return new Date(startDate.getTime() + length * HOUR_MILLISECONDS);
+        return new Date(startDate.getTime() + length * HOUR_MILLISECONDS - 1000);
     }
 
     public Date getStartDate() {

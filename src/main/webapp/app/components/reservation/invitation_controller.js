@@ -45,7 +45,11 @@ appInvitationCtrlModule.controller('InvitationCtrl', function ($scope, $routePar
             }
         }
 
-        Reservation.inviteFriends($scope.reservationId, ids);
+        Reservation.inviteFriends($scope.reservationId, ids).then(
+            function () {
+                $scope.goHome();
+            }
+        );
     };
 
     $scope.goHome = function () {

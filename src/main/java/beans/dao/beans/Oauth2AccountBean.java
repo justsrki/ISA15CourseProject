@@ -45,6 +45,7 @@ public class Oauth2AccountBean extends AbstractBean<Oauth2Account> implements Oa
     public Token createWithUserInfo(UserInfo userInfo, String provider) {
         User user = userBean.create(new CreateCustomerRequest(userInfo.getEmail(), userInfo.getFirstName(),
                 userInfo.getLastName(), passwordGeneratorBean.generatePassword()));
+        user.setActivated(true);
 
         Oauth2Account oauth2Account = new Oauth2Account(null, provider, userInfo.getId());
         Token token = new Token(null, sessionTokenGeneratorBean.generateSessionToken(), Token.ACCESS_TOKEN);

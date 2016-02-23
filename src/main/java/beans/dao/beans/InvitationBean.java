@@ -1,10 +1,7 @@
 package beans.dao.beans;
 
 import beans.dao.AbstractBean;
-import beans.dao.interfaces.FriendRatingLocal;
-import beans.dao.interfaces.InvitationLocal;
-import beans.dao.interfaces.RestaurantLocal;
-import beans.dao.interfaces.TokenLocal;
+import beans.dao.interfaces.*;
 import beans.util.MailUtilLocal;
 import beans.util.TokenGeneratorLocal;
 import model.dao.*;
@@ -35,6 +32,8 @@ public class InvitationBean extends AbstractBean<Invitation> implements Invitati
     private RestaurantLocal restaurantBean;
     @EJB
     private FriendRatingLocal friendRatingBean;
+    @EJB
+    private UserLocal userBean;
 
     public InvitationBean() {
         super(Invitation.class);
@@ -91,6 +90,9 @@ public class InvitationBean extends AbstractBean<Invitation> implements Invitati
                 friendRatingBean.edit(friendRating);
             }
         });
+
+        user.setVisits(user.getVisits() + 1);
+        userBean.edit(user);
 
         invitation.setRating((short) value);
         this.edit(invitation);

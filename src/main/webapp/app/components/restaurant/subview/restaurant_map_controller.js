@@ -1,7 +1,7 @@
 /*global angular, L*/
 var appRestaurantMapCtrlModule = angular.module('app.RestaurantMapCtrl', []);
 
-appRestaurantMapCtrlModule.controller('RestaurantMapCtrl', function ($scope, $timeout, MAP_OPTIONS) {
+appRestaurantMapCtrlModule.controller('RestaurantMapCtrl', function ($rootScope, $scope, $timeout, MAP_OPTIONS) {
     "use strict";
 
     $scope.mapHidden = false;
@@ -23,6 +23,7 @@ appRestaurantMapCtrlModule.controller('RestaurantMapCtrl', function ($scope, $ti
     // Add map to scope, invalidate
     $scope.initMap = function () {
         $timeout(function () {
+            $scope.latlng = $scope.latlng || MAP_OPTIONS.center;
             var map = L.map('MapModal').setView($scope.latlng, MAP_OPTIONS.zoom);
 
             // Add open street layer
@@ -42,6 +43,13 @@ appRestaurantMapCtrlModule.controller('RestaurantMapCtrl', function ($scope, $ti
                     $scope.setLatLng($scope.marker.getLatLng());
                 });
             }
+
+            var icon = L.icon({
+                iconUrl: 'images/location.png',
+                iconSize:     [32, 32],
+                iconAnchor:   [16, 16]
+            });
+            L.marker($rootScope.position, {icon: icon}).addTo(map);
         });
     };
 
