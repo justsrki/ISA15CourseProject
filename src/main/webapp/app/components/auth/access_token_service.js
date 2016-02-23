@@ -23,16 +23,16 @@ appAccessTokenModule.factory('AccessToken', function ($http, $window) {
             this.setCredentials(null, null);
         },
         setUserId: function (userId) {
-            $window.sessionStorage.userId = userId;
+            $window.localStorage.userId = userId;
         },
         getUserId: function () {
-            return $window.sessionStorage.userId;
+            return $window.localStorage.userId;
         },
         setAccessToken: function (accessToken) {
-            $window.sessionStorage.accessToken = accessToken;
+            $window.localStorage.accessToken = accessToken;
         },
         getAccessToken: function () {
-            return $window.sessionStorage.accessToken;
+            return $window.localStorage.accessToken;
         }
     };
 });

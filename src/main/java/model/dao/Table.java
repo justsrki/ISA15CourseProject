@@ -1,37 +1,27 @@
 package model.dao;
 
-import java.io.Serializable;
-import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Set;
 
 /**
- *
  * @author Srđan
  */
 @Entity
 @javax.persistence.Table(name = "table", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"restaurant_id", "row", "column"})})
+        @UniqueConstraint(columnNames = {"restaurant_id", "row", "column"})})
 @NamedQueries({
-    @NamedQuery(name = "Table.findAll", query = "SELECT t FROM Table t"),
-    @NamedQuery(name = "Table.findById", query = "SELECT t FROM Table t WHERE t.id = :id"),
-    @NamedQuery(name = "Table.findByLabel", query = "SELECT t FROM Table t WHERE t.label = :label"),
-    @NamedQuery(name = "Table.findByRow", query = "SELECT t FROM Table t WHERE t.row = :row"),
-    @NamedQuery(name = "Table.findByColumn", query = "SELECT t FROM Table t WHERE t.column = :column")})
+        @NamedQuery(name = "Table.findAll", query = "SELECT t FROM Table t"),
+        @NamedQuery(name = "Table.findById", query = "SELECT t FROM Table t WHERE t.id = :id"),
+        @NamedQuery(name = "Table.findByLabel", query = "SELECT t FROM Table t WHERE t.label = :label"),
+        @NamedQuery(name = "Table.findByRow", query = "SELECT t FROM Table t WHERE t.row = :row"),
+        @NamedQuery(name = "Table.findByColumn", query = "SELECT t FROM Table t WHERE t.column = :column"),
+        @NamedQuery(name = "Table.getReserved", query = "SELECT t FROM Table t " +
+                "INNER JOIN t.reservationSet r " +
+                "WHERE r.restaurantId = :restaurant " +
+                "AND r.startDate < :endDate AND r.endDate > :startDate")})
 public class Table implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +42,8 @@ public class Table implements Serializable {
     @Column(name = "column", nullable = false)
     private int column;
     @JoinTable(name = "resevated_table", joinColumns = {
-        @JoinColumn(name = "table_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)})
+            @JoinColumn(name = "table_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)})
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Reservation> reservationSet;
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
@@ -138,10 +128,10 @@ public class Table implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Table)) {
             return false;
         }
+
         Table other = (Table) object;
         return !((this.getId() == null && other.getId() != null) ||
                 (this.getId() != null && !this.getId().equals(other.getId())));
@@ -151,5 +141,5 @@ public class Table implements Serializable {
     public String toString() {
         return "model.dao.Table[ id=" + id + " ]";
     }
-    
+
 }

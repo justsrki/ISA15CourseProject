@@ -1,4 +1,4 @@
-package rest.model.user;
+package model.dto.user;
 
 import org.hibernate.validator.constraints.NotBlank;
 

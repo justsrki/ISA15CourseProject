@@ -1,6 +1,4 @@
-package providers;
-
-import org.jboss.resteasy.api.validation.ResteasyViolationException;
+package rest.providers;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;

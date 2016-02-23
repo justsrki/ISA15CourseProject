@@ -1,4 +1,4 @@
-package rest.model.user;
+package model.dto.user;
 
 /**
  * @author - Srđan Milaković

@@ -1,4 +1,4 @@
-package providers;
+package rest.providers;
 
 import beans.dao.interfaces.LogLocal;
 import model.dao.Log;

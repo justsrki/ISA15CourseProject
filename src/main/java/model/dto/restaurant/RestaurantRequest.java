@@ -1,4 +1,4 @@
-package rest.model.restaurant;
+package model.dto.restaurant;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

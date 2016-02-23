@@ -3,12 +3,15 @@ package rest.service;
 import beans.dao.interfaces.LogLocal;
 import model.dao.Log;
 import model.dao.User;
-import rest.model.log.LogDao;
+import model.dto.log.LogDao;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,8 @@ import java.util.List;
  * @author - Srđan Milaković
  */
 @Path("/log")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class LogRest {
 
     private static final int MAX_LOGS = 50;

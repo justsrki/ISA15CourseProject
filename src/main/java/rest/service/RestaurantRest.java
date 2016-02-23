@@ -7,9 +7,9 @@ import model.dao.Meal;
 import model.dao.Restaurant;
 import model.dao.Table;
 import model.dao.User;
-import rest.model.restaurant.*;
-import rest.model.user.CreateManagerRequest;
-import rest.model.user.UserResponse;
+import model.dto.restaurant.*;
+import model.dto.user.CreateManagerRequest;
+import model.dto.user.UserDto;
 import rest.util.BasicResponse;
 import rest.util.ResponseExceptions;
 
@@ -137,8 +137,8 @@ public class RestaurantRest {
             throw ResponseExceptions.createNotFound();
         }
 
-        List<UserResponse> response = new ArrayList<>();
-        restaurant.getUserSet().forEach(user -> response.add(new UserResponse(user)));
+        List<UserDto> response = new ArrayList<>();
+        restaurant.getUserSet().forEach(user -> response.add(new UserDto(user)));
 
         return response;
     }

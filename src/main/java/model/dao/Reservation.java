@@ -31,8 +31,8 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r"),
     @NamedQuery(name = "Reservation.findById", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
-    @NamedQuery(name = "Reservation.findByDate", query = "SELECT r FROM Reservation r WHERE r.date = :date"),
-    @NamedQuery(name = "Reservation.findByLength", query = "SELECT r FROM Reservation r WHERE r.length = :length")})
+    @NamedQuery(name = "Reservation.findByStartDate", query = "SELECT r FROM Reservation r WHERE r.startDate = :startDate"),
+    @NamedQuery(name = "Reservation.findByEndDate", query = "SELECT r FROM Reservation r WHERE r.endDate = :endDate")})
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,13 +43,13 @@ public class Reservation implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "date", nullable = false)
+    @Column(name = "start_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-    @Basic(optional = false)
+    private Date startDate;
     @NotNull
-    @Column(name = "length", nullable = false)
-    private short length;
+    @Column(name = "end_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
     @ManyToMany(mappedBy = "reservationSet", fetch = FetchType.LAZY)
     private Set<model.dao.Table> tableSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "reservationId", fetch = FetchType.LAZY)
@@ -68,10 +68,10 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public Reservation(Integer id, Date date, short length) {
+    public Reservation(Integer id, Date startDate, Date endDate) {
         this.id = id;
-        this.date = date;
-        this.length = length;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Integer getId() {
@@ -82,20 +82,20 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public short getLength() {
-        return length;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setLength(short length) {
-        this.length = length;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Set<model.dao.Table> getTableSet() {
@@ -139,7 +139,6 @@ public class Reservation implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Reservation)) {
             return false;
         }

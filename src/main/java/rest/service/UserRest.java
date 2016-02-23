@@ -3,15 +3,14 @@ package rest.service;
 import beans.dao.interfaces.UserLocal;
 import model.dao.User;
 import rest.util.BasicResponse;
-import rest.model.user.UserResponse;
+import model.dto.user.UserDto;
 import rest.util.ResponseExceptions;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,8 @@ import java.util.List;
  * @author Srđan
  */
 @Path("/user")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class UserRest {
 
     @EJB
@@ -40,16 +41,16 @@ public class UserRest {
     }
 
     private Object filterUsersAdministrator(List<User> users) {
-        List<UserResponse> response = new ArrayList<>();
-        users.forEach(user -> response.add(new UserResponse(user)));
+        List<UserDto> response = new ArrayList<>();
+        users.forEach(user -> response.add(new UserDto(user)));
         return response;
     }
 
     private Object filterUsersCustomer(List<User> users, User user) {
-        List<UserResponse> response = new ArrayList<>();
+        List<UserDto> response = new ArrayList<>();
         users.forEach(u -> {
             if (User.CUSTOMER.equals(u.getRole()) && u.getActivated() && !u.equals(user)) {
-                response.add(new UserResponse(u, user.getFollowingSet().contains(u)));
+                response.add(new UserDto(u, user.getFollowingSet().contains(u)));
             }
         });
         return response;
@@ -63,7 +64,23 @@ public class UserRest {
             throw ResponseExceptions.createNotFound();
         }
 
-        return new UserResponse(user);
+        return new UserDto(user);
+    }
+
+    @PUT
+    @Path("/profile")
+    @RolesAllowed({User.CUSTOMER, User.MANAGER, User.ADMINISTRATOR})
+    public Object editProfile(@Context User user, UserDto userDto) {
+        if (!user.getActivated()) {
+            throw ResponseExceptions.createNotFound();
+        }
+
+        user = userBean.find(user.getId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        userBean.edit(user);
+
+        return BasicResponse.createChanged();
     }
 
     @POST
@@ -72,7 +89,7 @@ public class UserRest {
     public Object followUser(@PathParam("id") Integer id, @Context User user) {
         User followed = userBean.find(id);
         if (followed == null || !User.CUSTOMER.equals(followed.getRole())) {
-            return ResponseExceptions.createNotFound();
+            throw ResponseExceptions.createNotFound();
         }
 
         userBean.follow(user, followed);
@@ -86,7 +103,7 @@ public class UserRest {
     public Object unfollowUser(@PathParam("id") Integer id, @Context User user) {
         User followed = userBean.find(id);
         if (followed == null || !User.CUSTOMER.equals(followed.getRole())) {
-            return ResponseExceptions.createNotFound();
+            throw ResponseExceptions.createNotFound();
         }
 
         userBean.unfollow(user, followed);

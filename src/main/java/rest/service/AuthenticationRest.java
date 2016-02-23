@@ -9,10 +9,10 @@ import model.dao.Token;
 import model.dao.User;
 import model.oauth.UserInfo;
 import rest.util.BasicResponse;
-import rest.model.user.AuthenticationRequest;
-import rest.model.user.AuthenticationResponse;
-import rest.model.user.CreateCustomerRequest;
-import rest.model.user.OAuth2AccountRequest;
+import model.dto.user.AuthenticationRequest;
+import model.dto.user.AuthenticationResponse;
+import model.dto.user.CreateCustomerRequest;
+import model.dto.user.OAuth2AccountRequest;
 import util.ApplicationConfig;
 
 import javax.ejb.EJB;

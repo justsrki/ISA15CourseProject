@@ -1,6 +1,5 @@
-package rest.model.restaurant;
+package model.dto.restaurant;
 
-import model.dao.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
@@ -13,7 +12,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class TablesDto {
     public static final String TABLE = "table";
-    public static final String FREE = "free";
     public static final String NO_TABLE = "no_table";
     public static final String RESERVED = "reserved";
 
@@ -30,6 +28,7 @@ public class TablesDto {
         public TableDto(int row, int column, String type) {
             this.row = row;
             this.column = column;
+            this.type = type;
         }
 
         public TableDto(Integer id, String label, int row, int column, String type) {

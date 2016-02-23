@@ -1,4 +1,4 @@
-package rest.model.log;
+package model.dto.log;
 
 import javax.ws.rs.Path;
 import java.util.Date;

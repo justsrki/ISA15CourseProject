@@ -15,5 +15,6 @@ angular.module('app.controllers', [
 	'app.RestaurantMealsCtrl',
 	'app.RestaurantTablesCtrl',
 	'app.RestaurantMapCtrl',
-	'app.ReservationCtrl'
+	'app.ReservationCtrl',
+	'app.InvitationCtrl'
 ]);

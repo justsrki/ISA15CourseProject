@@ -12,7 +12,7 @@ import model.dao.Token;
 import model.dao.User;
 import model.oauth.UserInfo;
 import model.util.MailModel;
-import rest.model.user.CreateCustomerRequest;
+import model.dto.user.CreateCustomerRequest;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

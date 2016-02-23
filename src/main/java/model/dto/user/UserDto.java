@@ -1,15 +1,18 @@
-package rest.model.user;
+package model.dto.user;
 
 import model.dao.User;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author - Srđan Milaković
  */
 @SuppressWarnings("unused")
-public class UserResponse {
+public class UserDto {
     private int id;
     private String email;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
     private String role;
     private Integer restaurantId;
@@ -17,12 +20,16 @@ public class UserResponse {
     private boolean activated;
     private boolean following;
 
-    public UserResponse(User user, boolean following) {
+    public UserDto() {
+
+    }
+
+    public UserDto(User user, boolean following) {
         this(user);
         this.following = following;
     }
 
-    public UserResponse(User user) {
+    public UserDto(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.role = user.getRole();

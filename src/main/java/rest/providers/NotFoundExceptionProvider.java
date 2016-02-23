@@ -1,4 +1,4 @@
-package providers;
+package rest.providers;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;

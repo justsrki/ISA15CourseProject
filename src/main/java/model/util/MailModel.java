@@ -1,6 +1,6 @@
 package model.util;
 
-import rest.model.user.CreateCustomerRequest;
+import model.dto.user.CreateCustomerRequest;
 
 import java.io.Serializable;
 

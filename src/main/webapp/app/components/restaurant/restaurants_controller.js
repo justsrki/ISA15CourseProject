@@ -1,7 +1,7 @@
 /*global angular*/
 var appRestaurantCtrlModule = angular.module('app.RestaurantCtrl', []);
 
-appRestaurantCtrlModule.controller('RestaurantCtrl', function ($rootScope, $scope, $uibModal, Restaurant) {
+appRestaurantCtrlModule.controller('RestaurantCtrl', function ($rootScope, $scope, $uibModal, $location, Restaurant) {
     "use strict";
 
     $scope.restaurants = [];
@@ -19,7 +19,7 @@ appRestaurantCtrlModule.controller('RestaurantCtrl', function ($rootScope, $scop
     };
 
     $scope.book = function (id) {
-
+        $location.path('/restaurant/' + id);
     };
 
     $scope.open = function (id, canEdit) {

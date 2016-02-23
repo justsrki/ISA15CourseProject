@@ -1,5 +1,71 @@
 <div id="Reservation">
-    <div style="display:inline-block; min-height:290px;">
-        <uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+    <h1>Reservation</h1>
+    <uib-alert type="danger" ng-if="alertMessage" class="tm-20">{{alertMessage}}</uib-alert>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class=" pull-right">
+                <h3>Choose date</h3>
+                <div style="display:inline-block; min-height:290px;" class="tm-10">
+                    <uib-datepicker ng-model="startDate" min-date="minDate" show-weeks="true"
+                                    class="well well-sm" ng-disabled="disabled">
+                    </uib-datepicker>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Choose time</h3>
+            <uib-timepicker ng-model="startTime" minute-step="15" show-meridian="true" ng-disabled="disabled">
+            </uib-timepicker>
+
+            <h3>Choose length</h3>
+            <div class="input-group input-container tm-5">
+                <span class="input-group-addon glyphicon glyphicon-time" id="length-edit"></span>
+                <select class="form-control" aria-describedby="length-edit" ng-model="length" style="width:75px;"
+                        ng-disabled="disabled">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-success btn-lg tm-20" ng-click="show()" ng-disabled="disabled">
+                Show free tables
+            </button>
+        </div>
+    </div>
+
+    <div ng-show="tables.length != 0" class="ta-mid">
+        <h3>Select tables</h3>
+
+        <table class="table table-bordered" style="width: auto; margin: 0 auto">
+            <tr ng-repeat="row in tables">
+                <td ng-repeat="cell in row" class="table-cell-align {{'table-'+cell.type}}"
+                    ng-click="toggle(cell.row, cell.column)">
+                    <span ng-show="cell.type == 'table'" class="glyphicon glyphicon-unchecked">
+                        <span class="lm-5">{{cell.label}}</span>
+                    </span>
+
+                    <span ng-show="cell.type == 'selected'" class="glyphicon glyphicon-check">
+                        <span class="lm-5">{{cell.label}}</span>
+                    </span>
+
+                    <span ng-show="cell.type == 'reserved'" class="glyphicon glyphicon-lock">
+                        <span class="lm-5">{{cell.label}}</span>
+                    </span>
+
+                    <span ng-show="cell.type == 'no_table'" class="glyphicon "></span>
+                </td>
+            </tr>
+        </table>
+
+        <button type="button" class="btn btn-success btn-lg pull-right bm-20" ng-click="createReservation()">
+            Create reservation
+        </button>
+
+        <button type="button" class="btn btn-default btn-lg pull-right bm-20 rm-10" ng-click="resetDate()">
+            Reset date
+        </button>
     </div>
 </div>

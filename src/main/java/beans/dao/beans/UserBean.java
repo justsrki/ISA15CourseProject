@@ -16,8 +16,8 @@ import model.dao.Restaurant;
 import model.dao.Token;
 import model.dao.User;
 import model.util.MailModel;
-import rest.model.user.CreateCustomerRequest;
-import rest.model.user.CreateManagerRequest;
+import model.dto.user.CreateCustomerRequest;
+import model.dto.user.CreateManagerRequest;
 import util.ApplicationConfig;
 
 /**

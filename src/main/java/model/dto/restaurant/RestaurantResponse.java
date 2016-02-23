@@ -1,4 +1,4 @@
-package rest.model.restaurant;
+package model.dto.restaurant;
 
 import model.dao.Restaurant;
 

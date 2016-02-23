@@ -14,7 +14,7 @@ body {
     margin: 50px auto 75px auto;
     background-color: #F7F7F7;
     border-radius: 15px;
-    box-shadow: 0px 0px 10px 5px #AFAFAF;
+    box-shadow: 0 0 10px 5px #AFAFAF;
 }
 
 #SignUpButton {
@@ -165,4 +165,21 @@ body {
 .button-header {
     text-align: center;
     width: 90px;
+}
+
+.table-reserved {
+    background-color: #C9302C;
+}
+
+.table-table, .table-free {
+    background-color: #286090;
+    color: #FFFFFF;;
+}
+
+.table-selected {
+    background-color: #449D44;
+}
+
+.table-no_table {
+    background-color: #F8F8F8;
 }
