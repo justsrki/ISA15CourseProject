@@ -1,11 +1,9 @@
 package rest.service;
 
-import beans.dao.interfaces.ReservationLocal;
-import beans.dao.interfaces.RestaurantLocal;
-import beans.dao.interfaces.TableLocal;
-import model.dao.Restaurant;
-import model.dao.Table;
-import model.dao.User;
+import beans.dao.interfaces.*;
+import model.dao.*;
+import model.dto.reservation.ReservationResponse;
+import model.dto.reservation.InvitationsDto;
 import model.dto.reservation.ReservationDto;
 import model.dto.reservation.TablesStateRequest;
 import model.dto.restaurant.TablesDto;
@@ -14,12 +12,10 @@ import rest.util.ResponseExceptions;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,11 +28,15 @@ import java.util.List;
 public class ReservationRest {
 
     @EJB
+    private UserLocal userBean;
+    @EJB
     private RestaurantLocal restaurantBean;
     @EJB
     private ReservationLocal reservationBean;
     @EJB
     private TableLocal tableBean;
+    @EJB
+    private InvitationLocal invitationBean;
 
     @POST
     @Path("/tables")
@@ -63,11 +63,46 @@ public class ReservationRest {
     @POST
     @RolesAllowed(User.CUSTOMER)
     public Object createReservation(@Context User user, ReservationDto reservationDto) {
-        if (reservationBean.create(reservationDto, user) == null) {
+        Reservation reservation = reservationBean.create(reservationDto, user);
+        if (reservation == null) {
             throw ResponseExceptions.createBadRequest("Reservation cannot be created, try again.");
         }
 
-        return BasicResponse.createCreated();
+        return new ReservationResponse(reservation.getId(), reservation.getRestaurantId().getName(),
+                reservation.getStartDate(), reservation.getEndDate());
+    }
+
+    @GET
+    @Path("/{id}")
+    @RolesAllowed(User.CUSTOMER)
+    public Object getReservation(@PathParam("id") Integer id) {
+        Reservation reservation = reservationBean.find(id);
+        if (reservation == null) {
+            return ResponseExceptions.createNotFound();
+        }
+
+        return new ReservationResponse(reservation);
+    }
+
+    @POST
+    @Path("/{id}")
+    @RolesAllowed(User.CUSTOMER)
+    public Object createInvitations(@PathParam("id") Integer id, @Context User user, InvitationsDto invitationsDto) {
+        Reservation reservation = reservationBean.find(id);
+        if (reservation == null) {
+            return ResponseExceptions.createNotFound();
+        }
+        List<User> users = new ArrayList<>();
+        invitationsDto.getUserIds().forEach(userId -> {
+            User u = userBean.find(userId);
+            if (user.getFollowingSet().contains(u)) {
+                users.add(u);
+            }
+        });
+
+        invitationBean.inviteUsers(reservation, users);
+
+        return BasicResponse.createOk("Users invited.");
     }
 
 }

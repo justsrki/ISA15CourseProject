@@ -1,7 +1,7 @@
 /*global angular*/
 var appReservationCtrlModule = angular.module('app.ReservationCtrl', []);
 
-appReservationCtrlModule.controller('ReservationCtrl', function ($scope, $routeParams, Reservation) {
+appReservationCtrlModule.controller('ReservationCtrl', function ($scope, $routeParams, $location, Reservation) {
     "use strict";
     $scope.restaurantId = $routeParams.id;
 
@@ -100,7 +100,7 @@ appReservationCtrlModule.controller('ReservationCtrl', function ($scope, $routeP
 
         Reservation.createReservation($scope.restaurantId, startDate, length, selected).then(
             function (response) {
-                window.console.log(response);
+                $location.path('/reservation/' + response.data.id);
             },
             function (response) {
                 var message = (response.data && response.data.message) ? response.data.message : "";

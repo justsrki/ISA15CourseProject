@@ -32,6 +32,12 @@ appProfileModule.factory('Profile', function ($http) {
                 method: 'DELETE',
                 url: 'api/user/friend/' + id
             });
+        },
+        getFollowing: function () {
+            return $http({
+                method: 'GET',
+                url: 'api/user/friend'
+            });
         }
     };
 

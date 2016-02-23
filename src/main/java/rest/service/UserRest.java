@@ -2,8 +2,8 @@ package rest.service;
 
 import beans.dao.interfaces.UserLocal;
 import model.dao.User;
-import rest.util.BasicResponse;
 import model.dto.user.UserDto;
+import rest.util.BasicResponse;
 import rest.util.ResponseExceptions;
 
 import javax.annotation.security.RolesAllowed;
@@ -81,6 +81,15 @@ public class UserRest {
         userBean.edit(user);
 
         return BasicResponse.createChanged();
+    }
+
+    @GET
+    @Path("/friend")
+    @RolesAllowed(User.CUSTOMER)
+    public Object getFriends(@Context User user) {
+        List<UserDto> response = new ArrayList<>();
+        user.getFollowingSet().forEach(u -> response.add(new UserDto(u, true)));
+        return response;
     }
 
     @POST

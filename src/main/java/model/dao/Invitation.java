@@ -45,10 +45,10 @@ public class Invitation implements Serializable {
     @Column(name = "rating")
     private Short rating;
     @JoinColumn(name = "reservation_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Reservation reservationId;
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private User userId;
 
     public Invitation() {

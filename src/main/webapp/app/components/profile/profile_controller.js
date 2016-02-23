@@ -87,4 +87,11 @@ appProfileCtrlModule.controller('ProfileCtrl', function ($scope, Profile, Users)
         );
     };
 
+    $scope.predicate = 'email';
+    $scope.reverse = false;
+    $scope.order = function (predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+    };
+
 });

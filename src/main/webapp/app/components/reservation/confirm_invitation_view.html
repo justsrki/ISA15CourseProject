@@ -1,0 +1,12 @@
+<div id="ConfirmInvitation" class="ta-mid">
+    <h3>Would you like to visit {{restaurantName}} at {{startDate}}?</h3>
+    <div>
+        <button type="button" class="btn btn-default" ng-click="confirmInvitation(false)">
+            <span class="glyphicon glyphicon-remove">No</span>
+        </button>
+        <button type="button" class="btn btn-default" ng-click="confirmInvitation(true)">
+            <span class="glyphicon glyphicon-ok">Yes</span>
+        </button>
+    </div>
+    <uib-alert type="danger" ng-if="alertMessage" class="tm-20">{{alertMessage}}</uib-alert>
+</div>

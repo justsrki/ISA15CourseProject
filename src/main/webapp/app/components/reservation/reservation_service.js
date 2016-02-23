@@ -27,6 +27,27 @@ appReservationModule.factory('Reservation', function ($http) {
                     tables: tables
                 }
             });
+        },
+        getReservation: function (id) {
+            return $http({
+                method: 'GET',
+                url: 'api/reservation/' + id
+            });
+        },
+        confirmInvitation: function (id, value) {
+            return $http({
+                method: 'GET',
+                url: 'api/invitation/' + id + '?value=' + value
+            });
+        },
+        inviteFriends: function (id, userIds) {
+            return $http({
+                method: 'POST',
+                url: 'api/reservation/' + id,
+                data: {
+                    userIds: userIds
+                }
+            });
         }
     };
 });

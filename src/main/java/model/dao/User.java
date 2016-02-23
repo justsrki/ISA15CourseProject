@@ -274,7 +274,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "model.dao.User[ id=" + id + " ]";
+        return "dto.dao.User[ id=" + id + " ]";
     }
     
 }

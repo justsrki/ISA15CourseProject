@@ -19,7 +19,7 @@ public class MailModel implements Serializable {
         this.content = content;
     }
 
-    private static final String REGISTRATION_MAIL_CONTENT = "Hi %s,<br /></br>" +
+    private static final String REGISTRATION_MAIL_CONTENT = "Hi %s,<br /><br />" +
             "welcome to Restaurant Management System. Your password is: %s.";
 
     public static MailModel createRegistrationMail(String email, String name, String password) {
@@ -28,13 +28,22 @@ public class MailModel implements Serializable {
         return new MailModel(email, subject, content);
     }
 
-    private static final String ACTIVATION_MAIL_CONTENT = "Hi %1$s,<br /></br>" +
+    private static final String ACTIVATION_MAIL_CONTENT = "Hi %1$s,<br /><br />" +
             "welcome to Restaurant Management System. To active account click on this link <a href=\"%2$s\">%2$s</a>.";
 
     public static MailModel createActivationMail(CreateCustomerRequest userInfo, String activationLink) {
         String subject = "Restaurant Management System - Welcome!";
         String content = String.format(ACTIVATION_MAIL_CONTENT, userInfo.getFirstName(), activationLink);
         return new MailModel(userInfo.getEmail(), subject, content);
+    }
+
+    public static final String INVITATION_MAIL_CONTENT = "Hi %1$s,<br /><br />" +
+            "You have been invited to visit %2$s, To confirm or decline click on this link <a href=\"%3$s\">%3$s</a>.";
+
+    public static MailModel createInvitationMail(String email, String firstName, String restaurantName, String link) {
+        String subject = "Restaurant Management System - Invitation!";
+        String content = String.format(INVITATION_MAIL_CONTENT, firstName, restaurantName, link);
+        return new MailModel(email, subject, content);
     }
 
     public String getToAddress() {

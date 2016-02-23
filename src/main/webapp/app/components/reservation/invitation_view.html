@@ -1,3 +1,114 @@
-<div id="Invitation">
+<div id="Invitation" class="ta-mid">
+    <h3>Would you like to invite friends?</h3>
+
+    <!-- Filters -->
+    <div class="bm-10">
+        <div class="row">
+            <div class="col-md-4 tm-10">
+                <div class="input-group input-group input-container">
+                    <span class="input-group-addon input-description-100" style="top: 0;">Email</span>
+                    <input type="text" class="form-control" ng-model="emailFilter" placeholder="Email filter"/>
+                </div>
+            </div>
+
+            <div class="col-md-4 tm-10">
+                <div class="input-group input-group input-container">
+                    <span class="input-group-addon input-description-100" style="top: 0;">First Name</span>
+                    <input type="text" class="form-control" ng-model="firstNameFilter"
+                           placeholder="First name filter"/>
+                </div>
+            </div>
+
+            <div class="col-md-4 tm-10">
+                <div class="input-group input-group input-container">
+                    <span class="input-group-addon input-description-100" style="top: 0;">Last Name</span>
+                    <input type="text" class="form-control" ng-model="lastNameFilter"
+                           placeholder="Last name filter"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users table -->
+    <table class="table table-striped table-hover table-bordered">
+        <tr>
+            <th class="table-cell-align">
+                Email
+                    <span ng-hide="predicate == 'email'" ng-click="order('email')">
+                        <span class="glyphicon glyphicon-sort"></span>
+                    </span>
+                    <span ng-show="predicate == 'email'" ng-click="order('email')">
+                        <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                        <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                    </span>
+            </th>
+
+            <th class="table-cell-align">
+                First name
+                    <span ng-hide="predicate == 'firstName'" ng-click="order('firstName')">
+                        <span class="glyphicon glyphicon-sort"></span>
+                    </span>
+                    <span ng-show="predicate == 'firstName'" ng-click="order('firstName')">
+                        <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                        <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                    </span>
+            </th>
+
+            <th class="table-cell-align">
+                Last name
+                    <span ng-hide="predicate == 'lastName'" ng-click="order('lastName')">
+                        <span class="glyphicon glyphicon-sort"></span>
+                    </span>
+                    <span ng-show="predicate == 'lastName'" ng-click="order('lastName')">
+                        <span ng-hide="reverse" class="glyphicon glyphicon-sort-by-attributes"></span>
+                        <span ng-show="reverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                    </span>
+            </th>
+
+            <th class="table-cell-align options-header-sm">Invite</th>
+        </tr>
+
+        <tr dir-paginate="user in filteredData = (users | filter: {firstName: firstNameFilter}
+                                                            | filter: {lastName: lastNameFilter}
+                                                            | filter: {email: emailFilter}
+                                                            | orderBy: predicate:reverse
+                                                            | itemsPerPage: 10)">
+            <td>{{user.email}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+
+            <td ng-show="user.invite" class="ta-mid">
+                <button type="button" class="btn btn-default" ng-click="user.invite = false">
+                    <span class="glyphicon glyphicon-check"></span>
+                </button>
+            </td>
+
+            <td ng-hide="user.invite" class="ta-mid">
+                <button type="button" class="btn btn-default" ng-click="user.invite = true">
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                </button>
+            </td>
+        </tr>
+
+        <tr ng-if="!filteredData.length">
+            <td colspan="4">
+                <uib-alert type="warning" class="tm-20 rm-20 lm-20">
+                    <span class="glyphicon glyphicon-warning-sign"></span>&nbsp;Sorry, no results were found.
+                </uib-alert>
+            </td>
+        </tr>
+    </table>
+
+    <div style="text-align: center">
+        <dir-pagination-controls template-url="lib/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+
+    <button type="button" class="btn btn-success btn-lg pull-right bm-20" ng-click="invite()">
+        Invite
+    </button>
+
+    <button type="button" class="btn btn-default btn-lg pull-right bm-20 rm-10" ng-click="goHome()">
+        Skip
+    </button>
 
 </div>
